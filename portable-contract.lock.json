@@ -4,8 +4,8 @@
   "portable_bundle": {
     "schema": "portable-contract-bundle.v1",
     "version": "1.0.0",
-    "sha256": "e7315a36f66687ab1f807dfc908ed21932d5eee543bbb2775b74d2c50ca4d0b0",
-    "role": "external_distribution_contract_not_execution_authority"
+    "sha256": "cf97adbb27a97bee1fb846954721f671e1a922a2a2f3b7e130f234cdac652994",
+    "role": "exact_public_metadata_distribution_not_native_runtime_or_execution_authority"
   },
   "semantic_compatibility": {
     "agent_tool_manifest": "agent-tool-manifest.v1",
@@ -27,7 +27,7 @@
     },
     {
       "path": "agent-tool-manifest.v1.json",
-      "sha256": "dc06fd23ad083f698526060d5e1325bac30b644e5908da546bf04abc037297d5"
+      "sha256": "7a3483e88ce815fac94b7bcdf702bb169c80a8897b9f4091a0023b90015118fb"
     },
     {
       "path": "Taskfile.yml",
@@ -47,7 +47,7 @@
     },
     {
       "path": "src/video_knowledge_pipeline/schemas/agent-tool-manifest.v1.schema.json",
-      "sha256": "f5e82c6feb3bb70d4fef74b826b827d6621d53ea6af842f02f3a701be0526478"
+      "sha256": "0eb991ee5cbebf6c87ac849ce05a37235f1b30d68cd4e22d022a0b0f4a7c919c"
     },
     {
       "path": "src/video_knowledge_pipeline/schemas/portable-doctor.v1.schema.json",

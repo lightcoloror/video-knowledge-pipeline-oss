@@ -17,49 +17,49 @@
       "bundle_path": "contracts/portable/v1/portable-contract-bundle.v1.json",
       "bundle_version": "1.0.0",
       "contract_id": "material-manifest.v1",
-      "distribution_repository": "https://github.com/lightcoloror/research-content-production"
+      "distribution_repository": "https://github.com/lightcoloror/codex-local-governance-oss"
     },
     {
       "bundle_id": "local-tools-portable-contracts",
       "bundle_path": "contracts/portable/v1/portable-contract-bundle.v1.json",
       "bundle_version": "1.0.0",
       "contract_id": "evidence-bundle.v1",
-      "distribution_repository": "https://github.com/lightcoloror/research-content-production"
+      "distribution_repository": "https://github.com/lightcoloror/codex-local-governance-oss"
     },
     {
       "bundle_id": "local-tools-portable-contracts",
       "bundle_path": "contracts/portable/v1/portable-contract-bundle.v1.json",
       "bundle_version": "1.0.0",
       "contract_id": "content-brief.v1",
-      "distribution_repository": "https://github.com/lightcoloror/research-content-production"
+      "distribution_repository": "https://github.com/lightcoloror/codex-local-governance-oss"
     },
     {
       "bundle_id": "local-tools-portable-contracts",
       "bundle_path": "contracts/portable/v1/portable-contract-bundle.v1.json",
       "bundle_version": "1.0.0",
       "contract_id": "review-packet.v1",
-      "distribution_repository": "https://github.com/lightcoloror/research-content-production"
+      "distribution_repository": "https://github.com/lightcoloror/codex-local-governance-oss"
     },
     {
       "bundle_id": "local-tools-portable-contracts",
       "bundle_path": "contracts/portable/v1/portable-contract-bundle.v1.json",
       "bundle_version": "1.0.0",
       "contract_id": "service-profile.v1",
-      "distribution_repository": "https://github.com/lightcoloror/research-content-production"
+      "distribution_repository": "https://github.com/lightcoloror/codex-local-governance-oss"
     },
     {
       "bundle_id": "local-tools-portable-contracts",
       "bundle_path": "contracts/portable/v1/portable-contract-bundle.v1.json",
       "bundle_version": "1.0.0",
       "contract_id": "closure_run.v1",
-      "distribution_repository": "https://github.com/lightcoloror/research-content-production"
+      "distribution_repository": "https://github.com/lightcoloror/codex-local-governance-oss"
     },
     {
       "bundle_id": "local-tools-portable-contracts",
       "bundle_path": "contracts/portable/v1/portable-contract-bundle.v1.json",
       "bundle_version": "1.0.0",
       "contract_id": "local-tool-event.v1",
-      "distribution_repository": "https://github.com/lightcoloror/research-content-production"
+      "distribution_repository": "https://github.com/lightcoloror/codex-local-governance-oss"
     }
   ],
   "description": "Clone-portable VKP discovery, synthetic offline video-evidence smoke, material manifests, candidate review artifacts, personal Vlog and local-trial panorama CLI/MCP. Metadata never authorizes execution.",

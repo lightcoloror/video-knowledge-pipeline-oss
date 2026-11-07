@@ -33,3 +33,21 @@ and deployment tests beyond the focused portable regression command above.
 
 See [AGENT_DISCOVERY.md](AGENT_DISCOVERY.md), [LICENSE](LICENSE),
 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) and [LICENSES](LICENSES).
+
+## Public portable contract metadata
+
+Version 0.1.1 replaces the old private bundle locator with the public
+`codex-local-governance-oss` v0.1.1 distribution. The exact root bundle digest
+is pinned in `portable-contract.lock.json`. Supply its local
+`contracts/portable/v1/portable-contract-bundle.v1.json` to the existing
+`doctor --contract-bundle <file> --require-contract-bundle` command.
+No download or execution is performed by this reference. Bundle verification
+checks the root metadata bytes and required IDs; it does not establish native
+runtime interoperability, evidence truth, author approval or publication.
+The bundle's optional native review Owners remain undistributed and blocked;
+its frozen intake schema is not a replacement review implementation.
+
+The current public bundle is commit
+`ba0bca6632979a35881583d531f4637593e2e66c`; root digest
+`cf97adbb27a97bee1fb846954721f671e1a922a2a2f3b7e130f234cdac652994`.
+Only package version metadata changes in Python; runtime behavior is unchanged.
