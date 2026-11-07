@@ -1,0 +1,56 @@
+{
+  "scope": "first-party subtitle coverage gap in the public video delivery chain",
+  "license": "AGPL-3.0-only",
+  "source_context_HEAD": "a54087fbd2254ec5c4100398bb8e53277dfd7492",
+  "source_kind": "hash-frozen working-tree files; do not attribute untracked bytes to HEAD",
+  "files": [
+    {
+      "path": "src/video_knowledge_pipeline/subtitle_coverage.py",
+      "working_tree_sha256": "bbd71a40a7619443d5220dbf764382dca9a76115b5c1229f3263883f27989a54",
+      "tracked_at_observed_HEAD": false,
+      "distributed_sha256": "de58b440dc7fab94192bfc97099035b7b32f810314d573a610052ea83d63059a",
+      "adaptation": "UTF-8 LF; reject meaningful mismatched word/timestamp records without sentence fallback; expose caller-label/quality vs actual file-check boundaries. Public-only changes; original worktree retained."
+    },
+    {
+      "path": "tests/test_subtitle_coverage.py",
+      "working_tree_sha256": "7d5135e119beb3c61c51482025e1effe956cfc03102645a5c7900ce600967db0",
+      "tracked_at_observed_HEAD": false,
+      "distributed_sha256": "cb51bfb9ba8faaa41b9e4d10ebb607d6ff063b6ae9531eda38ef4df96bb2db9f",
+      "adaptation": "UTF-8 LF; synthetic header/lyric literal; retain original assertions and add output-text, malformed-ASR and explicit file-binding regression cases."
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "src/video_knowledge_pipeline/file_hash.py",
+      "sha256": "a729ca0a820a26e59f97d0e025dabe729468b0592c5cd0a4cc2ed29aae7d014a"
+    },
+    {
+      "path": "src/video_knowledge_pipeline/interval_coverage.py",
+      "sha256": "a5d84a573cbeecaa5da2ee8215c55ec0fb09426e8cf4a283a0a6e03c2a12bd28"
+    },
+    {
+      "path": "src/video_knowledge_pipeline/video.py",
+      "sha256": "430eda48d94072d84159c29612c33a0b4e32dbe44bdd3b48066fa2a1fbff9bd9"
+    }
+  ],
+  "real_ASR_media_or_human_review_used": false,
+  "test_state_is_synthetic_not_authority": true,
+  "source_worktree_modified": false,
+  "test_and_composition_results": {
+    "focused_source": {
+      "passed": 50,
+      "failed": 0,
+      "skipped": 0
+    },
+    "main_synthetic_composition": {
+      "passed": 95,
+      "failed": 0,
+      "skipped": 1,
+      "subtests": 58,
+      "skip_reason": "Browser regression requires explicitly supplied Node and Playwright paths"
+    },
+    "real_ASR_media_human_or_platform_verification": false
+  },
+  "evidence_boundary": "evidence_ref values are labels; check_subtitles checks only declared local evidence_files, source bytes/duration and optional ASR source/output hashes. Pure audit does not verify caller quality declarations or human actions.",
+  "review_scope": "Static peer advice independently triaged; a private source-context HEAD is not a public source commit. Real publication/per-use approval is not supplied."
+}

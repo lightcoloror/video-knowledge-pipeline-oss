@@ -51,3 +51,21 @@ The current public bundle is commit
 `ba0bca6632979a35881583d531f4637593e2e66c`; root digest
 `cf97adbb27a97bee1fb846954721f671e1a922a2a2f3b7e130f234cdac652994`.
 Only package version metadata changes in Python; runtime behavior is unchanged.
+
+## Subtitle coverage contract (0.1.2)
+
+The existing first-party `subtitle_coverage` module is included for the main
+workflow's video delivery consumer. It reuses existing interval coverage and
+media probing; it does not implement ASR, rewrite subtitles or render media.
+Source/output fingerprints and full-timeline human review remain required.
+A successful ASR execution or mechanically complete timeline is not a human
+coverage pass. Tests use invented source hashes, timestamps and review states.
+See SUBTITLE-COVERAGE-PROVENANCE.json for working-snapshot origins and changes.
+
+This public module reports label/quality assertions separately from actual local
+file checks. Malformed meaningful words/timestamps with no sentence fallback
+raise an error instead of silently dropping speech. A valid sentence fallback
+remains available. Reviewers need the complete audit including omissions and
+evidence context; a cropped prompt alone does not establish a human review.
+Focused checks: 50 passed. Main synthetic composition: 95 passed, one browser
+regression not run, 58 subtests. See SUBTITLE-COVERAGE-ACCEPTANCE.md.
