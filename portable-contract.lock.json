@@ -1,0 +1,76 @@
+{
+  "schema": "video_knowledge_pipeline.portable_contract_lock.v1",
+  "lock_version": "1.0",
+  "portable_bundle": {
+    "schema": "portable-contract-bundle.v1",
+    "version": "1.0.0",
+    "sha256": "e7315a36f66687ab1f807dfc908ed21932d5eee543bbb2775b74d2c50ca4d0b0",
+    "role": "external_distribution_contract_not_execution_authority"
+  },
+  "semantic_compatibility": {
+    "agent_tool_manifest": "agent-tool-manifest.v1",
+    "material_manifest": "material-manifest.v1@1.0",
+    "gateway_version": ">=0.3,<0.4",
+    "gateway_adapter": "model_provider_gateway.adapter_contract.v2",
+    "consent": "owner_controlled_no_metadata_bypass"
+  },
+  "dependency_lock": {
+    "status": "deferred_no_network_cache_miss",
+    "project": "portability/pyproject.toml",
+    "reason": "uv lock --offline could not resolve uncached registry metadata; no network was authorized",
+    "runtime_policy": "bootstrap may resolve semantic core dependencies; doctor and smoke use --offline --no-sync thereafter"
+  },
+  "artifacts": [
+    {
+      "path": ".gitattributes",
+      "sha256": "bd947ad283c003f15a62ae47f46c027493ba501863bb27bcb31a7dd85771e7c2"
+    },
+    {
+      "path": "agent-tool-manifest.v1.json",
+      "sha256": "dc06fd23ad083f698526060d5e1325bac30b644e5908da546bf04abc037297d5"
+    },
+    {
+      "path": "Taskfile.yml",
+      "sha256": "eef7aab459e613d227e772235605404b6c38485119c8a4f59dac7301ff3bb5e6"
+    },
+    {
+      "path": "portability/pyproject.toml",
+      "sha256": "23fe7b08d938e69d0c3dff813f57a15d5dbe1cfaecf7966025ed027dcdf0249a"
+    },
+    {
+      "path": "src/video_knowledge_pipeline/portable.py",
+      "sha256": "d8fcd1683cbe5a339d8d489b8fc80a0e7a741a8d3d3419496dfdd160a3a15937"
+    },
+    {
+      "path": "src/video_knowledge_pipeline/quick_health.py",
+      "sha256": "7e73788e5a589d8726b1fa7184d1fcbc121dbf97d07f2cfeb3c88bd7c9d096d1"
+    },
+    {
+      "path": "src/video_knowledge_pipeline/schemas/agent-tool-manifest.v1.schema.json",
+      "sha256": "f5e82c6feb3bb70d4fef74b826b827d6621d53ea6af842f02f3a701be0526478"
+    },
+    {
+      "path": "src/video_knowledge_pipeline/schemas/portable-doctor.v1.schema.json",
+      "sha256": "32a86c1beba8751d14c4bb2e01fb487c39cf514bcd03166b1ac321f872d45d2a"
+    },
+    {
+      "path": "src/video_knowledge_pipeline/schemas/portable-smoke-receipt.v1.schema.json",
+      "sha256": "f74bc8f4f99661d9efdfddbb504560a269825473e1613083f40953d6c5f7ed80"
+    },
+    {
+      "path": "src/video_knowledge_pipeline/schemas/quick-health.v1.schema.json",
+      "sha256": "d08386b83aa0d5d06ae12b0285a665729a3d567b083ea7fc9f0d160cd5db2a69"
+    },
+    {
+      "path": "src/video_knowledge_pipeline/fixtures/portable/synthetic-video-bundle.v1.json",
+      "sha256": "0c0c49dff031732c9bb4ae109bd23c4eafca811fa3e2b5621cc6e81fcaf62a89"
+    }
+  ],
+  "boundaries": {
+    "not_trusted_as_instruction": true,
+    "execution_authority": "none_metadata_only",
+    "network_required_for_doctor": false,
+    "provider_execution_authorized": false,
+    "real_media_authorized": false
+  }
+}

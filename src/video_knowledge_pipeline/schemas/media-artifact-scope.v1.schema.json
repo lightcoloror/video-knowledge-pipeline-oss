@@ -1,0 +1,155 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "video_knowledge_pipeline.media_artifact_scope.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "closure_run_id",
+    "producer_tool_id",
+    "owner_lane",
+    "lifecycle_profile",
+    "cleanup_mode",
+    "automatic_purge",
+    "disk_policy",
+    "artifact_roots",
+    "authoritative_paths",
+    "artifacts",
+    "protection_policy",
+    "active_run"
+  ],
+  "properties": {
+    "schema_version": {"const": "video_knowledge_pipeline.media_artifact_scope.v1"},
+    "closure_run_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{7,127}$"},
+    "producer_tool_id": {"type": "string", "minLength": 3, "maxLength": 128},
+    "owner_lane": {"type": "string", "minLength": 3, "maxLength": 128},
+    "lifecycle_profile": {"const": "media"},
+    "cleanup_mode": {"const": "plan_only"},
+    "automatic_purge": {"const": false},
+    "disk_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["minimum_free_bytes", "warning_free_bytes", "output_headroom_multiplier"],
+      "properties": {
+        "minimum_free_bytes": {"const": 536870912},
+        "warning_free_bytes": {"const": 5368709120},
+        "output_headroom_multiplier": {"const": 1.25}
+      }
+    },
+    "compatibility_manifest": {"$ref": "#/$defs/relativePath"},
+    "artifact_roots": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 16,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/relativePath"}
+    },
+    "authoritative_paths": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 128,
+      "items": {"allOf": [{"$ref": "#/$defs/artifact"}, {"type": "object", "required": ["protection_class"]}]}
+    },
+    "artifacts": {
+      "type": "array",
+      "maxItems": 10000,
+      "items": {"allOf": [{"$ref": "#/$defs/artifact"}, {"type": "object", "required": ["candidate_kind"]}]}
+    },
+    "protection_policy": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"enum": [
+        "original_media",
+        "reviewed_subtitles",
+        "timeline",
+        "locked_version",
+        "final_deliverable",
+        "qa_hash_approval_receipt",
+        "sensitive_media",
+        "active_run_checkpoint"
+      ]}
+    },
+    "active_run": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["state", "owner_state", "dispatch_state", "process_ids", "checkpoint_artifact_ids"],
+      "properties": {
+        "state": {"enum": ["idle_confirmed", "active", "unknown"]},
+        "owner_state": {"enum": ["idle_confirmed", "active", "unknown"]},
+        "dispatch_state": {"enum": ["none_active", "active", "unknown"]},
+        "process_ids": {"type": "array", "uniqueItems": true, "items": {"type": "integer", "minimum": 1}},
+        "checkpoint_artifact_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+      }
+    }
+  },
+  "$defs": {
+    "relativePath": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 500,
+      "pattern": "^(?![A-Za-z]:[\\\\/])(?!/)(?!.*(?:^|[\\\\/])\\.\\.(?:[\\\\/]|$)).+$"
+    },
+    "digest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["algorithm", "value", "status"],
+      "properties": {
+        "algorithm": {"const": "sha256"},
+        "value": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "status": {"enum": ["verified", "declared"]}
+      }
+    },
+    "rebuildProof": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "command", "input_hashes", "dependency_lock", "verification_ref"],
+      "properties": {
+        "status": {"enum": ["verified", "unknown", "not_applicable_protected"]},
+        "command": {"type": ["string", "null"], "maxLength": 1000},
+        "input_hashes": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^[a-f0-9]{64}$"}},
+        "dependency_lock": {"type": ["string", "null"], "maxLength": 500},
+        "verification_ref": {"type": ["string", "null"], "maxLength": 500}
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "artifact_id",
+        "closure_run_id",
+        "producer_tool_id",
+        "owner_lane",
+        "path",
+        "artifact_role",
+        "digest",
+        "bytes",
+        "lifecycle_state",
+        "depends_on",
+        "referenced_by",
+        "rebuild_proof",
+        "minimum_keep_until",
+        "sensitivity",
+        "pin"
+      ],
+      "properties": {
+        "artifact_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{2,127}$"},
+        "closure_run_id": {"type": "string", "minLength": 8},
+        "producer_tool_id": {"type": "string", "minLength": 3},
+        "owner_lane": {"type": "string", "minLength": 3},
+        "path": {"$ref": "#/$defs/relativePath"},
+        "artifact_role": {"enum": ["authoritative_input", "runtime_state", "final_deliverable", "evidence_receipt_manifest", "reproducible_derived", "duplicate_or_obsolete"]},
+        "digest": {"$ref": "#/$defs/digest"},
+        "bytes": {"type": "integer", "minimum": 0},
+        "lifecycle_state": {"enum": ["created", "candidate", "verified", "failed", "superseded", "locked", "expired", "retired", "quarantined"]},
+        "depends_on": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "referenced_by": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "rebuild_proof": {"$ref": "#/$defs/rebuildProof"},
+        "minimum_keep_until": {"type": ["string", "null"], "format": "date-time"},
+        "sensitivity": {"enum": ["synthetic", "public", "internal", "sensitive", "customer_sensitive", "unknown"]},
+        "pin": {"type": "boolean"},
+        "candidate_kind": {"enum": ["rebuildable_chunk", "extracted_frame", "proxy_video", "failed_render", "duplicate_transcode", "superseded_temp_output"]},
+        "protection_class": {"enum": ["original_media", "reviewed_subtitles", "timeline", "locked_version", "final_deliverable", "qa_hash_approval_receipt", "sensitive_media", "active_run_checkpoint"]}
+      }
+    }
+  }
+}

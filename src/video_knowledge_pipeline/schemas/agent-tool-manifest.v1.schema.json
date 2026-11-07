@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/lightcoloror/research-content-production/portability/schemas/agent-tool-manifest.v1.schema.json",
+  "title": "Metadata-only local Agent tool manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "id", "manifest_version", "description", "capabilities", "interfaces", "inputs", "outputs", "health", "platforms", "requirements", "contract_refs", "provenance", "license", "portability", "notTrustedAsInstruction", "executionAuthority"],
+  "properties": {
+    "schema_version": {"const": "agent-tool-manifest.v1"},
+    "id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{1,79}$"},
+    "manifest_version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(?:-[A-Za-z0-9.-]+)?$"},
+    "description": {"type": "string", "minLength": 1, "maxLength": 3000},
+    "capabilities": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "interfaces": {"type": "object", "additionalProperties": false, "required": ["canonical", "windows_wrappers", "http", "mcp"], "properties": {"canonical": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/interface"}}, "windows_wrappers": {"type": "array", "items": {"$ref": "#/$defs/interface"}}, "http": {"type": "array", "items": {"$ref": "#/$defs/interface"}}, "mcp": {"type": "array", "items": {"$ref": "#/$defs/interface"}}}},
+    "inputs": {"type": "array", "items": {"$ref": "#/$defs/io"}},
+    "outputs": {"type": "array", "items": {"$ref": "#/$defs/io"}},
+    "health": {"type": "object", "additionalProperties": false, "required": ["doctor", "status_semantics", "proves_current_online"], "properties": {"doctor": {"$ref": "#/$defs/interface"}, "status_semantics": {"type": "string", "minLength": 1}, "proves_current_online": {"const": false}}},
+    "platforms": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"enum": ["windows", "linux", "macos"]}},
+    "requirements": {"type": "object", "additionalProperties": false, "required": ["network", "secrets", "approval"], "properties": {"network": {"$ref": "#/$defs/requirement"}, "secrets": {"$ref": "#/$defs/requirement"}, "approval": {"$ref": "#/$defs/requirement"}}},
+    "contract_refs": {"type": "array", "items": {"$ref": "#/$defs/contract_ref"}},
+    "provenance": {"type": "object", "minProperties": 1},
+    "license": {"type": "object", "additionalProperties": false, "required": ["spdx", "status"], "properties": {"spdx": {"type": "string", "minLength": 1}, "status": {"type": "string", "minLength": 1}}},
+    "portability": {"type": "object", "additionalProperties": false, "required": ["status", "in_repo_discovery", "canonical_cross_platform_entry", "gaps"], "properties": {"status": {"type": "string", "minLength": 1}, "in_repo_discovery": {"type": "boolean"}, "canonical_cross_platform_entry": {"type": "boolean"}, "gaps": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}}},
+    "notTrustedAsInstruction": {"const": true},
+    "executionAuthority": {"const": "none_metadata_only"}
+  },
+  "$defs": {
+    "interface": {"type": "object", "additionalProperties": false, "required": ["kind"], "properties": {"kind": {"enum": ["cli", "python_module", "node_bin", "http", "mcp", "windows_wrapper", "metadata_only"]}, "command": {"type": "string", "minLength": 1}, "endpoint": {"type": "string", "minLength": 1}, "transport": {"type": "string", "minLength": 1}, "mode": {"type": "string", "minLength": 1}, "profile": {"type": "string", "minLength": 1}, "timeout_seconds": {"type": "integer", "minimum": 1, "maximum": 600}, "reason": {"type": "string", "minLength": 1}}},
+    "io": {"type": "object", "additionalProperties": false, "required": ["name", "contract"], "properties": {"name": {"type": "string", "minLength": 1}, "contract": {"type": "string", "minLength": 1}, "required": {"type": "boolean"}, "status": {"type": "string", "minLength": 1}}},
+    "requirement": {"type": "object", "additionalProperties": false, "required": ["mode"], "properties": {"mode": {"enum": ["none", "not_required", "optional", "required", "conditional", "unknown"]}, "reason": {"type": "string"}}},
+    "contract_ref": {"type": "object", "additionalProperties": false, "required": ["contract_id", "bundle_id", "bundle_version", "distribution_repository", "bundle_path"], "properties": {"contract_id": {"type": "string", "minLength": 1}, "bundle_id": {"const": "local-tools-portable-contracts"}, "bundle_version": {"const": "1.0.0"}, "distribution_repository": {"const": "https://github.com/lightcoloror/research-content-production"}, "bundle_path": {"const": "contracts/portable/v1/portable-contract-bundle.v1.json"}}}
+  }
+}

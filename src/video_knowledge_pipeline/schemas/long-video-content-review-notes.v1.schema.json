@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "VKP long video content review notes v1",
+  "type": "object",
+  "required": ["schema", "plan_sha256", "source_media_sha256", "decisions", "operator_confirmation"],
+  "properties": {
+    "schema": {"const": "video_knowledge_pipeline.long_video_content_review_notes.v1"},
+    "plan_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "source_media_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "decisions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["candidate_id", "decision", "note"],
+        "properties": {
+          "candidate_id": {"type": "string", "minLength": 1},
+          "decision": {"enum": ["pending", "keep", "drop"]},
+          "note": {"type": "string"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "operator_confirmation": {
+      "type": "object",
+      "required": ["confirmed", "confirmed_by", "confirmed_at"],
+      "properties": {
+        "confirmed": {"type": "boolean"},
+        "confirmed_by": {"type": "string"},
+        "confirmed_at": {"type": "string"}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

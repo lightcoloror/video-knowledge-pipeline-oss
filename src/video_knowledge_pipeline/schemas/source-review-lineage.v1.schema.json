@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://video-knowledge-pipeline.local/schemas/source-review-lineage.v1.schema.json",
+  "title": "VKP source review lineage v1",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["schema", "bundle_dir", "source_identity", "status", "candidate_count", "candidates", "applied", "lineage_revision"],
+  "properties": {
+    "schema": {"const": "video_knowledge_pipeline.source_review_lineage.v1"},
+    "bundle_dir": {"type": "string", "minLength": 1},
+    "source_identity": {"type": "object"},
+    "status": {"enum": ["prior_review_available", "no_prior_review_found", "review_lineage_bound", "blocked_no_prior_review", "blocked_weak_source_identity"]},
+    "candidate_count": {"type": "integer", "minimum": 0},
+    "candidates": {"type": "array", "items": {"type": "object"}},
+    "applied": {"type": "boolean"},
+    "lineage_revision": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  }
+}

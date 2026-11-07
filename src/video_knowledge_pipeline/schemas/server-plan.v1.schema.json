@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "VKP server API-only stage plan v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "inputs", "stages"],
+  "properties": {
+    "schema": {"const": "video_knowledge_pipeline.server_plan.v1"},
+    "inputs": {"type": "array", "minItems": 1, "maxItems": 128, "items": {
+      "type": "object", "additionalProperties": false, "required": ["id", "path", "sha256"],
+      "properties": {"id": {"type": "string", "pattern": "^[a-z][a-z0-9_-]{0,63}$"},
+        "path": {"type": "string", "minLength": 1, "maxLength": 512},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}
+    }},
+    "stages": {"type": "array", "minItems": 1, "maxItems": 32, "items": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "kind", "input_ids"],
+      "properties": {
+        "id": {"enum": ["primary_asr", "secondary_asr", "alignment", "ocr", "vision", "temporal", "semantic", "summary"]},
+        "kind": {"enum": ["artifact", "api"]},
+        "input_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+        "backend": {"type": "string", "pattern": "^[a-z][a-z0-9_-]{0,63}$"},
+        "backend_revision": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "output_schema": {"type": "object"}
+      },
+      "allOf": [{"if": {"properties": {"kind": {"const": "api"}}},
+        "then": {"required": ["backend", "backend_revision", "output_schema"]}}]
+    }}
+  }
+}

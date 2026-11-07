@@ -1,0 +1,5 @@
+[
+  {"index": 1, "start": 0.0, "end": 8.0, "transcript": "第一段说明先核对证据，再形成候选计划。", "visual_text": "证据先行", "confidence": 0.98, "frame_path": "frames/frame-0001.fixture", "temporal_visual_understanding": {"evidence_level": "confirmed", "summary": "合成画面显示证据卡进入计划卡。"}},
+  {"index": 2, "start": 8.0, "end": 16.0, "transcript": "第二段置信度较低，应默认保留并交给人工复核。", "visual_text": "低置信默认保留", "confidence": 0.42, "needs_human_review": true, "quality_issues": ["synthetic_low_confidence"], "frame_path": "frames/frame-0002.fixture"},
+  {"index": 3, "start": 16.0, "end": 24.0, "transcript": "第三段确认计划必须先于剪辑，而且绝不覆盖原片。", "visual_text": "候选输出", "confidence": 0.96, "frame_path": "frames/frame-0003.fixture", "temporal_visual_understanding": {"evidence_level": "confirmed", "summary": "合成画面显示原片锁定与候选副本。"}}
+]

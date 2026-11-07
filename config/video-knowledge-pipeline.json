@@ -1,0 +1,83 @@
+{
+  "schema": "video_knowledge_pipeline.config.v1",
+  "services": {
+    "review_webui": {
+      "type": "static_file",
+      "entrypoint": "webui-bundle/review.html"
+    },
+    "ebook_markdown_pipeline_http": {
+      "host": "127.0.0.1",
+      "port": 9241,
+      "path": "/call"
+    },
+    "openclaw_http": {
+      "host": "127.0.0.1",
+      "port": 8931,
+      "path": "/call",
+      "docker_host": "host.docker.internal"
+    },
+    "mcp": {
+      "transport": "stdio"
+    }
+  },
+  "vision_execution": {
+    "provider": "local_vlm",
+    "model": "qwen/qwen3-vl-8b",
+    "multimodal_limit": 19,
+    "temporal_limit": 3,
+    "frame_count": 8,
+    "base_url": "http://127.0.0.1:1234/v1"
+  },
+  "ebook_pipeline": {
+    "execute_default": false,
+    "include_routes": [
+      "document_visual",
+      "mixed"
+    ],
+    "limit": 36,
+    "timeout_seconds": 300,
+    "rapidocr_device": "cuda",
+    "rapidocr_cuda_device_id": 0
+  },
+  "asr_runtime": {
+    "provider": "funasr_sensevoice",
+    "model": "iic/SenseVoiceSmall",
+    "device": "cuda_preferred",
+    "compute_type": "auto",
+    "vad_model": "fsmn-vad",
+    "punc_model": "ct-punc",
+    "spk_model": "",
+    "enable_vad": true,
+    "enable_itn": true,
+    "enable_punctuation": true,
+    "enable_diarization": false,
+    "merge_vad": true,
+    "merge_length_s": 15,
+    "audio_preprocess": {
+      "enabled": true,
+      "ffmpeg_normalize": true,
+      "target_sample_rate": 16000
+    },
+    "openai_compatible": {
+      "base_url": "http://127.0.0.1:8000/v1",
+      "model": "Systran/faster-whisper-large-v3",
+      "timeout_seconds": 600
+    }
+  },
+  "processing_profiles": {
+    "default": "quality",
+    "quality": {
+      "primary_asr_preset": "sensevoice",
+      "secondary_asr_preset": "qwen3-asr-1.7b",
+      "secondary_fallback_preset": "qwen3-asr-0.6b",
+      "forced_aligner_model": "Qwen/Qwen3-ForcedAligner-0.6B",
+      "chapter_mode": "semantic",
+      "text_llm_auto_execute": false,
+      "data_export_allowed": false,
+      "llm_preflight_call_threshold": 20,
+      "llm_preflight_input_char_threshold": 120000,
+      "cloud_audio_triage_only": true,
+      "cloud_vision_triage_only": true
+    }
+  }
+}

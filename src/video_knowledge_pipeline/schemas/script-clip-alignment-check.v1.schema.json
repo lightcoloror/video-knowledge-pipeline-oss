@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/lightcoloror/video-knowledge-pipeline/schemas/script-clip-alignment-check.v1.schema.json",
+  "title": "VKP script/approved quote/fine cut/clip ASR alignment gate",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "status", "bundle_dir", "review_id", "source_artifacts", "summary", "slots", "publication_allowed", "operator_boundary", "artifacts", "check_sha256"],
+  "properties": {
+    "schema": {"const": "video_knowledge_pipeline.script_clip_alignment_check.v1"},
+    "status": {"enum": ["ready_for_human_final_review", "needs_candidate_selection", "needs_speaker_review", "needs_transcript_review", "needs_recut", "needs_subtitle_revision"]},
+    "bundle_dir": {"type": "string", "minLength": 1},
+    "review_id": {"type": "string"},
+    "source_artifacts": {"type": "array", "minItems": 3, "items": {"type": "object"}},
+    "summary": {"type": "object"},
+    "slots": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["slot_id", "status", "issues", "publication_allowed"],
+        "properties": {
+          "slot_id": {"type": "string"},
+          "status": {"enum": ["ready_for_human_final_review", "needs_candidate_selection", "needs_speaker_review", "needs_transcript_review", "needs_recut", "needs_subtitle_revision"]},
+          "issues": {"type": "array", "items": {"type": "object"}},
+          "publication_allowed": {"const": false}
+        }
+      }
+    },
+    "publication_allowed": {"const": false},
+    "operator_boundary": {"type": "object"},
+    "artifacts": {"type": "object"},
+    "check_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "schema_version": "self-media-artifact-lifecycle-manifest.v2",
+  "manifest_id": "fixture-self-media-v2",
+  "revision": 1,
+  "updated_at": "2026-08-28T00:00:00Z",
+  "workspace_ref": "synthetic-fixture",
+  "quarantine_dir": ".fixture-quarantine",
+  "policy": {
+    "large_file_threshold_bytes": 1048576,
+    "task_intermediate_limit_bytes": 10485760,
+    "min_free_ratio": 0.15,
+    "keep_previous_review_versions": 1,
+    "retention_hours": {"machine_failure": 0, "user_rejected": 0, "superseded": 0, "task_cache": 0},
+    "automatic_purge_authorized": false
+  },
+  "artifacts": [
+    {
+      "artifact_id": "candidate-proxy",
+      "video_id": "fixture-video",
+      "path": "artifacts/proxies/proxy-0001.fixture",
+      "bytes": 22,
+      "artifact_kind": "proxy",
+      "status": "superseded",
+      "source_sha256": "73daadcc9850b79a674b94f2d03092f880bb519d83ce16f187ca67bdcf86b8bb",
+      "created_at": "2026-08-28T00:00:00Z",
+      "updated_at": "2026-08-28T00:00:00Z",
+      "superseded_by": null,
+      "depends_on": ["protected-original"],
+      "referenced_by": [],
+      "retain_reason": null,
+      "failure_reason": null,
+      "delete_after": "1970-01-01T00:00:00Z",
+      "quarantine_path": null,
+      "original_path": null,
+      "purge_approved": false
+    }
+  ],
+  "history": []
+}

@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "video_knowledge_pipeline.content_clip_alignment_check.v1",
+  "type": "object",
+  "required": ["schema", "status", "bundle_dir", "review_id", "source_artifacts", "summary", "clips", "publication_allowed", "operator_boundary", "artifacts", "check_sha256"],
+  "properties": {
+    "schema": {"const": "video_knowledge_pipeline.content_clip_alignment_check.v1"},
+    "status": {"enum": ["ready_for_human_final_review", "needs_candidate_selection", "needs_boundary_review", "needs_speaker_review", "needs_transcript_review", "needs_visual_review", "needs_recut", "needs_subtitle_revision"]},
+    "bundle_dir": {"type": "string"},
+    "review_id": {"type": "string"},
+    "source_artifacts": {"type": "array", "items": {"type": "object"}},
+    "summary": {"type": "object"},
+    "clips": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["clip_id", "purpose", "status", "selected_candidate_id", "selected_candidate_time_range", "fine_cut", "source_clip_segment_ids", "clip_asr_segment_ids", "checks", "issues", "human_final_review_required", "publication_allowed"],
+        "properties": {"clip_id": {"type": "string"}, "purpose": {"type": "string"}, "status": {"type": "string"}, "selected_candidate_id": {"type": "string"}, "selected_candidate_time_range": {"type": "object"}, "fine_cut": {"type": "object"}, "source_clip_segment_ids": {"type": "array"}, "clip_asr_segment_ids": {"type": "array"}, "checks": {"type": "object"}, "issues": {"type": "array"}, "human_final_review_required": {"const": true}, "publication_allowed": {"const": false}},
+        "additionalProperties": false
+      }
+    },
+    "publication_allowed": {"const": false},
+    "operator_boundary": {"type": "object"},
+    "artifacts": {"type": "object"},
+    "check_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  },
+  "additionalProperties": false
+}

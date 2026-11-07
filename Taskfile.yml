@@ -1,0 +1,30 @@
+version: '3'
+
+vars:
+  PORTABLE_RUN_ROOT: .local/portable-smoke
+
+tasks:
+  bootstrap:
+    desc: Install the frozen core and test environment (the only network-capable task).
+    cmds:
+      - uv sync --project portability
+
+  portable:doctor:
+    desc: Validate clone-local contracts without network, models, services, or providers.
+    cmds:
+      - uv run --project portability --offline --no-sync video-knowledge-portable doctor
+
+  portable:smoke:
+    desc: Run the packaged synthetic video-evidence smoke offline.
+    cmds:
+      - uv run --project portability --offline --no-sync video-knowledge-portable smoke --output-dir {{.PORTABLE_RUN_ROOT}}
+
+  portable:validate:
+    desc: Revalidate an existing synthetic smoke receipt and its hashes.
+    cmds:
+      - uv run --project portability --offline --no-sync video-knowledge-portable validate-smoke --run-root {{.PORTABLE_RUN_ROOT}}
+
+  portable:test:
+    desc: Run the focused portability regression suite.
+    cmds:
+      - python -m pytest -q tests/test_portable.py tests/test_quick_health.py

@@ -1,0 +1,6 @@
+{
+  "schema": "video_knowledge_pipeline.run_artifact_registry.v1",
+  "run_count": 1,
+  "status_counts": {"completed": 1},
+  "runs": [{"run_id": "synthetic-source-ready", "run_type": "synthetic_fixture", "status": "completed", "artifact_count": 6, "failed_count": 0, "run_json": ""}]
+}

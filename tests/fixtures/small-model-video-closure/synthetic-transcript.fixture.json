@@ -1,0 +1,8 @@
+{
+  "schema": "video_knowledge_pipeline.normalized_transcript.v1",
+  "segments": [
+    {"segment_id": "synthetic-001", "start": 0.0, "end": 8.0, "text": "第一段说明先核对证据，再形成候选计划。", "confidence": 0.98},
+    {"segment_id": "synthetic-002", "start": 8.0, "end": 16.0, "text": "第二段置信度较低，应默认保留并交给人工复核。", "confidence": 0.42},
+    {"segment_id": "synthetic-003", "start": 16.0, "end": 24.0, "text": "第三段确认计划必须先于剪辑，而且绝不覆盖原片。", "confidence": 0.96}
+  ]
+}

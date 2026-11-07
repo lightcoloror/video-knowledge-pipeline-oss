@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/lightcoloror/video-knowledge-pipeline/schemas/portable-doctor.v1.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "schema_version", "ok", "status", "project", "platform", "platform_matrix", "manifest", "portable_contract_bundle", "gateway", "capability_truth", "checks", "failed_checks", "boundaries"],
+  "properties": {
+    "schema": {"const": "video_knowledge_pipeline.portable_doctor.v1"},
+    "schema_version": {"const": "1.0"},
+    "ok": {"type": "boolean"},
+    "status": {"enum": ["ready", "not_ready"]},
+    "project": {"type": "object"},
+    "platform": {"enum": ["windows", "linux", "macos"]},
+    "platform_matrix": {"type": "object"},
+    "manifest": {"type": "object"},
+    "portable_contract_bundle": {"type": "object"},
+    "gateway": {"type": "object"},
+    "capability_truth": {"type": "object"},
+    "checks": {"type": "array", "items": {"type": "object"}},
+    "failed_checks": {"type": "array", "items": {"type": "string"}},
+    "boundaries": {"type": "object"}
+  }
+}

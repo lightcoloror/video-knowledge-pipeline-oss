@@ -1,0 +1,7 @@
+{
+  "schema": "video_knowledge_pipeline.smart_summary_chapters.v1",
+  "chapters": [
+    {"index": 1, "title": "证据与计划", "start": 0.0, "end": 16.0, "summary_sentences": ["先核对证据，再形成候选计划；低置信内容默认保留。"], "evidence_trace": {"timeline_indexes": [1, 2]}, "citation_digest": [{"timeline_indexes": [1, 2]}]},
+    {"index": 2, "title": "候选交付边界", "start": 16.0, "end": 24.0, "summary_sentences": ["计划先于剪辑，输出只进入人工审核。"], "evidence_trace": {"timeline_indexes": [3]}, "citation_digest": [{"timeline_indexes": [3]}]}
+  ]
+}

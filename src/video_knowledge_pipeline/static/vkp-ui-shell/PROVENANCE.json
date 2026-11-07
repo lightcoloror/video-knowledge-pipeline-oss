@@ -1,0 +1,36 @@
+{
+  "schema": "video_knowledge_pipeline.ui_shell_provenance.v1",
+  "captured_at": "2026-08-24",
+  "policy": {
+    "local_only": true,
+    "no_runtime_cdn": true,
+    "pinned_upstream_versions": true
+  },
+  "sources": [
+    {
+      "name": "Tabler",
+      "repository": "https://github.com/tabler/tabler",
+      "version": "1.4.0",
+      "commit": "2c73788cd11e33cb6355613887e4d44c9e7c0f5b",
+      "license": "MIT",
+      "local_source": "<source-review-root>/vkp-ui-shell-20260823/repos/tabler",
+      "verification": "Official @tabler/core build completed with pnpm 10.12.4; Sass emitted upstream deprecation warnings only.",
+      "artifacts": {
+        "tabler-1.4.0.min.css": "530253779f4ea7ecdf8c867195c9f54a66edd806596cce5ce2cc45cb33feacd7",
+        "tabler-1.4.0.min.js": "b88ed24c6731f562d09686cae1560e78501c5d39f7189a10d124d72405856314"
+      }
+    },
+    {
+      "name": "Media Chrome",
+      "repository": "https://github.com/muxinc/media-chrome",
+      "version": "4.19.2",
+      "commit": "cf88c4aa04d7c54dc0e1d74bb94c19290ab08fde",
+      "license": "MIT",
+      "local_source": "<source-review-root>/vkp-ui-shell-20260823/repos/media-chrome",
+      "verification": "Official build completed; upstream suite reported 621 passed, 2 background-media AbortError failures and 96 skipped.",
+      "artifacts": {
+        "media-chrome-4.19.2.iife.min.js": "16b5cb45b456ebae89aebcea6fdad297fc83f5497766b45511e99264e2d577b3"
+      }
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+VKP — Video Knowledge Pipeline
+Copyright (c) 2026 VKP contributors
+
+VKP is distributed under the GNU Affero General Public License version 3 only
+(AGPL-3.0-only). See LICENSE for the complete terms.
+
+This distribution includes vendored WaveSurfer.js 7.12.11 browser assets under
+the BSD 3-Clause License. The upstream license is retained at:
+src/video_knowledge_pipeline/static/wavesurfer-7.12.11/LICENSE
+
+Additional dependency, adapted-design, model, and dataset boundaries are listed
+in THIRD_PARTY_NOTICES.md. Third-party components retain their own licenses.
+
+The detector network-budget helper adapts resize arithmetic from RapidOCR
+(RapidAI/RapidOCR, commit 7b2d368ac62f635094d2562a9e973f7b5eec083f).
+Copyright (c) 2021 RapidOCR Authors. All rights reserved.
+Resize source: Copyright (c) 2020 PaddlePaddle Authors.
+This adapted portion retains Apache-2.0 terms; see
+LICENSES/RapidOCR-Apache-2.0.txt and the modification notice in
+src/video_knowledge_pipeline/courseware_detector_budget.py.

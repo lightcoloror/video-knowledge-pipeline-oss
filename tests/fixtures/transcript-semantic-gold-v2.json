@@ -1,0 +1,147 @@
+{
+  "schema": "video_knowledge_pipeline.transcript_semantic_gold.v2",
+  "deidentified_fixture_only": true,
+  "synthetic_only": true,
+  "thresholds": {
+    "candidate_recall_min": 0.9,
+    "candidate_precision_min": 0.9,
+    "auto_apply_accuracy_min": 0.98,
+    "dangerous_misedit_rate_max": 0.0,
+    "full_body_absorption_rate_min": 1.0,
+    "summary_no_stale_original_rate_min": 1.0,
+    "excluded_content_candidate_budget_max": 0,
+    "excluded_content_leak_max": 0
+  },
+  "cases": [
+    {
+      "case_id": "org-synthetic-001",
+      "segment_index": 1,
+      "original_text": "安欣服务中心负责复核",
+      "corrected_text": "安心服务中心负责复核",
+      "correction_type": "organization",
+      "projection_disposition": "retained_semantic",
+      "expect_candidate": true,
+      "synthetic": true
+    },
+    {
+      "case_id": "negation-synthetic-001",
+      "segment_index": 2,
+      "original_text": "该申请可以直接通过",
+      "corrected_text": "该申请不可以直接通过",
+      "correction_type": "negation",
+      "projection_disposition": "retained_semantic",
+      "expect_candidate": true,
+      "synthetic": true
+    },
+    {
+      "case_id": "condition-synthetic-001",
+      "segment_index": 3,
+      "original_text": "提交凭证后即可处理",
+      "corrected_text": "只有提交完整凭证后才可处理",
+      "correction_type": "condition",
+      "projection_disposition": "retained_semantic",
+      "expect_candidate": true,
+      "synthetic": true
+    },
+    {
+      "case_id": "exception-synthetic-001",
+      "segment_index": 4,
+      "original_text": "所有账户均适用",
+      "corrected_text": "除演示账户外均适用",
+      "correction_type": "exception",
+      "projection_disposition": "retained_semantic",
+      "expect_candidate": true,
+      "synthetic": true
+    },
+    {
+      "case_id": "person-synthetic-001",
+      "segment_index": 5,
+      "original_text": "林晓川老师负责讲解",
+      "corrected_text": "凌晓川老师负责讲解",
+      "correction_type": "person_name",
+      "projection_disposition": "retained_semantic",
+      "expect_candidate": true,
+      "synthetic": true
+    },
+    {
+      "case_id": "date-synthetic-001",
+      "segment_index": 6,
+      "original_text": "复核日期是四月十八日",
+      "corrected_text": "复核日期是四月二十八日",
+      "correction_type": "date_time",
+      "projection_disposition": "retained_semantic",
+      "expect_candidate": true,
+      "synthetic": true
+    },
+    {
+      "case_id": "money-synthetic-001",
+      "segment_index": 7,
+      "original_text": "预算上限是三百元",
+      "corrected_text": "预算上限是三千元",
+      "correction_type": "money",
+      "projection_disposition": "retained_semantic",
+      "expect_candidate": true,
+      "synthetic": true
+    },
+    {
+      "case_id": "percentage-synthetic-001",
+      "segment_index": 8,
+      "original_text": "抽检比例是百分之五",
+      "corrected_text": "抽检比例是百分之十五",
+      "correction_type": "percentage",
+      "projection_disposition": "retained_semantic",
+      "expect_candidate": true,
+      "synthetic": true
+    },
+    {
+      "case_id": "action-synthetic-001",
+      "segment_index": 9,
+      "original_text": "先关闭再保存草稿",
+      "corrected_text": "先保存草稿再关闭",
+      "correction_type": "action",
+      "projection_disposition": "retained_semantic",
+      "expect_candidate": true,
+      "synthetic": true
+    },
+    {
+      "case_id": "ordinary-homophone-synthetic-001",
+      "segment_index": 10,
+      "original_text": "启用星河模块",
+      "corrected_text": "启用星禾模块",
+      "correction_type": "ordinary_homophone",
+      "projection_disposition": "retained_semantic",
+      "expect_candidate": true,
+      "synthetic": true
+    },
+    {
+      "case_id": "collocation-synthetic-001",
+      "segment_index": 11,
+      "original_text": "完成资料后执行复核意见",
+      "corrected_text": "完成资料后落实复核意见",
+      "correction_type": "collocation_anomaly",
+      "projection_disposition": "retained_semantic",
+      "expect_candidate": true,
+      "synthetic": true
+    },
+    {
+      "case_id": "generic-quantity-synthetic-001",
+      "segment_index": 12,
+      "original_text": "我们先看一个示例",
+      "corrected_text": "我们先看一个示例",
+      "correction_type": "generic_quantity",
+      "projection_disposition": "retained_semantic",
+      "expect_candidate": false,
+      "synthetic": true
+    },
+    {
+      "case_id": "warmup-synthetic-001",
+      "segment_index": 13,
+      "original_text": "欢迎加入测试直播间，请先签到",
+      "corrected_text": "",
+      "correction_type": "content_scope",
+      "projection_disposition": "excluded_confirmed",
+      "expect_candidate": false,
+      "synthetic": true
+    }
+  ]
+}

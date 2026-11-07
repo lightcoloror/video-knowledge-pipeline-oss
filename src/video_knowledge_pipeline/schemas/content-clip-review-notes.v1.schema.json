@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "video_knowledge_pipeline.content_clip_review_notes.v1",
+  "type": "object",
+  "required": ["schema", "review_status", "review_id", "candidate_pack", "clips", "operator_boundary"],
+  "properties": {
+    "schema": {"const": "video_knowledge_pipeline.content_clip_review_notes.v1"},
+    "review_status": {"enum": ["draft", "human_confirmed"]},
+    "review_id": {"type": "string"},
+    "candidate_pack": {
+      "type": "object",
+      "required": ["path", "pack_sha256", "artifact_sha256"],
+      "properties": {"path": {"type": "string"}, "pack_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}, "artifact_sha256": {"type": "string", "pattern": "^$|^[0-9a-f]{64}$"}},
+      "additionalProperties": false
+    },
+    "clips": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["clip_id", "selected_candidate_id", "fine_cut_order", "fine_cut_output", "approved_window", "approved_source_segment_ids", "expected_speaker_role", "expected_speaker_ids", "excluded_speaker_roles", "excluded_speaker_ids", "approved_clip_text", "subtitle_text", "clip_evidence", "modality_reviews", "human_confirmed", "notes"],
+        "properties": {
+          "clip_id": {"type": "string"}, "selected_candidate_id": {"type": "string"}, "fine_cut_order": {"type": ["integer", "null"]}, "fine_cut_output": {"type": "string"}, "approved_window": {"type": ["object", "null"]}, "approved_source_segment_ids": {"type": "array", "items": {"type": "string"}}, "expected_speaker_role": {"type": "string"}, "expected_speaker_ids": {"type": "array", "items": {"type": "string"}}, "excluded_speaker_roles": {"type": "array", "items": {"type": "string"}}, "excluded_speaker_ids": {"type": "array", "items": {"type": "string"}}, "approved_clip_text": {"type": "string"}, "subtitle_text": {"type": "string"},
+          "clip_evidence": {"type": "object", "required": ["asr", "ocr", "visual", "audio"], "additionalProperties": {"type": "object"}},
+          "modality_reviews": {"type": "object", "required": ["asr", "ocr", "visual", "audio", "shot"], "additionalProperties": {"enum": ["not_reviewed", "human_confirmed", "not_applicable"]}},
+          "human_confirmed": {"type": "boolean"}, "notes": {"type": "string"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "operator_boundary": {"type": "object"}
+  },
+  "additionalProperties": false
+}

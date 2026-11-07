@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "video_knowledge_pipeline.autopilot_submission.v1",
+  "title": "VKP Autopilot leased-task submission",
+  "type": "object",
+  "required": [
+    "schema",
+    "job_id",
+    "bundle_identity_sha256",
+    "state_revision",
+    "task_id",
+    "lease_id",
+    "result"
+  ],
+  "properties": {
+    "schema": {"const": "video_knowledge_pipeline.autopilot_submission.v1"},
+    "job_id": {"type": "string", "minLength": 1},
+    "bundle_identity_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "state_revision": {"type": "integer", "minimum": 1},
+    "task_id": {"type": "string", "minLength": 1},
+    "lease_id": {"type": "string", "minLength": 1},
+    "result": {"type": "object"}
+  },
+  "additionalProperties": false
+}

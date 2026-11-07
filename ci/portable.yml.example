@@ -1,0 +1,36 @@
+name: portable-contract
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  offline-contract:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.12.5"
+          enable-cache: true
+      - name: Install frozen test environment
+        run: uv sync --project portability
+      - name: Install repository test extra
+        run: uv pip install --python portability/.venv/bin/python -e ".[test]"
+        if: runner.os != 'Windows'
+      - name: Install repository test extra on Windows
+        run: uv pip install --python portability/.venv/Scripts/python.exe -e ".[test]"
+        if: runner.os == 'Windows'
+      - name: Validate portable contract
+        run: uv run --project portability --offline --no-sync python -m pytest -q tests/test_portable.py tests/test_quick_health.py
+      - name: Run portable doctor
+        run: uv run --project portability --offline --no-sync video-knowledge-portable doctor --platform ${{ runner.os == 'Windows' && 'windows' || 'linux' }}
+      - name: Run packaged synthetic smoke
+        run: uv run --project portability --offline --no-sync video-knowledge-portable smoke --output-dir .portable-smoke

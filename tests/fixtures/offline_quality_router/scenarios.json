@@ -1,0 +1,54 @@
+{
+  "schema": "video_knowledge_pipeline.offline_quality_fixture.v1",
+  "scenarios": [
+    {
+      "name": "asr_missing",
+      "manifest": {},
+      "timeline": [],
+      "expected": {
+        "stage": "asr",
+        "stage_quality": "missing",
+        "failure_class": "artifact_missing",
+        "fallback": "retry_local_stage"
+      }
+    },
+    {
+      "name": "ocr_missing",
+      "manifest": {},
+      "timeline": [
+        {
+          "index": 1,
+          "start": 0,
+          "end": 10,
+          "visual_route": "document_visual",
+          "frame_paths": ["fixture-frame.png"]
+        }
+      ],
+      "expected": {
+        "stage": "ocr",
+        "stage_quality": "missing",
+        "failure_class": "artifact_missing",
+        "fallback": "retry_local_stage"
+      }
+    },
+    {
+      "name": "vision_stopped_by_design",
+      "manifest": {},
+      "timeline": [
+        {
+          "index": 1,
+          "start": 0,
+          "end": 10,
+          "visual_route": "semantic_frame",
+          "frame_paths": ["fixture-frame.png"]
+        }
+      ],
+      "expected": {
+        "stage": "vision",
+        "stage_quality": "stopped_by_design",
+        "failure_class": "execution_not_requested",
+        "fallback": "keep_local_evidence"
+      }
+    }
+  ]
+}

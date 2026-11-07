@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/lightcoloror/video-knowledge-pipeline/schemas/quick-health.v1.schema.json",
+  "title": "VKP bounded quick health",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema_version",
+    "ok",
+    "status",
+    "registration",
+    "runtime",
+    "callable",
+    "freshness",
+    "checks",
+    "failed_checks",
+    "boundaries"
+  ],
+  "properties": {
+    "schema": {"const": "video_knowledge_pipeline.quick_health.v1"},
+    "schema_version": {"const": "1.0"},
+    "ok": {"type": "boolean"},
+    "status": {"enum": ["ready", "not_ready"]},
+    "registration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "project_name", "project_version", "project_root"],
+      "properties": {
+        "status": {"enum": ["registered", "invalid"]},
+        "project_name": {"const": "video-knowledge-pipeline"},
+        "project_version": {"type": "string"},
+        "project_root": {"type": "string", "minLength": 1}
+      }
+    },
+    "runtime": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "python_version", "required_python", "heavy_modules_loaded", "model_stack_evaluated"],
+      "properties": {
+        "status": {"enum": ["ready", "unsupported"]},
+        "python_version": {"type": "string", "minLength": 1},
+        "required_python": {"type": "string"},
+        "heavy_modules_loaded": {"type": "array", "items": {"type": "string"}},
+        "model_stack_evaluated": {"const": false}
+      }
+    },
+    "callable": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "quick_command", "detailed_asr_command", "windows_wrapper", "asr_capability_evaluated"],
+      "properties": {
+        "status": {"enum": ["callable", "not_callable"]},
+        "quick_command": {"type": "string", "minLength": 1},
+        "detailed_asr_command": {"type": "string", "minLength": 1},
+        "windows_wrapper": {"type": "string"},
+        "asr_capability_evaluated": {"const": false}
+      }
+    },
+    "freshness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "basis", "cached", "artifact_count", "snapshot_sha256", "artifacts"],
+      "properties": {
+        "status": {"enum": ["current", "unavailable"]},
+        "basis": {"const": "live_required_artifact_snapshot"},
+        "cached": {"const": false},
+        "artifact_count": {"type": "integer", "minimum": 0},
+        "snapshot_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$|^$"},
+        "artifacts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["key", "path", "bytes", "sha256"],
+            "properties": {
+              "key": {"type": "string", "minLength": 1},
+              "path": {"type": "string", "minLength": 1},
+              "bytes": {"type": "integer", "minimum": 0},
+              "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+            }
+          }
+        }
+      }
+    },
+    "checks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["check_id", "status", "detail"],
+        "properties": {
+          "check_id": {"type": "string", "minLength": 1},
+          "status": {"enum": ["passed", "failed"]},
+          "detail": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "failed_checks": {"type": "array", "items": {"type": "string"}},
+    "boundaries": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["starts_service", "writes_business_data", "loads_model_stack", "checks_provider", "proves_asr_ready"],
+      "properties": {
+        "starts_service": {"const": false},
+        "writes_business_data": {"const": false},
+        "loads_model_stack": {"const": false},
+        "checks_provider": {"const": false},
+        "proves_asr_ready": {"const": false}
+      }
+    }
+  }
+}

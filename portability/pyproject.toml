@@ -1,0 +1,10 @@
+[project]
+name = "video-knowledge-pipeline-portable-env"
+version = "1.0.0"
+requires-python = ">=3.11"
+dependencies = [
+  "video-knowledge-pipeline",
+]
+
+[tool.uv.sources]
+video-knowledge-pipeline = { path = "..", editable = true }

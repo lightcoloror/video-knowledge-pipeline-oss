@@ -1,0 +1,12 @@
+{
+  "fixture_schema": "video_knowledge_pipeline.material_manifest_negative_cases.v1",
+  "cases": [
+    {"id": "unsupported-version", "mutation": "unsupported_version", "expected_error": "schema validation failed"},
+    {"id": "manifest-hash-drift", "mutation": "manifest_hash_drift", "expected_error": "hash drift"},
+    {"id": "missing-frame", "mutation": "missing_frame", "expected_error": "does not exist"},
+    {"id": "frame-out-of-range", "mutation": "frame_out_of_range", "expected_error": "outside"},
+    {"id": "stale-bundle", "mutation": "stale_bundle", "expected_error": "not fresh"},
+    {"id": "wrong-source-order", "mutation": "wrong_source_order", "expected_error": "source order"},
+    {"id": "corrupt-input", "mutation": "corrupt_input", "expected_error": "Expecting property name"}
+  ]
+}

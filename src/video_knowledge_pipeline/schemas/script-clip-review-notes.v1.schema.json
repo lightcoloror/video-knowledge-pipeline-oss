@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/lightcoloror/video-knowledge-pipeline/schemas/script-clip-review-notes.v1.schema.json",
+  "title": "VKP human script clip selection notes",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "review_status", "review_id", "candidate_pack", "slots", "operator_boundary"],
+  "properties": {
+    "schema": {"const": "video_knowledge_pipeline.script_clip_review_notes.v1"},
+    "review_status": {"enum": ["draft", "human_confirmed"]},
+    "review_id": {"type": "string"},
+    "candidate_pack": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "pack_sha256", "artifact_sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "pack_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "artifact_sha256": {"type": "string", "pattern": "^$|^[0-9a-f]{64}$"}
+      }
+    },
+    "slots": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["slot_id", "episode_binding", "selected_candidate_id", "fine_cut_order", "fine_cut_output", "clip_transcript_path", "clip_transcript_sha256", "approved_quote", "approved_clip_text", "approved_window", "approved_source_segment_ids", "expected_speaker_role", "expected_speaker_ids", "excluded_speaker_roles", "excluded_speaker_ids", "label", "subtitle_text", "human_confirmed", "notes"],
+        "properties": {
+          "slot_id": {"type": "string", "minLength": 1},
+          "episode_binding": {"type": "string"},
+          "selected_candidate_id": {"type": "string"},
+          "fine_cut_order": {"type": ["integer", "null"], "minimum": 1},
+          "fine_cut_output": {"type": "string"},
+          "clip_transcript_path": {"type": "string"},
+          "clip_transcript_sha256": {"type": "string", "pattern": "^$|^[0-9a-fA-F]{64}$"},
+          "approved_quote": {"type": "string"},
+          "approved_clip_text": {"type": "string"},
+          "approved_window": {"type": ["object", "null"]},
+          "approved_source_segment_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+          "expected_speaker_role": {"type": "string"},
+          "expected_speaker_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+          "excluded_speaker_roles": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+          "excluded_speaker_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+          "label": {"enum": ["customer_quote", "interviewer_quote", "family_quote", "mixed_dialogue", "excluded"]},
+          "subtitle_text": {"type": "string"},
+          "human_confirmed": {"type": "boolean"},
+          "notes": {"type": "string"}
+        }
+      }
+    },
+    "operator_boundary": {"type": "object"}
+  }
+}

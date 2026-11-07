@@ -1,0 +1,269 @@
+{
+  "capabilities": [
+    "portable_manifest_discovery",
+    "synthetic_offline_video_smoke",
+    "shared_secret_refs_env_keyring",
+    "video_material_manifest",
+    "local_asr_candidate_planning",
+    "evidence_bundle",
+    "review_bundle",
+    "personal_vlog_candidate_recipe",
+    "panorama_projection_analysis_local_trial",
+    "mcp_stdio"
+  ],
+  "contract_refs": [
+    {
+      "bundle_id": "local-tools-portable-contracts",
+      "bundle_path": "contracts/portable/v1/portable-contract-bundle.v1.json",
+      "bundle_version": "1.0.0",
+      "contract_id": "material-manifest.v1",
+      "distribution_repository": "https://github.com/lightcoloror/research-content-production"
+    },
+    {
+      "bundle_id": "local-tools-portable-contracts",
+      "bundle_path": "contracts/portable/v1/portable-contract-bundle.v1.json",
+      "bundle_version": "1.0.0",
+      "contract_id": "evidence-bundle.v1",
+      "distribution_repository": "https://github.com/lightcoloror/research-content-production"
+    },
+    {
+      "bundle_id": "local-tools-portable-contracts",
+      "bundle_path": "contracts/portable/v1/portable-contract-bundle.v1.json",
+      "bundle_version": "1.0.0",
+      "contract_id": "content-brief.v1",
+      "distribution_repository": "https://github.com/lightcoloror/research-content-production"
+    },
+    {
+      "bundle_id": "local-tools-portable-contracts",
+      "bundle_path": "contracts/portable/v1/portable-contract-bundle.v1.json",
+      "bundle_version": "1.0.0",
+      "contract_id": "review-packet.v1",
+      "distribution_repository": "https://github.com/lightcoloror/research-content-production"
+    },
+    {
+      "bundle_id": "local-tools-portable-contracts",
+      "bundle_path": "contracts/portable/v1/portable-contract-bundle.v1.json",
+      "bundle_version": "1.0.0",
+      "contract_id": "service-profile.v1",
+      "distribution_repository": "https://github.com/lightcoloror/research-content-production"
+    },
+    {
+      "bundle_id": "local-tools-portable-contracts",
+      "bundle_path": "contracts/portable/v1/portable-contract-bundle.v1.json",
+      "bundle_version": "1.0.0",
+      "contract_id": "closure_run.v1",
+      "distribution_repository": "https://github.com/lightcoloror/research-content-production"
+    },
+    {
+      "bundle_id": "local-tools-portable-contracts",
+      "bundle_path": "contracts/portable/v1/portable-contract-bundle.v1.json",
+      "bundle_version": "1.0.0",
+      "contract_id": "local-tool-event.v1",
+      "distribution_repository": "https://github.com/lightcoloror/research-content-production"
+    }
+  ],
+  "description": "Clone-portable VKP discovery, synthetic offline video-evidence smoke, material manifests, candidate review artifacts, personal Vlog and local-trial panorama CLI/MCP. Metadata never authorizes execution.",
+  "executionAuthority": "none_metadata_only",
+  "health": {
+    "doctor": {
+      "command": "video-knowledge-portable doctor",
+      "kind": "cli",
+      "profile": "quick",
+      "timeout_seconds": 10
+    },
+    "proves_current_online": false,
+    "status_semantics": "Quick local contract readiness; ASR/model readiness and current online state are separate."
+  },
+  "id": "video-knowledge-pipeline",
+  "inputs": [
+    {
+      "contract": "video_knowledge_pipeline.material_manifest_fixture.v1",
+      "name": "synthetic_bundle",
+      "required": false,
+      "status": "bundled_synthetic_only"
+    },
+    {
+      "contract": "local media reference",
+      "name": "local_media",
+      "required": false,
+      "status": "owner_gated_not_used_by_portable_smoke"
+    },
+    {
+      "contract": "model-provider-gateway route and consent refs",
+      "name": "reviewed_model_route",
+      "required": false,
+      "status": "blocked_without_owner_consent"
+    },
+    {
+      "contract": "video_knowledge_pipeline.panorama_profile.v1",
+      "name": "confirmed_panorama_bundle",
+      "required": false,
+      "status": "local_trial_explicit_projection_required"
+    }
+  ],
+  "interfaces": {
+    "canonical": [
+      {
+        "command": "video-knowledge-portable doctor",
+        "kind": "cli",
+        "mode": "read_only",
+        "profile": "quick",
+        "timeout_seconds": 10
+      },
+      {
+        "command": "python -m video_knowledge_pipeline.portable doctor",
+        "kind": "python_module",
+        "mode": "read_only",
+        "profile": "quick",
+        "timeout_seconds": 10
+      },
+      {
+        "command": "video-knowledge material-manifest-validate <bundle>",
+        "kind": "cli",
+        "mode": "read_only"
+      },
+      {
+        "command": "personal-vlog-doctor",
+        "kind": "cli",
+        "mode": "read_only",
+        "profile": "personal-vlog-v1",
+        "timeout_seconds": 10
+      },
+      {
+        "command": "panorama-doctor <media-or-bundle>",
+        "kind": "cli",
+        "mode": "read_only_fail_closed",
+        "profile": "panorama-v1",
+        "timeout_seconds": 30
+      },
+      {
+        "command": "panorama-prepare <bundle> --projection <type>",
+        "kind": "cli",
+        "mode": "candidate_plan_only",
+        "profile": "panorama-v1"
+      },
+      {
+        "command": "panorama-run <bundle> --run-id <id> [--execute-projection]",
+        "kind": "cli",
+        "mode": "explicit_local_derived_frames_only",
+        "profile": "panorama-v1"
+      },
+      {
+        "command": "panorama-import <bundle> --run-id <id> --input-json <result.json>",
+        "kind": "cli",
+        "mode": "hash_bound_atomic_import",
+        "profile": "panorama-v1"
+      },
+      {
+        "command": "panorama-status <bundle> [--run-id <id>]",
+        "kind": "cli",
+        "mode": "read_only",
+        "profile": "panorama-v1"
+      },
+      {
+        "command": "panorama-restore <bundle> --run-id <id> [--execute --confirm-run-id <id>]",
+        "kind": "cli",
+        "mode": "plan_only_unless_exact_confirmation",
+        "profile": "panorama-v1"
+      }
+    ],
+    "http": [],
+    "mcp": [
+      {
+        "command": "video-knowledge-mcp",
+        "kind": "mcp",
+        "mode": "read_only_or_explicit_owner_gated",
+        "transport": "stdio"
+      },
+      {
+        "command": "video-knowledge-personal-vlog-mcp",
+        "kind": "mcp",
+        "mode": "candidate_only_explicit_source_root",
+        "profile": "personal-vlog-v1",
+        "transport": "stdio"
+      },
+      {
+        "command": "video-knowledge-panorama-mcp",
+        "kind": "mcp",
+        "mode": "local_trial_explicit_projection_and_import",
+        "profile": "panorama-v1",
+        "transport": "stdio"
+      }
+    ],
+    "windows_wrappers": []
+  },
+  "license": {
+    "spdx": "AGPL-3.0-only",
+    "status": "repository_declared"
+  },
+  "manifest_version": "1.2.0",
+  "notTrustedAsInstruction": true,
+  "outputs": [
+    {
+      "contract": "material-manifest.v1",
+      "name": "material_reference",
+      "required": true,
+      "status": "synthetic_smoke_ready"
+    },
+    {
+      "contract": "evidence-bundle.v1",
+      "name": "evidence_bundle",
+      "required": false,
+      "status": "candidate_projection"
+    },
+    {
+      "contract": "review-packet.v1",
+      "name": "review_packet",
+      "required": false,
+      "status": "candidate_projection"
+    },
+    {
+      "contract": "video_knowledge_pipeline.panorama_viewport_pack.v1",
+      "name": "panorama_viewport_evidence",
+      "required": false,
+      "status": "local_trial_candidate_only"
+    }
+  ],
+  "platforms": [
+    "windows",
+    "linux",
+    "macos"
+  ],
+  "portability": {
+    "canonical_cross_platform_entry": true,
+    "gaps": [
+      "linux_real_runner_not_executed_in_current_windows_environment",
+      "macos_not_run",
+      "optional_model_runtimes_not_part_of_clone_portable_readiness",
+      "panorama_optional_py360convert_and_equilib_not_core_dependencies"
+    ],
+    "in_repo_discovery": true,
+    "status": "public_source_candidate_pending_current_validation"
+  },
+  "provenance": {
+    "compatibility_policy": "schema_capability_consent_and_safety_semantics",
+    "gateway_adapter_schema": "model_provider_gateway.adapter_contract.v2",
+    "gateway_version_range": ">=0.3,<0.4",
+    "generation_policy": "deterministic_metadata_only",
+    "panorama_source_status": "local_trial_unpublished_shared_inventory_proposal_only",
+    "portable_contract_bundle_sha256": "e7315a36f66687ab1f807dfc908ed21932d5eee543bbb2775b74d2c50ca4d0b0",
+    "source_commit": "b588403702d91fc60e6f14c68b9d763e678a6a1f",
+    "source_commit_role": "informational_public_baseline_not_runtime_gate",
+    "source_repository": "https://github.com/lightcoloror/video-knowledge-pipeline-oss"
+  },
+  "requirements": {
+    "approval": {
+      "mode": "required",
+      "reason": "Uploads, providers, model downloads, publication, and business writes remain gated."
+    },
+    "network": {
+      "mode": "not_required",
+      "reason": "Doctor and packaged synthetic smoke are offline; optional dependency bootstrap is separate."
+    },
+    "secrets": {
+      "mode": "not_required",
+      "reason": "Portable discovery and synthetic smoke do not read credentials."
+    }
+  },
+  "schema_version": "agent-tool-manifest.v1"
+}

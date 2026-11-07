@@ -1,0 +1,6 @@
+{
+  "contract": "VKP_SYNTHETIC_ARTIFACT_FIXTURE_V1",
+  "fixture_only": true,
+  "allow_restore_test": true,
+  "closure_run_id": "fixture-media-lifecycle-001"
+}

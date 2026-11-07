@@ -1,0 +1,127 @@
+{
+  "schema": "video_knowledge_pipeline.bridge_state_scenarios.v1",
+  "scenarios": [
+    {
+      "name": "configured_stopped",
+      "configured": true,
+      "socket_probe": {
+        "state": "refused",
+        "listening": false
+      },
+      "health_probe": {
+        "checked": false,
+        "ok": false
+      },
+      "scheduled_task": {
+        "status": "not_registered"
+      },
+      "pipeline_capability": {
+        "ready": true,
+        "offline_quality_route_discoverable": true
+      },
+      "expected": {
+        "bridge_state": "stopped_by_design",
+        "bridge_call_execution_allowed": false,
+        "pipeline_offline_ready": true
+      }
+    },
+    {
+      "name": "healthy_mock",
+      "configured": true,
+      "socket_probe": {
+        "state": "listening",
+        "listening": true
+      },
+      "health_probe": {
+        "checked": true,
+        "ok": true
+      },
+      "scheduled_task": {
+        "status": "registered",
+        "scheduled_task_state": "Running"
+      },
+      "pipeline_capability": {
+        "ready": true,
+        "offline_quality_route_discoverable": true
+      },
+      "expected": {
+        "bridge_state": "healthy",
+        "bridge_call_execution_allowed": true,
+        "pipeline_offline_ready": true
+      }
+    },
+    {
+      "name": "stale_runtime_record",
+      "configured": true,
+      "socket_probe": {
+        "state": "refused",
+        "listening": false
+      },
+      "health_probe": {
+        "checked": false,
+        "ok": false
+      },
+      "scheduled_task": {
+        "status": "registered",
+        "scheduled_task_state": "Running"
+      },
+      "pipeline_capability": {
+        "ready": true,
+        "offline_quality_route_discoverable": true
+      },
+      "expected": {
+        "bridge_state": "stale_runtime_record",
+        "bridge_call_execution_allowed": false,
+        "pipeline_offline_ready": true
+      }
+    },
+    {
+      "name": "probe_timeout",
+      "configured": true,
+      "socket_probe": {
+        "state": "timeout",
+        "listening": false
+      },
+      "health_probe": {
+        "checked": false,
+        "ok": false
+      },
+      "scheduled_task": {
+        "status": "not_registered"
+      },
+      "pipeline_capability": {
+        "ready": true,
+        "offline_quality_route_discoverable": true
+      },
+      "expected": {
+        "bridge_state": "probe_timeout",
+        "bridge_call_execution_allowed": false,
+        "pipeline_offline_ready": true
+      }
+    },
+    {
+      "name": "pipeline_cli_missing",
+      "configured": true,
+      "socket_probe": {
+        "state": "refused",
+        "listening": false
+      },
+      "health_probe": {
+        "checked": false,
+        "ok": false
+      },
+      "scheduled_task": {
+        "status": "not_registered"
+      },
+      "pipeline_capability": {
+        "ready": false,
+        "offline_quality_route_discoverable": false
+      },
+      "expected": {
+        "bridge_state": "stopped_by_design",
+        "bridge_call_execution_allowed": false,
+        "pipeline_offline_ready": false
+      }
+    }
+  ]
+}

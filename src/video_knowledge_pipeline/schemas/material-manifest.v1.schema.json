@@ -1,0 +1,145 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/lightcoloror/video-knowledge-pipeline/schemas/material-manifest.v1.schema.json",
+  "title": "VKP material-manifest.v1 temporal reference facade",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema_version",
+    "native_contract",
+    "producer",
+    "bundle",
+    "transcript",
+    "timeline_items",
+    "dependency_snapshot",
+    "authority_boundary",
+    "manifest_id",
+    "manifest_sha256"
+  ],
+  "properties": {
+    "schema": {"const": "material-manifest.v1"},
+    "schema_version": {"const": "1.0"},
+    "native_contract": {"const": "video_knowledge_pipeline.material_reference.v1"},
+    "producer": {"const": "video-knowledge-pipeline"},
+    "bundle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title", "native_schema", "manifest", "timeline", "timeline_item_count"],
+      "properties": {
+        "title": {"type": "string", "minLength": 1},
+        "native_schema": {"type": "string"},
+        "manifest": {"$ref": "#/$defs/artifact"},
+        "timeline": {"$ref": "#/$defs/artifact"},
+        "timeline_item_count": {"type": "integer", "minimum": 1}
+      }
+    },
+    "transcript": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "artifact", "content_embedded"],
+      "properties": {
+        "kind": {"const": "transcript"},
+        "artifact": {"$ref": "#/$defs/artifact"},
+        "content_embedded": {"const": false}
+      }
+    },
+    "timeline_items": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/timeline_item"}
+    },
+    "dependency_snapshot": {
+      "type": "object",
+      "required": ["schema", "subject", "inputs", "source_run_id", "producer_schema", "snapshot_sha256"],
+      "properties": {
+        "schema": {"const": "video_knowledge_pipeline.artifact_dependency_snapshot.v1"},
+        "subject": {"const": "material-manifest.v1"},
+        "producer_schema": {"const": "video_knowledge_pipeline.material_reference.v1"},
+        "inputs": {"type": "array", "minItems": 4},
+        "source_run_id": {"type": "string"},
+        "snapshot_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "authority_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "metadata_only",
+        "execution_authorized",
+        "external_io_performed",
+        "grants_provider_consent",
+        "grants_review_approval",
+        "mutates_timeline",
+        "document_node_order_claimed",
+        "source_order_semantics"
+      ],
+      "properties": {
+        "metadata_only": {"const": true},
+        "execution_authorized": {"const": false},
+        "external_io_performed": {"const": false},
+        "grants_provider_consent": {"const": false},
+        "grants_review_approval": {"const": false},
+        "mutates_timeline": {"const": false},
+        "document_node_order_claimed": {"const": false},
+        "source_order_semantics": {"const": "video_temporal_only"}
+      }
+    },
+    "manifest_id": {"type": "string", "pattern": "^vkp-material-[0-9a-f]{20}$"},
+    "manifest_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  },
+  "$defs": {
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "path", "bytes", "sha256", "mime_type"],
+      "properties": {
+        "kind": {"enum": ["bundle_metadata", "time_evidence", "transcript", "keyframe"]},
+        "path": {"type": "string", "minLength": 1, "pattern": "^(?![A-Za-z]:)(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+$"},
+        "bytes": {"type": "integer", "minimum": 0},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "mime_type": {"type": "string", "minLength": 1}
+      }
+    },
+    "time_range": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["start_ms", "end_ms"],
+      "properties": {
+        "start_ms": {"type": "integer", "minimum": 0},
+        "end_ms": {"type": "integer", "minimum": 0}
+      }
+    },
+    "keyframe": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["frame_id", "artifact", "timestamp_ms", "timing_status"],
+      "properties": {
+        "frame_id": {"type": "string", "minLength": 1},
+        "artifact": {"$ref": "#/$defs/artifact"},
+        "timestamp_ms": {"type": ["integer", "null"], "minimum": 0},
+        "timing_status": {"enum": ["exact", "range_only"]}
+      }
+    },
+    "timeline_item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_order", "timeline_index", "time_range", "evidence_ids", "keyframes"],
+      "properties": {
+        "source_order": {"type": "integer", "minimum": 1},
+        "timeline_index": {"type": "integer", "minimum": 1},
+        "time_range": {"$ref": "#/$defs/time_range"},
+        "evidence_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "keyframes": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/keyframe"}
+        }
+      }
+    }
+  }
+}

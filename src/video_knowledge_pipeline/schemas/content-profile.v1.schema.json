@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://video-knowledge-pipeline.local/schemas/content-profile.v1.schema.json",
+  "title": "VKP content profile v1",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["schema", "profile_id", "status", "requirements"],
+  "properties": {
+    "schema": {"const": "video_knowledge_pipeline.content_profile.v1"},
+    "profile_id": {"enum": ["course-or-general-v1", "interview-v1", "medical-insurance-interview-v1"]},
+    "status": {"type": "string", "minLength": 1},
+    "requirements": {"type": "object"}
+  }
+}

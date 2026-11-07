@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local.invalid/vkp/targeted-review-pack.v1.schema.json",
+  "title": "VKP targeted video review pack",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "pack_id", "generated_at", "source_request_path", "source_request_sha256", "sources", "requests", "publication_boundary", "implementation_record", "pack_payload_sha256"],
+  "properties": {
+    "schema_version": {"const": "vkp-targeted-review-pack.v1"},
+    "pack_id": {"type": "string", "minLength": 3},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "source_request_path": {"type": "string", "minLength": 1},
+    "source_request_sha256": {"$ref": "#/$defs/sha256"},
+    "sources": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/source"}},
+    "requests": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/request"}},
+    "publication_boundary": {"const": "manual_only"},
+    "implementation_record": {"$ref": "#/$defs/implementationRecord"},
+    "pack_payload_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_id", "label", "path", "sha256", "duration_seconds", "fps"],
+      "properties": {
+        "source_id": {"type": "string", "pattern": "^source-[0-9]{3}$"},
+        "label": {"type": "string", "minLength": 1},
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "duration_seconds": {"type": "number", "exclusiveMinimum": 0},
+        "width": {"type": ["integer", "null"], "minimum": 1},
+        "height": {"type": ["integer", "null"], "minimum": 1},
+        "fps": {"type": "number", "exclusiveMinimum": 0}
+      }
+    },
+    "request": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["review_id", "source_id", "workflow_stage", "review_lane", "review_purpose", "review_question", "issue_start_seconds", "issue_end_seconds", "review_start_seconds", "review_end_seconds", "timecode_start", "timecode_end", "playback_mode", "review_access_mode", "decision_options", "status"],
+      "properties": {
+        "review_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{2,119}$"},
+        "source_id": {"type": "string", "pattern": "^source-[0-9]{3}$"},
+        "workflow_stage": {"type": "string", "minLength": 1, "maxLength": 80},
+        "review_lane": {"enum": ["audio", "subtitle", "picture", "privacy", "compliance", "publication", "mixed"]},
+        "review_purpose": {"type": "string", "minLength": 1, "maxLength": 500},
+        "review_question": {"type": "string", "minLength": 1, "maxLength": 500},
+        "reference_text": {"type": "string", "maxLength": 2000},
+        "issue_start_seconds": {"type": "number", "minimum": 0},
+        "issue_end_seconds": {"type": "number", "exclusiveMinimum": 0},
+        "review_start_seconds": {"type": "number", "minimum": 0},
+        "review_end_seconds": {"type": "number", "exclusiveMinimum": 0},
+        "timecode_start": {"type": "string", "pattern": "^[0-9]{2,}:[0-5][0-9]\\.[0-9]{3}$"},
+        "timecode_end": {"type": "string", "pattern": "^[0-9]{2,}:[0-5][0-9]\\.[0-9]{3}$"},
+        "playback_mode": {"enum": ["normal", "audio_only", "muted", "frame_step"]},
+        "review_access_mode": {"const": "source_time_range"},
+        "decision_options": {"const": ["pass", "needs_rework", "uncertain"]},
+        "status": {"enum": ["pending", "pass", "needs_rework", "uncertain"]}
+      }
+    },
+    "implementationRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["intent", "decision", "reason", "evidence", "effective_scope"],
+      "properties": {
+        "intent": {"type": "string", "minLength": 1},
+        "decision": {"type": "string", "minLength": 1},
+        "reason": {"type": "string", "minLength": 1},
+        "evidence": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "effective_scope": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}

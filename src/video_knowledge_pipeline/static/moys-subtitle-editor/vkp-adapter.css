@@ -1,0 +1,120 @@
+/*
+ * VKP dual-track adapter for Moyf/moys-asr-workflow v1.3.1.
+ * Intent: preserve the upstream editor shell while making VKP's source and
+ * Mandarin tracks, draft state, and formal-apply boundary explicit.
+ */
+.vkp-review-bar {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border, #d8dee9);
+  background: color-mix(in srgb, var(--panel-bg, #fff) 94%, #3b82f6 6%);
+  font-size: 13px;
+  position: relative;
+  z-index: 5;
+}
+
+.vkp-review-bar .vkp-spacer { flex: 1; }
+.vkp-transcript-modes {
+  display: inline-flex;
+  gap: 2px;
+  padding: 2px;
+  border: 1px solid var(--border, #d8dee9);
+  border-radius: 6px;
+}
+.vkp-transcript-modes button[aria-pressed="true"] {
+  color: #fff;
+  background: #2563eb;
+}
+.vkp-review-state { font-weight: 600; }
+.vkp-review-state[data-state="draft"] { color: #b45309; }
+.vkp-review-state[data-state="applied"] { color: #047857; }
+.vkp-review-state[data-state="conflict"],
+.vkp-review-state[data-state="error"] { color: #b91c1c; }
+
+.vkp-track-label {
+  display: block;
+  margin: 0 0 4px;
+  color: var(--muted, #64748b);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.vkp-mandarin-wrap {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--border, #d8dee9);
+}
+
+#vkp-mandarin-text {
+  width: 100%;
+  min-height: 64px;
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+.vkp-translation-review {
+  margin-top: 4px;
+  color: #b45309;
+  font-size: 12px;
+}
+
+.cue .vkp-mandarin-preview {
+  margin-top: 4px;
+  color: var(--muted, #64748b);
+  font-size: 0.9em;
+  line-height: 1.35;
+  white-space: pre-wrap;
+}
+
+body[data-vkp-transcript-mode="original"] .cue .vkp-mandarin-preview { display: none; }
+body[data-vkp-transcript-mode="mandarin"] .cue .text,
+body[data-vkp-transcript-mode="mandarin"] .cue .cue-text { display: none; }
+.cue .vkp-mandarin-preview[data-translation-state="loading"],
+.cue .vkp-mandarin-preview[data-translation-state="error"] {
+  cursor: pointer;
+  font-style: italic;
+}
+.cue .vkp-mandarin-preview[data-translation-state="error"] { color: #b91c1c; }
+
+.cue .vkp-mandarin-preview:empty::before {
+  content: "普通话轨为空";
+  opacity: 0.65;
+}
+
+.vkp-boundary-note {
+  color: var(--muted, #64748b);
+  white-space: nowrap;
+}
+
+.vkp-timestamp-note-wrap {
+  display: grid;
+  gap: 6px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--border, #d8dee9);
+}
+
+.vkp-note-original {
+  padding: 7px 9px;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--panel-bg, #fff) 90%, #64748b 10%);
+  color: var(--muted, #64748b);
+  font-size: 12px;
+  white-space: pre-wrap;
+}
+
+#vkp-note-polished,
+#vkp-note-text {
+  width: 100%;
+  box-sizing: border-box;
+  resize: vertical;
+}
+
+@media (max-width: 760px) {
+  .vkp-review-bar { flex-wrap: wrap; }
+  .vkp-review-bar .vkp-spacer { display: none; }
+  .vkp-boundary-note { width: 100%; white-space: normal; }
+}

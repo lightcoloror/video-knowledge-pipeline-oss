@@ -1,0 +1,14 @@
+{
+  "schema": "lecture_webui_bundle.v1",
+  "title": "Synthetic Small Model Closure",
+  "fixture_only": true,
+  "synthetic_media_contract": "VKP_SYNTHETIC_MEDIA_FIXTURE_V1",
+  "source_video": "source.synthetic-video.fixture",
+  "source_video_sha256": "eaa15b565d65fc95ce6111ab4870c4ee3f42a092fe3d6b6351c892a71962b0a7",
+  "normalized_transcript": "synthetic-transcript.fixture.json",
+  "silero_vad_candidate": "silero-vad-candidate.json",
+  "smart_summary_chapters": "smart-summary-chapters.json",
+  "run_artifact_registry_json": "run-artifact-registry.json",
+  "video_workbench_json": "video-workbench.json",
+  "media": {"duration_seconds": 24.0, "time_base": "media_start_seconds", "timestamp_precision_ms": 1}
+}

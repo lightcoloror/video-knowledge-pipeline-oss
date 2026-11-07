@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "video_knowledge_pipeline.content_clip_request.v1",
+  "type": "object",
+  "required": ["schema", "request_id", "clips"],
+  "properties": {
+    "schema": {"const": "video_knowledge_pipeline.content_clip_request.v1"},
+    "request_id": {"type": "string", "minLength": 1},
+    "source_transcript": {"$ref": "#/$defs/artifactRef"},
+    "clips": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/clip"}
+    },
+    "compatibility": {"type": "object"},
+    "operator_boundary": {"type": "object"}
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "artifactRef": {
+      "type": "object",
+      "properties": {"path": {"type": "string"}, "sha256": {"type": "string", "pattern": "^$|^[0-9a-fA-F]{64}$"}},
+      "additionalProperties": false
+    },
+    "timeRange": {
+      "type": "object",
+      "required": ["start", "end"],
+      "properties": {"start": {"type": "number", "minimum": 0}, "end": {"type": "number", "exclusiveMinimum": 0}},
+      "additionalProperties": false
+    },
+    "clip": {
+      "type": "object",
+      "required": ["clip_id", "purpose", "query", "match_modes", "duration"],
+      "properties": {
+        "clip_id": {"type": "string", "minLength": 1},
+        "purpose": {"enum": ["quote", "explanation", "tutorial_step", "visual_event", "screen_text", "audio_event", "broll", "highlight", "story_beat"]},
+        "profile_id": {"type": "string"},
+        "query": {"type": "string", "minLength": 1},
+        "match_modes": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"enum": ["quote", "semantic", "ocr", "visual", "audio", "shot"]}},
+        "required": {"type": "boolean"},
+        "state": {"enum": ["planned", "recorded", "excluded"]},
+        "required_modalities": {"type": "array", "uniqueItems": true, "items": {"enum": ["asr", "ocr", "visual", "audio", "shot"]}},
+        "optional_modalities": {"type": "array", "uniqueItems": true, "items": {"enum": ["asr", "ocr", "visual", "audio", "shot"]}},
+        "must_include": {"type": "array", "items": {"type": "string"}},
+        "must_exclude": {"type": "array", "items": {"type": "string"}},
+        "speaker_constraints": {
+          "type": "object",
+          "properties": {
+            "allowed_roles": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+            "allowed_speaker_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+            "excluded_roles": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+            "excluded_speaker_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string"}}
+          },
+          "additionalProperties": false
+        },
+        "duration": {
+          "type": "object",
+          "required": ["minimum_seconds", "preferred_seconds", "maximum_seconds"],
+          "properties": {
+            "minimum_seconds": {"type": "number", "minimum": 0},
+            "preferred_seconds": {"type": "number", "minimum": 0},
+            "maximum_seconds": {"type": "number", "exclusiveMinimum": 0}
+          },
+          "additionalProperties": false
+        },
+        "boundary_policy": {"enum": ["complete_sentence", "instruction_to_stable_result", "action_start_peak_end", "stable_screen_content", "audio_event_bounds", "whole_technical_shot", "cause_peak_result", "cause_change_result"]},
+        "source_scope": {
+          "type": "object",
+          "properties": {
+            "video_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+            "time_ranges": {"type": "array", "items": {"$ref": "#/$defs/timeRange"}}
+          },
+          "additionalProperties": false
+        },
+        "legacy_binding": {"type": "object"}
+      },
+      "additionalProperties": false
+    }
+  }
+}

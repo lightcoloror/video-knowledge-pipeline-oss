@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "video_knowledge_pipeline.content_clip_candidate_pack.v1",
+  "type": "object",
+  "required": ["schema", "status", "request_id", "bundle_dir", "source_artifacts", "technical_shot_provenance", "parameters", "summary", "clips", "review_required", "publication_allowed", "operator_boundary", "artifacts", "pack_sha256"],
+  "properties": {
+    "schema": {"const": "video_knowledge_pipeline.content_clip_candidate_pack.v1"},
+    "status": {"enum": ["needs_candidate_selection", "needs_search"]},
+    "request_id": {"type": "string"},
+    "bundle_dir": {"type": "string"},
+    "source_artifacts": {"type": "array", "items": {"type": "object"}},
+    "technical_shot_provenance": {"type": "object"},
+    "parameters": {"type": "object"},
+    "summary": {"type": "object"},
+    "clips": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["clip_id", "purpose", "profile", "required", "excluded", "query", "match_modes", "required_modalities", "optional_modalities", "must_include", "must_exclude", "speaker_constraints", "duration", "boundary_policy", "search_status", "candidates"],
+        "properties": {
+          "clip_id": {"type": "string"}, "purpose": {"type": "string"}, "profile": {"type": "object"}, "required": {"type": "boolean"}, "excluded": {"type": "boolean"}, "query": {"type": "string"}, "match_modes": {"type": "array"}, "required_modalities": {"type": "array"}, "optional_modalities": {"type": "array"}, "must_include": {"type": "array"}, "must_exclude": {"type": "array"}, "speaker_constraints": {"type": "object"}, "duration": {"type": "object"}, "boundary_policy": {"type": "string"}, "search_status": {"type": "string"},
+          "candidates": {"type": "array", "items": {"$ref": "#/$defs/candidate"}}
+        },
+        "additionalProperties": false
+      }
+    },
+    "review_required": {"const": true},
+    "publication_allowed": {"const": false},
+    "operator_boundary": {"type": "object"},
+    "artifacts": {"type": "object"},
+    "pack_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "candidate": {
+      "type": "object",
+      "required": ["candidate_id", "clip_id", "rank", "retrieval", "source_time_range", "context_time_range", "snippet", "transcript_segments", "source_segment_ids", "speaker_evidence", "evidence_paths", "timeline_indexes", "reference_window_receipt", "review_required", "publication_allowed", "modality_evidence", "missing_required_modalities", "eligibility_status", "boundary", "ranking"],
+      "properties": {
+        "candidate_id": {"type": "string"}, "clip_id": {"type": "string"}, "slot_id": {"type": "string"}, "rank": {"type": "integer", "minimum": 1}, "retrieval": {"type": "object"}, "source_time_range": {"type": "object"}, "context_time_range": {"type": "object"}, "snippet": {"type": "string"}, "transcript_segments": {"type": "array"}, "source_segment_ids": {"type": "array"}, "speaker_evidence": {"type": "object"}, "evidence_paths": {"type": "array"}, "timeline_indexes": {"type": "array"}, "reference_window_receipt": {"type": "object"}, "review_required": {"const": true}, "publication_allowed": {"const": false}, "modality_evidence": {"type": "object"}, "missing_required_modalities": {"type": "array"}, "eligibility_status": {"enum": ["eligible", "needs_boundary_review", "missing_required_evidence"]}, "boundary": {"type": "object"}, "ranking": {"type": "object"}
+      },
+      "additionalProperties": false
+    }
+  }
+}

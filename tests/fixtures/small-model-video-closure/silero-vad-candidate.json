@@ -1,0 +1,5 @@
+{
+  "schema": "video_knowledge_pipeline.silero_vad_candidate.v1",
+  "status": "completed",
+  "segments": [{"start": 0.0, "end": 8.0}, {"start": 8.0, "end": 16.0}, {"start": 16.0, "end": 24.0}]
+}

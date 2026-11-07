@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/lightcoloror/video-knowledge-pipeline/schemas/script-clip-candidate-pack.v1.schema.json",
+  "title": "VKP script-driven source clip candidate pack",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "status", "request_id", "bundle_dir", "source_artifacts", "parameters", "summary", "slots", "review_required", "publication_allowed", "operator_boundary", "artifacts", "pack_sha256"],
+  "properties": {
+    "schema": {"const": "video_knowledge_pipeline.script_clip_candidate_pack.v1"},
+    "status": {"enum": ["needs_candidate_selection", "needs_search"]},
+    "request_id": {"type": "string", "minLength": 1},
+    "bundle_dir": {"type": "string", "minLength": 1},
+    "source_artifacts": {"type": "array", "minItems": 2, "items": {"type": "object"}},
+    "parameters": {"type": "object"},
+    "summary": {"type": "object"},
+    "slots": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["slot_id", "required", "excluded", "search_status", "candidates"],
+        "properties": {
+          "slot_id": {"type": "string", "minLength": 1},
+          "required": {"type": "boolean"},
+          "excluded": {"type": "boolean"},
+          "search_status": {"enum": ["excluded", "candidate_not_searched", "searched_candidates_found", "searched_no_candidate"]},
+          "candidates": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["candidate_id", "slot_id", "source_time_range", "source_segment_ids", "speaker_evidence", "review_required", "publication_allowed"],
+              "properties": {
+                "candidate_id": {"type": "string", "pattern": "^script-clip-candidate-[0-9a-f]{16}$"},
+                "slot_id": {"type": "string"},
+                "source_time_range": {"type": "object"},
+                "source_segment_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+                "speaker_evidence": {"type": "object"},
+                "review_required": {"const": true},
+                "publication_allowed": {"const": false}
+              }
+            }
+          }
+        }
+      }
+    },
+    "review_required": {"const": true},
+    "publication_allowed": {"const": false},
+    "operator_boundary": {"type": "object"},
+    "artifacts": {"type": "object"},
+    "pack_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  }
+}

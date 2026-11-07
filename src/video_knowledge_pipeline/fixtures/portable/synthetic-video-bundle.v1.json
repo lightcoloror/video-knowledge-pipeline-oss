@@ -1,0 +1,16 @@
+{
+  "fixture_schema": "video_knowledge_pipeline.material_manifest_fixture.v1",
+  "files": [
+    {"path": "manifest.json", "json": {"schema": "lecture_webui_bundle.v1", "title": "Portable synthetic video fixture", "corrected_transcript_json": "corrected-transcript.json"}},
+    {"path": "timeline.json", "json": [
+      {"index": 1, "start": 0.0, "end": 2.0, "frame_paths": ["frames/frame_0000001000ms.jpg"], "evidence_ids": ["asr-segment-0001", "frame-0001"]},
+      {"index": 2, "start": 2.0, "end": 4.0, "frame_paths": ["frames/frame_0000003000ms.jpg"], "evidence_ids": ["asr-segment-0002", "frame-0002"]}
+    ]},
+    {"path": "corrected-transcript.json", "json": {"schema": "video_knowledge_pipeline.corrected_transcript.v1", "segments": [
+      {"id": "asr-segment-0001", "start": 0.0, "end": 2.0, "text": "Synthetic transcript content one."},
+      {"id": "asr-segment-0002", "start": 2.0, "end": 4.0, "text": "Synthetic transcript content two."}
+    ]}},
+    {"path": "frames/frame_0000001000ms.jpg", "text": "synthetic-keyframe-one"},
+    {"path": "frames/frame_0000003000ms.jpg", "text": "synthetic-keyframe-two"}
+  ]
+}

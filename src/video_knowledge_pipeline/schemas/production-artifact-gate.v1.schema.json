@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://video-knowledge-pipeline.local/schemas/production-artifact-gate.v1.schema.json",
+  "title": "VKP production artifact gate v1",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema",
+    "bundle_dir",
+    "status",
+    "formal_generation_allowed",
+    "artifact_state",
+    "execution_status",
+    "transcript_quality",
+    "speaker_review_status",
+    "semantic_fact_status",
+    "privacy_status",
+    "publication_readiness",
+    "blocking_reasons"
+  ],
+  "properties": {
+    "schema": {"const": "video_knowledge_pipeline.production_artifact_gate.v1"},
+    "bundle_dir": {"type": "string", "minLength": 1},
+    "status": {"enum": ["formal_generation_allowed", "blocked_review_required"]},
+    "formal_generation_allowed": {"type": "boolean"},
+    "machine_draft_allowed": {"type": "boolean"},
+    "artifact_state": {"enum": ["human-reviewed-input", "review-required"]},
+    "execution_status": {"enum": ["ready", "blocked_by_quality_gate"]},
+    "transcript_quality": {"type": "object"},
+    "speaker_review_status": {"type": "object"},
+    "semantic_fact_status": {"type": "object"},
+    "privacy_status": {"type": "object"},
+    "publication_readiness": {"type": "object"},
+    "blocking_reasons": {"type": "array", "items": {"type": "string"}, "uniqueItems": true}
+  }
+}

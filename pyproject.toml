@@ -1,0 +1,126 @@
+[build-system]
+requires = ["setuptools>=77,<82", "wheel>=0.45,<1"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "video-knowledge-pipeline"
+version = "0.1.0"
+description = "Local video-first knowledge extraction pipeline for lecture and explainer videos"
+license = { text = "AGPL-3.0-only" }
+requires-python = ">=3.11"
+dependencies = [
+  "jieba>=0.42.1,<1",
+  "jsonschema>=4.25,<5",
+  "markdown-it-py>=3.0",
+  "pillow>=10,<13",
+  "psutil==7.2.2",
+  "rapidfuzz>=3.14.5,<4",
+  "transitions==0.9.3",
+]
+
+[project.optional-dependencies]
+creator_report = ["markdown-pdf==1.7"]
+mcp = ["mcp>=1.0.0"]
+core = []
+online = ["litellm[proxy]>=1.81.7,<2"]
+local = ["ruptures==1.1.10"]
+vad = ["faster-whisper==1.2.1", "av==18.0.0", "huggingface-hub>=0.21,<1", "tokenizers>=0.13,<0.23"]
+hybrid = ["litellm[proxy]>=1.81.7,<2"]
+shared_gateway = [
+  "model-provider-gateway>=0.3,<0.4",
+]
+evaluation = [
+  "pyannote-metrics>=4.1,<5",
+  "meeteval @ git+https://github.com/fgnt/meeteval.git@184ff17eb77fd6db4aba27a9e303a6a3edb09364",
+]
+test = [
+  "pytest>=9,<10",
+  "mcp>=1,<2",
+  "pillow>=10,<13",
+  "numpy>=1.26,<3",
+  "opencv-python-headless>=4.10,<5",
+  "model-provider-gateway[execution] @ git+https://github.com/lightcoloror/model-provider-gateway-oss.git@6e69689d02dc97bc2cd3e476518ac7571e310461",
+]
+dev = [
+  "pytest>=9,<10",
+  "mcp>=1,<2",
+  "pillow>=10,<13",
+  "build>=1.2,<2",
+  "ruff>=0.12,<1",
+]
+
+[project.scripts]
+video-knowledge = "video_knowledge_pipeline.cli:main"
+video-knowledge-server = "video_knowledge_pipeline.server_contract:main"
+video-knowledge-quick-health = "video_knowledge_pipeline.quick_health:main"
+video-knowledge-portable = "video_knowledge_pipeline.portable:main"
+video-knowledge-mcp = "video_knowledge_pipeline.mcp_server:main"
+video-knowledge-autopilot-mcp = "video_knowledge_pipeline.autopilot_mcp:main"
+video-knowledge-openclaw-http = "video_knowledge_pipeline.openclaw_http:main"
+video-knowledge-model-gateway = "video_knowledge_pipeline.model_gateway:main"
+video-knowledge-model-acceptance = "video_knowledge_pipeline.model_gateway_acceptance:main"
+video-knowledge-model-candidate-benchmark = "video_knowledge_pipeline.model_candidate_benchmark:main"
+video-knowledge-model-candidate-suite = "video_knowledge_pipeline.model_candidate_suite:main"
+video-knowledge-coding-provider-parity = "video_knowledge_pipeline.coding_tool_provider_parity:main"
+video-knowledge-model-smoke-readiness = "video_knowledge_pipeline.model_gateway_smoke_readiness:main"
+video-knowledge-media-consent = "video_knowledge_pipeline.media_connector_consent:main"
+video-knowledge-review = "video_knowledge_pipeline.review_http:main"
+video-knowledge-targeted-review = "video_knowledge_pipeline.targeted_review:main"
+personal-vlog-prepare = "video_knowledge_pipeline.personal_vlog_cli:prepare_main"
+personal-vlog-run = "video_knowledge_pipeline.personal_vlog_cli:run_main"
+personal-vlog-resume = "video_knowledge_pipeline.personal_vlog_cli:resume_main"
+personal-vlog-status = "video_knowledge_pipeline.personal_vlog_cli:status_main"
+personal-vlog-doctor = "video_knowledge_pipeline.personal_vlog_cli:doctor_main"
+video-knowledge-personal-vlog-mcp = "video_knowledge_pipeline.personal_vlog_mcp:main"
+video-knowledge-panorama = "video_knowledge_pipeline.panorama_cli:main"
+panorama-doctor = "video_knowledge_pipeline.panorama_cli:doctor_main"
+panorama-prepare = "video_knowledge_pipeline.panorama_cli:prepare_main"
+panorama-run = "video_knowledge_pipeline.panorama_cli:run_main"
+panorama-import = "video_knowledge_pipeline.panorama_cli:import_main"
+panorama-status = "video_knowledge_pipeline.panorama_cli:status_main"
+panorama-restore = "video_knowledge_pipeline.panorama_cli:restore_main"
+video-knowledge-panorama-mcp = "video_knowledge_pipeline.panorama_mcp:main"
+
+[tool.setuptools.package-data]
+video_knowledge_pipeline = [
+  "schemas/*.json",
+  "fixtures/portable/*.json",
+  "static/*.js",
+  "static/wavesurfer-7.12.11/*",
+  "static/vkp-ui-shell/*",
+]
+
+[tool.uv.sources]
+model-provider-gateway = { git = "https://github.com/lightcoloror/model-provider-gateway-oss.git", rev = "6e69689d02dc97bc2cd3e476518ac7571e310461" }
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+[tool.ruff.lint]
+extend-select = ["TID251"]
+
+[tool.ruff.lint.flake8-tidy-imports.banned-api]
+"http.client".msg = "Use the VKP LiteLLM/Broker/runtime client or an explicitly reviewed compatibility adapter; do not add a direct provider HTTP client."
+"httpx".msg = "Use the VKP LiteLLM/Broker/runtime client or an explicitly reviewed compatibility adapter; do not add a direct provider HTTP client."
+"requests".msg = "Use the VKP LiteLLM/Broker/runtime client or an explicitly reviewed compatibility adapter; do not add a direct provider HTTP client."
+"urllib.request".msg = "Use the VKP LiteLLM/Broker/runtime client or an explicitly reviewed compatibility adapter; do not add a direct provider HTTP client."
+"urllib.request.urlopen".msg = "Use the VKP LiteLLM/Broker/runtime client or an explicitly reviewed compatibility adapter; do not add a direct provider HTTP call."
+"urllib3".msg = "Use the VKP LiteLLM/Broker/runtime client or an explicitly reviewed compatibility adapter; do not add a direct provider HTTP client."
+
+[tool.ruff.lint.per-file-ignores]
+"src/video_knowledge_pipeline/coding_tool_provider_parity.py" = ["TID251"]
+"src/video_knowledge_pipeline/media_async_client.py" = ["TID251"]
+"src/video_knowledge_pipeline/model_gateway.py" = ["TID251"]
+"src/video_knowledge_pipeline/model_provider_probe.py" = ["TID251"]
+"src/video_knowledge_pipeline/model_runtime_client.py" = ["TID251"]
+"src/video_knowledge_pipeline/online_model_gateway.py" = ["TID251"]
+"src/video_knowledge_pipeline/openclaw_bridge_status.py" = ["TID251"]
+"src/video_knowledge_pipeline/text_llm_gateway.py" = ["TID251"]
+"src/video_knowledge_pipeline/vision_api.py" = ["TID251"]
+"src/video_knowledge_pipeline/gemini_video_api.py" = ["TID251"]
+"tests/test_coding_tool_provider_parity.py" = ["TID251"]
+"tests/test_media_capability_adapter.py" = ["TID251"]
+"tests/test_model_api_settings_ui.py" = ["TID251"]
+"tests/test_model_screening_lab.py" = ["TID251"]
+"tests/test_openclaw_integration.py" = ["TID251"]
+"tests/test_review_writeback.py" = ["TID251"]

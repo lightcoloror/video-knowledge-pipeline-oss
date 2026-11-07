@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "VKP long video content segmentation plan v1",
+  "type": "object",
+  "required": ["schema", "status", "source_media", "duration_seconds", "dependency_snapshot", "segments", "review_required", "automatic_delete_allowed", "operator_boundary", "plan_sha256"],
+  "properties": {
+    "schema": {"const": "video_knowledge_pipeline.long_video_content_segmentation_plan.v1"},
+    "status": {"const": "needs_human_review"},
+    "source_media": {"$ref": "#/$defs/artifact"},
+    "duration_seconds": {"type": "number", "exclusiveMinimum": 0},
+    "dependency_snapshot": {"type": "object"},
+    "segments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["candidate_id", "start", "end", "kind", "classification", "reason", "evidence_ids", "human_confirmation_required"],
+        "properties": {
+          "candidate_id": {"type": "string", "minLength": 1},
+          "start": {"type": "number", "minimum": 0},
+          "end": {"type": "number", "exclusiveMinimum": 0},
+          "kind": {"enum": ["long_silence", "intro_outro_blank", "waiting_or_technical_setup", "possible_retake_or_restatement", "non_information_smalltalk", "technical_blank", "audio_activity_without_vad"]},
+          "classification": {"enum": ["drop_safe_candidate", "drop_review_required", "unknown_keep"]},
+          "reason": {"type": "string", "minLength": 1},
+          "evidence_ids": {"type": "array", "items": {"type": "string"}},
+          "human_confirmation_required": {"const": true}
+        },
+        "additionalProperties": true
+      }
+    },
+    "review_required": {"const": true},
+    "automatic_delete_allowed": {"const": false},
+    "operator_boundary": {
+      "type": "object",
+      "required": ["candidate_only", "human_confirmation_required", "low_confidence_defaults_to_keep", "source_media_modified", "automatic_publish", "external_provider_called"],
+      "properties": {
+        "candidate_only": {"const": true},
+        "human_confirmation_required": {"const": true},
+        "low_confidence_defaults_to_keep": {"const": true},
+        "source_media_modified": {"const": false},
+        "automatic_publish": {"const": false},
+        "external_provider_called": {"const": false}
+      }
+    },
+    "plan_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  },
+  "$defs": {
+    "artifact": {
+      "type": "object",
+      "required": ["path", "bytes", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "bytes": {"type": "integer", "minimum": 0},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    }
+  },
+  "additionalProperties": true
+}

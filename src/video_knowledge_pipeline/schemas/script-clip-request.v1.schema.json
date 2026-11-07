@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/lightcoloror/video-knowledge-pipeline/schemas/script-clip-request.v1.schema.json",
+  "title": "VKP script-driven clip retrieval request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "request_id", "script", "slots", "operator_boundary"],
+  "properties": {
+    "schema": {"const": "video_knowledge_pipeline.script_clip_request.v1"},
+    "request_id": {"type": "string", "minLength": 1},
+    "script": {"$ref": "#/$defs/artifactRef"},
+    "upstream_handoff": {"$ref": "#/$defs/artifactRef"},
+    "source_transcript": {"$ref": "#/$defs/artifactRef"},
+    "slots": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/slot"}
+    },
+    "operator_boundary": {
+      "type": "object",
+      "required": ["local_only", "review_only", "publication_allowed"],
+      "properties": {
+        "local_only": {"const": true},
+        "review_only": {"const": true},
+        "publication_allowed": {"const": false}
+      }
+    }
+  },
+  "$defs": {
+    "artifactRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-fA-F]{64}$"}
+      }
+    },
+    "timeRange": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["start", "end"],
+      "properties": {
+        "start": {"type": "number", "minimum": 0},
+        "end": {"type": "number", "exclusiveMinimum": 0}
+      }
+    },
+    "slot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["slot_id", "state", "story_segment_ref", "required", "search_queries"],
+      "properties": {
+        "slot_id": {"type": "string", "minLength": 1},
+        "state": {"enum": ["planned", "recorded", "excluded"]},
+        "story_segment_ref": {"type": "string"},
+        "episode_binding": {"type": "string"},
+        "required": {"type": "boolean"},
+        "search_queries": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "expected_quote": {"type": "string"},
+        "subtitle_candidate": {"type": "string"},
+        "preferred_window": {"$ref": "#/$defs/timeRange"},
+        "required_speaker_roles": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "excluded_speaker_roles": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+      }
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local.invalid/vkp/targeted-review-decisions.v1.schema.json",
+  "title": "VKP targeted review decisions",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "pack_payload_sha256", "saved_at", "reviewer", "status", "decisions", "authority_boundary", "receipt_payload_sha256"],
+  "properties": {
+    "schema_version": {"const": "vkp-targeted-review-decisions.v1"},
+    "pack_payload_sha256": {"$ref": "#/$defs/sha256"},
+    "saved_at": {"type": "string", "format": "date-time"},
+    "reviewer": {"type": "string", "minLength": 1, "maxLength": 120},
+    "status": {"enum": ["in_progress", "complete"]},
+    "decisions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["review_id", "decision", "note"],
+        "properties": {
+          "review_id": {"type": "string", "minLength": 3},
+          "decision": {"enum": ["pending", "pass", "needs_rework", "uncertain"]},
+          "note": {"type": "string", "maxLength": 1000}
+        }
+      }
+    },
+    "authority_boundary": {
+      "const": {"manual_review_only": true, "media_modified": false, "automatic_publish": false, "customer_contact": false}
+    },
+    "receipt_payload_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  }
+}

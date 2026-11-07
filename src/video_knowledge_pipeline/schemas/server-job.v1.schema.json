@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Private VKP server job state v1",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema", "owner_id", "job_id", "operation_id", "input_root", "plan_sha256", "release_sha256", "status", "cancel_requested", "preflight", "stages", "execution_safety_v1", "candidate_only", "formal_completed", "state_sha256"],
+  "properties": {
+    "schema": {"const": "video_knowledge_pipeline.server_job.v1"},
+    "owner_id": {"type": "string", "pattern": "^[A-Za-z0-9_-]{1,64}$"},
+    "job_id": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "operation_id": {"type": "string", "pattern": "^[A-Za-z0-9_-]{1,64}$"},
+    "input_root": {"type": "string", "minLength": 1},
+    "plan_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "release_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "state_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "status": {"enum": ["queued", "running", "paused", "blocked", "reconciliation_required", "failed", "cancelled", "complete_draft"]},
+    "cancel_requested": {"type": "boolean"},
+    "execution_safety_v1": {"const": false}, "candidate_only": {"const": true}, "formal_completed": {"const": false},
+    "preflight": {"type": "object"},
+    "stop_reason": {"type": "string"},
+    "provider_cancellation": {"const": "not_confirmed"},
+    "stages": {"type": "object", "minProperties": 1, "maxProperties": 32, "additionalProperties": {
+      "type": "object", "additionalProperties": false, "required": ["status"],
+      "properties": {
+        "status": {"enum": ["queued", "dispatching", "reconciliation_required", "completed", "failed"]},
+        "execution_kind": {"enum": ["artifact", "api"]},
+        "request_id": {"type": "string"}, "request_sha256": {"type": "string"},
+        "pack": {"type": "string"}, "pack_sha256": {"type": "string"},
+        "receipt": {"type": "string"}, "receipt_sha256": {"type": "string"}
+        ,"diagnostic": {"type": "string"}, "diagnostic_sha256": {"type": "string"}
+      }
+    }}
+  }
+}
