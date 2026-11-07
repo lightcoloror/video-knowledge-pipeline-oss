@@ -1,0 +1,68 @@
+{
+  "source_kind": "exact tracked registered-runtime commit, not the older working copy",
+  "source_context_commit": "d8541dc19247e37e4d6bc6a3a1e1689a2a98b6f0",
+  "license": "AGPL-3.0-only",
+  "source_files": [
+    {
+      "path": "scripts/context_manifest_consumer.py",
+      "source_commit": "d8541dc19247e37e4d6bc6a3a1e1689a2a98b6f0",
+      "source_blob": "c58d82d21898c5a8e829e79437a0d559307a82ad",
+      "source_sha256": "681e9c1b57991adbe46940e7e92f6e810e4953397935def8f2e5e6b096221950",
+      "observed_worktree_sha256": "19996ccf156cdb075124d3d74bc9de97e0ae00bd379e36895195afa497610ebd",
+      "worktree_differs_only_in_line_endings": true
+    },
+    {
+      "path": "tests/test_context_manifest_consumer.py",
+      "source_commit": "d8541dc19247e37e4d6bc6a3a1e1689a2a98b6f0",
+      "source_blob": "a7353359655e080de7b3940d69946bb22269ffcc",
+      "source_sha256": "baecde65cf3aa858e7b2894d07652ce5ac1c4dda851b944e53659cfd2b7d7f4d",
+      "observed_worktree_sha256": "5503011359cdc1b36ae99939056c98f840b8d12cc21dfde218b658bf6365b5b0",
+      "worktree_differs_only_in_line_endings": true
+    }
+  ],
+  "packaged_module": {
+    "path": "src/video_knowledge_pipeline/context_manifest_consumer_cli.py",
+    "sha256": "4ae608d39fb6fa9b8b68bcebc1c71117ec569db46c47c905c120bf05ae42e46d",
+    "adaptation": "Packaged canonical entry; explicit ASR output contract; hash-checked context receipt; audio must match a bound media artifact; reject unchanged-audio changed-window request before output write."
+  },
+  "source_entry": {
+    "path": "scripts/context_manifest_consumer.py",
+    "adaptation": "thin re-export to packaged canonical implementation",
+    "sha256": "155406f1b684be3d8544b1c77f83f8649cf9b577ee8fef8fa3141b4df5d7a82f"
+  },
+  "synthetic_fixture_reference": {
+    "repository": "https://github.com/lightcoloror/mvp-video-pipeline-oss",
+    "commit": "9f55b12864df642f08fcbd96df15acb0f97652d5",
+    "path": "tests/test_context_manifest_consumer.py",
+    "license": "Apache-2.0"
+  },
+  "ASR_model_execution": false,
+  "model_or_real_media_supplied": false,
+  "runtime_or_authority_claimed": false,
+  "acceptance": "Focused synthetic context contract passed; package/install checks separately recorded; no real ASR/human/publication acceptance inferred.",
+  "test_adaptation": {
+    "path": "tests/test_context_manifest_consumer.py",
+    "sha256": "253fb863db8b4ebc834a763a66af85b59b566f61b3ddc15061b0cfe05f0d066a",
+    "origin": "Legacy registered-runtime test plus public MVP native predecessor/purpose fixture pattern; task-isolated DeepSeek draft independently corrected and executed by host.",
+    "license": "AGPL-3.0-only; referenced Apache-2.0 fixture pattern retains its separate license notice",
+    "synthetic_only": true,
+    "host_passed": 8,
+    "host_failed": 0,
+    "host_skipped": 0,
+    "prior_failed_host_rounds": [
+      {
+        "passed": 2,
+        "failed": 6
+      },
+      {
+        "passed": 1,
+        "failed": 7
+      },
+      {
+        "passed": 7,
+        "failed": 1
+      }
+    ],
+    "meaning": "Native public Main purpose, predecessor, source binding and ASR decision metadata only; no media/ASR execution or workflow completion."
+  }
+}

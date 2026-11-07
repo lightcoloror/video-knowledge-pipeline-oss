@@ -243,6 +243,9 @@ def _copy_portable_project(tmp_path: Path) -> Path:
         "src/video_knowledge_pipeline/schemas/quick-health.v1.schema.json",
         "src/video_knowledge_pipeline/fixtures/portable/synthetic-video-bundle.v1.json",
     ]
+    # Include every locked adapter added by a reviewed public increment.
+    paths.extend(row["path"] for row in _read_json(ROOT / "portable-contract.lock.json")["artifacts"]
+                 if row["path"] not in paths)
     for relative in paths:
         target = destination / relative
         target.parent.mkdir(parents=True, exist_ok=True)

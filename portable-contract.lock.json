@@ -23,11 +23,11 @@
   "artifacts": [
     {
       "path": ".gitattributes",
-      "sha256": "bd947ad283c003f15a62ae47f46c027493ba501863bb27bcb31a7dd85771e7c2"
+      "sha256": "ece03c50aa5e1dccd91ba7e9188c21158c7deb48b645e83dda3900aa9fc0c978"
     },
     {
       "path": "agent-tool-manifest.v1.json",
-      "sha256": "7a3483e88ce815fac94b7bcdf702bb169c80a8897b9f4091a0023b90015118fb"
+      "sha256": "9a93230d9aaae17b127f8e00b653f9dbdff4dc6e6f947bd4907fe07b57a3f5d3"
     },
     {
       "path": "Taskfile.yml",
@@ -64,6 +64,22 @@
     {
       "path": "src/video_knowledge_pipeline/fixtures/portable/synthetic-video-bundle.v1.json",
       "sha256": "0c0c49dff031732c9bb4ae109bd23c4eafca811fa3e2b5621cc6e81fcaf62a89"
+    },
+    {
+      "path": "scripts/context_manifest_consumer.py",
+      "sha256": "155406f1b684be3d8544b1c77f83f8649cf9b577ee8fef8fa3141b4df5d7a82f"
+    },
+    {
+      "path": "src/video_knowledge_pipeline/context_manifest_consumer_cli.py",
+      "sha256": "4ae608d39fb6fa9b8b68bcebc1c71117ec569db46c47c905c120bf05ae42e46d"
+    },
+    {
+      "path": "pyproject.toml",
+      "sha256": "bb0a09305e8c97a17517e4c553186878255eab3e82fbf43c831d3a187c5f6340"
+    },
+    {
+      "path": "src/video_knowledge_pipeline/__init__.py",
+      "sha256": "6d8b968a665c91236b4411b2d51031ea745413aae3446ff8eedca37f819c9206"
     }
   ],
   "boundaries": {

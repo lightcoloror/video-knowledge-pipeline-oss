@@ -69,3 +69,30 @@ remains available. Reviewers need the complete audit including omissions and
 evidence context; a cropped prompt alone does not establish a human review.
 Focused checks: 50 passed. Main synthetic composition: 95 passed, one browser
 regression not run, 58 subtests. See SUBTITLE-COVERAGE-ACCEPTANCE.md.
+
+## Native context ASR decision adapter (0.1.3)
+
+The existing registered-runtime adapter is now available as installed command
+`video-knowledge-context decide-asr` and source shim
+`python scripts/context_manifest_consumer.py decide-asr`. Set
+`SELF_MEDIA_SYSTEM_ROOT` to a compatible explicit local public main workflow
+checkout (tested: `self-media-creation-system-oss` commit
+`98a85593f5d306575580af29687a9521a8ae7eb1`). No download, provider or ASR runs.
+The installed adapter imports that operator-selected main workflow to reuse
+its native handoff validation and decision policy; the main workflow is not
+bundled into VKP or silently replaced by a stub.
+
+Supply `--handoff`, `--audio` and `--output`; optionally supply
+`--previous-receipt` and repeat `--changed-window START-END`. Native purpose,
+previous output and context hashes remain required. The audio argument must
+match a hash-bound media artifact in the validated context. Derived audio can
+be separately bound with schema role `source_media` and a unique recipe
+`source_role`; the original video's required recipe role remains intact.
+An unchanged audio hash cannot request a changed-window rerun, and is rejected
+before creating a new decision output. This writes a decision receipt, never
+an ASR transcript, a human approval or a completed business step.
+
+Eight synthetic tests exercise the actual public main predecessor chain and
+purpose/hash gates. Fake audio bytes are used only for hashing. See
+`CONTEXT-ADAPTER-PROVENANCE.json` and `CONTEXT-ADAPTER-ACCEPTANCE.md` for the
+origin, implementation changes, failed fixture attempts and coverage limits.

@@ -9,7 +9,8 @@
     "review_bundle",
     "personal_vlog_candidate_recipe",
     "panorama_projection_analysis_local_trial",
-    "mcp_stdio"
+    "mcp_stdio",
+    "shared_context_asr_decision_adapter"
   ],
   "contract_refs": [
     {
@@ -165,6 +166,11 @@
         "kind": "cli",
         "mode": "plan_only_unless_exact_confirmation",
         "profile": "panorama-v1"
+      },
+      {
+        "kind": "cli",
+        "command": "video-knowledge-context --help",
+        "mode": "read_only_discovery"
       }
     ],
     "http": [],

@@ -70,3 +70,11 @@ The following are not vendored source trees. VKP either calls an independently m
 Model code licenses and model-weight licenses are separate. VKP does not grant rights to SenseVoice, CAM++, MOSS, Qwen, Gemini, DeepSeek, OCR, embedding, tagging, highlight-detection, or other weights/services. Operators must review the exact model card, provider terms, acceptable-use policy, and territorial/data-processing rules before use.
 
 Dataset annotations and media also retain their own licenses and consent requirements. AutoShot, ClipShots, MovieNet, Video-MME, SlideVQA, internal course videos, and customer recordings are not included. Tests in this repository use synthetic or de-identified fixtures only.
+
+
+The public context-adapter integration test adapts the synthetic predecessor/
+purpose fixture pattern from first-party mvp-video-pipeline-oss v0.8.1
+(commit 9f55b12864df642f08fcbd96df15acb0f97652d5), Apache-2.0.
+The license copy is LICENSES/MVP-test-fixture-Apache-2.0.txt. Source snapshots,
+public adaptations and test changes are identified in CONTEXT-ADAPTER-PROVENANCE.json.
+No external source history, actual media or private workflow receipt is included.
