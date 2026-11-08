@@ -4,7 +4,7 @@ Updated: 2026-08-15 21:30:35 +08:00 by Codex (GPT-5.6 Sol)
 
 VKP's own source is licensed under `AGPL-3.0-only`. That license does not replace the licenses of third-party packages, browser assets, independently installed tools, model weights, datasets, or hosted APIs.
 
-This document is an attribution and boundary record, not legal advice. The commit-level engineering provenance is maintained in [the external-code reuse ledger](docs/external-code-reuse-ledger-2026-07-04.md).
+This document is an attribution and boundary record, not legal advice. The public source and retained-license locations are indexed in [public dependency provenance](docs/public-dependency-provenance.md). The separate historical engineering ledger is not distributed in this public edition.
 
 ## Distributed in this repository
 
@@ -36,7 +36,7 @@ The package manager installs these dependencies separately. Their own distributi
 
 ## Reviewed or adapted upstream designs
 
-The following are not vendored source trees. VKP either calls an independently managed runtime, consumes a saved-output contract, or independently adapts a bounded algorithm/contract. Detailed decisions, fixed commits, tests, and rejected modules are in the reuse ledger.
+The following are not vendored source trees. VKP either calls an independently managed runtime, consumes a saved-output contract, or independently adapts a bounded algorithm/contract. Fixed revisions and integration categories are recorded below. Detailed historical engineering notes are outside this public edition and are not implied to be public evidence.
 
 | Upstream | Fixed evidence | License verified from the pinned local source | VKP boundary |
 |---|---|---|---|
@@ -62,7 +62,7 @@ The following are not vendored source trees. VKP either calls an independently m
 ## Reference-only and rejected code
 
 - `WEIFENG2333/VideoCaptioner` at `95842ecb5618c0b6a548a336bdfb0eb859bdb501` is GPL-3.0. VKP reviewed its architecture but copied no source; it is not a runtime or dependency.
-- Projects with absent, proprietary, conflicting, or unverified licenses remain reference-only or rejected as recorded in the reuse ledger. Their code must not be copied into VKP without a new license review.
+- Projects with absent, proprietary, conflicting, or unverified licenses remain reference-only or rejected in the separate historical engineering notes. Their code must not be copied into VKP without a new license review.
 - AGPL licensing of VKP does not convert a reference-only checkout, independent executable, hosted API, model, or dataset into VKP-owned code.
 
 ## Models and datasets
