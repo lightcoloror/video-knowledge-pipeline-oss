@@ -96,3 +96,66 @@ Eight synthetic tests exercise the actual public main predecessor chain and
 purpose/hash gates. Fake audio bytes are used only for hashing. See
 `CONTEXT-ADAPTER-PROVENANCE.json` and `CONTEXT-ADAPTER-ACCEPTANCE.md` for the
 origin, implementation changes, failed fixture attempts and coverage limits.
+
+## Offline fixture tools (optional local tooling)
+
+Two optional local scripts build and audit synthetic offline acceptance fixtures.
+They add no runtime dependency and do not change the installer, command-line
+entrypoints, model gateways or any existing module.
+
+- `scripts/build-offline-acceptance-fixtures.py` retains the original fixture
+  builder helpers and `video_knowledge_pipeline.offline_fixture_set.v1` contract.
+  By default it generates three tiny (2 s) first-party PCM tone tracks with the
+  standard library `wave`/`math` modules and draws synthetic ASCII cards with
+  Pillow, then muxes them with local FFmpeg. A tone is not speech and establishes
+  no ASR quality. Operators can declare local speech media explicitly with
+  `--audio-spec`: each declaration supplies a local path, expected SHA-256 and a
+  provenance/use-rights statement, and every declaration is validated before any
+  output is written or rendered. An explicitly supplied licensed font can be
+  passed with `--card-font`; the original Chinese card text is available only as
+  an explicit `--card-language zh` mode that requires that font, and the default
+  reads no system fonts. Tone duration/frequency are bounded to small documented
+  fixture limits before any allocation. No audio, fonts, binaries or model
+  weights are bundled.
+- `scripts/export-offline-frame-manifest.py` retains the original frame-manifest
+  parsing, row and hash semantics and the
+  `video_knowledge_pipeline.frame_manifest.v1` schema. Frame references resolve
+  against the bundle root and must stay inside the resolved root; traversal,
+  absolute-outside, foreign-drive/UNC and symlink escapes are blocked before any
+  read. Missing, blocked and non-regular references stay visible and make the
+  exit status nonzero. The fixed `timeline.json`/`manifest.json` members are
+  resolved, contained and required to be regular files before any byte read, so
+  an outside-root link or non-regular member fails before open while an absent
+  optional `manifest.json` stays allowed. Source media keeps the original
+  `video_key` /
+  `media_path` / `source_media_path` / `video_path` selection order, but only
+  regular resolved paths contained by the bundle root are read and hashed;
+  same-root contained values may be autodiscovered, while outside values stay
+  unread unless the operator passes `--source-media` explicitly; the manifest
+  records the actual authorization instead of claiming explicit-only reads.
+  Permission/runtime errors propagate instead of being hidden, and
+  both output destinations are validated before any write so symlink escapes,
+  nonregular paths and unrelated existing artifacts are refused; a non-regular
+  destination is refused even when its JSON was parsed earlier, and the pure
+  builder result reports destination validation as not checked until the writing
+  path reports its actual validated status. `manifest.json` is only updated with
+  `--register`.
+- `examples/offline_fixture_roundtrip.py` is a small source-checkout example that
+  builds the three tone/card MP4 fixtures, decodes one real frame per MP4 with
+  local FFmpeg, writes a minimal synthetic bundle timeline, and exports the frame
+  manifest through the same exporter. Report paths are always relative to a
+  documented output-root or bundle-root base, are re-resolved and re-hashed before
+  writing, and nonempty output roots are refused.
+- `docs/offline-fixture-tools.md` documents CLI usage, output ownership, the
+  staged verification plan and the honest boundary: no ASR/OCR, no normalized
+  transcript, no human review, no knowledge note and no model-quality proof.
+- `OFFLINE_FIXTURE_TOOLS_PROVENANCE.json` records the fixed upstream commit,
+  blobs and SHA-256 source evidence for the two adapted scripts, the unmodified
+  third runner's held-out disposition and the unverified rights status of
+  upstream reference audio.
+
+A completed fixture round-trip is a fixture self-check. It is not speech, ASR,
+OCR or model-quality evidence, not a human review or knowledge note, and not the
+full 11-repository workflow. The public tree adds no sample media, fonts,
+binaries or model weights. Thread, timeout and file-protocol settings are argv
+requests, not measured OS resource peaks or proven network blocking.

@@ -1,0 +1,209 @@
+{
+  "schema": "video_knowledge_pipeline.offline_fixture_tools_provenance.v1",
+  "project": "video-knowledge-pipeline",
+  "license": "AGPL-3.0-only",
+  "public_parent_commit": "e272209e161d5480a3510d829100ab8ae4f31c59",
+  "source_commit": "d8541dc19247e37e4d6bc6a3a1e1689a2a98b6f0",
+  "prepared_at": "2026-11-09T02:05:23+08:00",
+  "source_evidence_scope": "The upstream commit, blob IDs, byte counts and SHA-256 values below were supplied as fixed source evidence for this adaptation. This file records that evidence; it does not independently re-verify the upstream repository, its license or its bytes.",
+  "files": [
+    {
+      "path": "scripts/build-offline-acceptance-fixtures.py",
+      "disposition": "adapted_public_copy",
+      "source_path": "scripts/build-offline-acceptance-fixtures.py",
+      "source_commit": "d8541dc19247e37e4d6bc6a3a1e1689a2a98b6f0",
+      "source_blob": "d313a4e1509aa9efc88471add24a0d08aa902866",
+      "source_sha256": "9837a87e2032bcfd4bd10c33695345aabd4ba0184ad409d30016f7351d07e187",
+      "source_bytes": 6823,
+      "rights": "First-party VKP source under AGPL-3.0-only. This public copy retains the original attribution and adds no upstream media, font, binary or model-weight distribution.",
+      "retained": [
+        "fixture-contract schema video_knowledge_pipeline.offline_fixture_set.v1",
+        "original fixture IDs: talking-head-synthetic, slides-screen-synthetic, mixed-visual-synthetic",
+        "original fixture types: talking_video, slides_or_screen_video, mixed_visual_video",
+        "helper functions _render_card, _mux_cards, _duration, _sha256",
+        "original expected-artifact target names and local-only privacy boundary",
+        "original Chinese card text as an explicit optional mode"
+      ],
+      "changed": [
+        "removed private task-local source-review discovery and environment fallback",
+        "removed Windows system-font search; default font is Pillow's bundled default, and the original Chinese cards are available only with an explicitly supplied local font",
+        "default audio is a first-party generated PCM tone via stdlib wave/math, not upstream reference audio",
+        "default cards are synthetic ASCII; optional explicit card font preserves the original Chinese card text",
+        "tone duration/frequency validated against small documented bounds before any output, probe or sample allocation; a duration that rounds to zero at 0.001 s precision is rejected",
+        "optional operator audio specification with path, expected SHA-256, provenance and use-rights statement validated before any write or render",
+        "honest manifest labels: no speech/ASR reference for tone, explicit media/timing/hash scope, expected artifacts marked as targets not proven outputs, false transcript/OCR/review/knowledge claims",
+        "top-level generated_media aggregate derived from the fixtures actually built (card language/font, audio kinds, tone/operator counts, actual audio durations); all-operator and mixed runs do not claim a tone-only set",
+        "ffconcat uses generated relative card basenames with -safe 1 instead of arbitrary absolute names",
+        "ffprobe argv uses options supported by the supplied build (no -nostdin), closes stdin with DEVNULL, and requests the local file protocol only",
+        "ffmpeg argv requests decoder, encoder, filter and filter-complex thread limits of 2; timeouts are bounded and media children run serially",
+        "refuses nonempty output roots instead of overwriting or cleaning them"
+      ]
+    },
+    {
+      "path": "scripts/export-offline-frame-manifest.py",
+      "disposition": "adapted_public_copy",
+      "source_path": "scripts/export-offline-frame-manifest.py",
+      "source_commit": "d8541dc19247e37e4d6bc6a3a1e1689a2a98b6f0",
+      "source_blob": "0dca348febbd3b5aac8725020ab32137751705e8",
+      "source_sha256": "a7b0284608913ee44aaa085cc7237a038baf372ebbc61fbffac7c65606bbb77f",
+      "source_bytes": 4617,
+      "rights": "First-party VKP source under AGPL-3.0-only. This public copy retains the original attribution and reads only local, operator-declared or same-root bundle inputs.",
+      "retained": [
+        "frame-manifest schema video_knowledge_pipeline.frame_manifest.v1",
+        "original parsing/row/hash functions and row fields timeline_index, start_seconds, end_seconds, role, path, exists, sha256, evidence_status",
+        "original source-media selection order: timeline video_key, then manifest media_path, source_media_path, video_path",
+        "original deduplication intent, reworked to keep repeated timeline context",
+        "original operator boundary: local only, no external vision, no upload"
+      ],
+      "changed": [
+        "top-level and nested shapes validated; missing, empty or malformed input no longer falsely succeeds",
+        "only genuinely malformed JSON/unreadable-text input is converted to an input error; PermissionError/EPERM and other runtime filesystem errors propagate and stop before later probes or writes",
+        "filesystem probes use explicit stat and ignore only not-found/not-a-directory cases, so access-denied is not silently treated as missing",
+        "empty references are blocked and never resolved to the bundle directory; directories are never hashed",
+        "relative frame references resolve against the bundle root, not the ambient working directory",
+        "resolved frame references must stay inside the resolved bundle root; traversal, absolute-outside, foreign-drive/UNC and symlink escapes are blocked before any read",
+        "same-root bundle-reported source media is discovered and hashed in the original selection order, with relative values resolved against the bundle root",
+        "outside-bundle bundle-reported source media remains unread/blocked; outside source media is read only through the explicit operator --source-media input",
+        "the fixed timeline.json/manifest.json bundle members are resolved, contained and required to be regular files before any byte read; outside-root links and non-regular members fail before open while an absent optional manifest remains allowed",
+        "same-root bundle-reported source media is discovered and hashed without an explicit flag, while outside-root media needs the explicit operator path; manifest metadata separates contained autodiscovery from explicit inside/outside authorization instead of claiming explicit-only reads",
+        "missing/blocked/directory statuses, counts and locations stay visible; incomplete exports return nonzero",
+        "case-sensitive distinct paths are preserved; repeated timeline occurrences keep primary fields and record all occurrences",
+        "removed the ffmpeg version probe; extractor provenance is reported as unknown/not_probed instead of fabricated",
+        "both output destinations are validated before any write; symlink destinations, resolved escapes, nonregular destinations and unrelated existing frame-manifest.json artifacts are refused while a legitimate owned refresh is allowed",
+        "a non-regular existing output destination is refused even when known_valid_existing is true, because parsing existing JSON is not regular-file proof",
+        "a pure build_frame_manifest result reports destination validation as not checked/deferred; only the writing path after successful checks reports validated_before_write",
+        "manifest.json is unchanged by default; explicit --register opt-in only, complete exports only",
+        "compute/validate before writes; no transaction, OS-sandbox or TOCTOU guarantee is claimed"
+      ]
+    },
+    {
+      "path": "scripts/run-codex-vision-offline-tests.py",
+      "disposition": "not_included_not_executed_not_adapted",
+      "source_path": "scripts/run-codex-vision-offline-tests.py",
+      "source_commit": "d8541dc19247e37e4d6bc6a3a1e1689a2a98b6f0",
+      "source_blob": "79770485ad3df4a3881752a66758634968fe3925",
+      "source_sha256": "105852ca7b241b70f3c8dc2477b28f77c96246684cc0cf726755d1a614687440",
+      "source_bytes": 1741,
+      "rights": "First-party VKP source under AGPL-3.0-only; held out of this public addition.",
+      "decision": "Held out of this public addition. This generic acceptance harness mutates process environment and platform identity, installs import/audit guards and invokes pytest over executor/session tests plus an offline evidence guard plugin. The supplied public inventory contains tests/test_codex_vision_executor.py, tests/test_codex_vision_session.py and tests/evidence_offline_guard.py; those sources, their runtime behavior and the isolated guard lifecycle were not reviewed or admitted in this task. Existence in the inventory is not runtime proof. The runner is not needed by the public fixture tools and is neither distributed nor adapted here; no pytest suite of this runner is claimed to pass."
+    },
+    {
+      "path": "tests/test_offline_fixture_tools_synthetic.py",
+      "disposition": "new",
+      "rights": "First-party synthetic test source under AGPL-3.0-only.",
+      "notes": "Stdlib unittest with in-memory fakes; no real media, process, socket, temporary file or directory fixture, and no whole-package import. Includes mocked EACCES/EPERM propagation and mocked output-destination cases; no real privilege, symlink or ACL probes. Synthetic roots are native absolute paths (POSIX or Windows) and Windows drive/UNC forms are exercised lexically; no Linux runtime run is claimed."
+    },
+    {
+      "path": "examples/offline_fixture_roundtrip.py",
+      "disposition": "new",
+      "rights": "First-party example source under AGPL-3.0-only.",
+      "notes": "Small orchestration of the two same scripts and local FFmpeg; no sample media is committed. Report refs use documented bases and are re-resolved/re-hashed; the bundle manifest does not invent a schema."
+    },
+    {
+      "path": "docs/offline-fixture-tools.md",
+      "disposition": "new",
+      "rights": "First-party documentation under AGPL-3.0-only."
+    },
+    {
+      "path": "OFFLINE_FIXTURE_TOOLS_PROVENANCE.json",
+      "disposition": "new",
+      "rights": "First-party provenance record under AGPL-3.0-only."
+    },
+    {
+      "path": "README.md",
+      "disposition": "modified_by_lf_append",
+      "rights": "Existing public README under AGPL-3.0-only.",
+      "notes": "Original README bytes are an exact prefix; only an LF-only append is added."
+    }
+  ],
+  "fixture_contract": {
+    "schema": "video_knowledge_pipeline.offline_fixture_set.v1",
+    "fixture_ids": [
+      "talking-head-synthetic",
+      "slides-screen-synthetic",
+      "mixed-visual-synthetic"
+    ],
+    "fixture_types": [
+      "talking_video",
+      "slides_or_screen_video",
+      "mixed_visual_video"
+    ],
+    "card_languages": ["ascii", "zh"],
+    "card_language_note": "ascii is the default; zh restores the original Chinese card text and requires an explicitly supplied local font"
+  },
+  "frame_manifest_contract": {
+    "schema": "video_knowledge_pipeline.frame_manifest.v1"
+  },
+  "generated_defaults": {
+    "tone_seconds_per_fixture": 2.0,
+    "tone_seconds_bounds": [0.25, 5.0],
+    "tone_frequency_hz": 440.0,
+    "tone_frequency_bounds_hz": [20.0, 4000.0],
+    "tone_sample_rate": 16000,
+    "tone_source": "first-party generated PCM tone using stdlib wave and math",
+    "tone_is_speech": false,
+    "duration_precision_seconds": 0.001,
+    "rounded_zero_duration_rejected": true,
+    "cards": "synthetic ASCII by default; original Chinese text only with explicit supplied font",
+    "system_font_search": false,
+    "external_asset_lookup": false
+  },
+  "process_boundaries": {
+    "media_threads_per_process": 2,
+    "thread_limit_scope": "argv requests for input decoders, encoder, filter threads and filter-complex threads; not measured OS thread/CPU/RAM peaks",
+    "ffmpeg_timeout_seconds": 120,
+    "ffprobe_timeout_seconds": 60,
+    "media_children": "serial",
+    "stdin": "closed with subprocess.DEVNULL for local media/probe tools",
+    "ffprobe_nostdin_option": false,
+    "file_protocol_requested": true,
+    "network_blocking_proven": false,
+    "shell_strings": false,
+    "extractor_version_probe": false
+  },
+  "input_error_boundary": {
+    "malformed_json_converted_to_input_error": true,
+    "permission_or_runtime_errors_propagate": true,
+    "permission_errors_converted_to_blocked_or_missing_rows": false
+  },
+  "rights_boundaries": {
+    "upstream_reference_audio": {
+      "status": "unverified rights; not licensed fixtures; not bundled; not read by these tools",
+      "items": [
+        {
+          "project": "transcribe-critic",
+          "relative_test_fixture": "tests/fixtures/tao_30s.mp3",
+          "rights": "unverified"
+        },
+        {
+          "project": "FunASR",
+          "relative_test_fixture": "runtime/funasr_api/asr_example.wav",
+          "rights": "unverified"
+        },
+        {
+          "project": "docling",
+          "relative_test_fixture": "tests/data/audio/sample_10s_audio-wav.wav",
+          "rights": "unverified"
+        }
+      ]
+    },
+    "operator_declared_audio_or_font": "capability retained through an explicit local-path declaration; provenance and use rights are declared by the operator and are not independently verified by these tools",
+    "bundled_media": "none",
+    "bundled_fonts": "none",
+    "bundled_binaries_or_codecs_or_weights": "none"
+  },
+  "claims": {
+    "asr_quality": false,
+    "speech_reference_in_default_media": false,
+    "ocr_created": false,
+    "normalized_transcript_created": false,
+    "human_review_created": false,
+    "knowledge_notes_created": false,
+    "extractor_provenance_verified": false,
+    "os_thread_or_ram_peak_measured": false,
+    "network_blocking_proven": false,
+    "permission_errors_masked": false,
+    "full_eleven_repository_workflow": false
+  },
+  "verification_boundary": "Provenance and static source review only. No candidate script, unit test, example, FFmpeg/media round-trip or third-runner execution is claimed by this record."
+}
