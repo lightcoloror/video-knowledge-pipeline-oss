@@ -89,6 +89,10 @@ video_knowledge_pipeline = [
   "static/*.js",
   "static/wavesurfer-7.12.11/*",
   "static/vkp-ui-shell/*",
+  "static/targeted-transcript-editor/*",
+  "static/targeted-transcript-editor/*/*",
+  "static/targeted-transcript-editor/*/*/*",
+  "static/targeted-transcript-editor/*/*/*/*",
 ]
 
 [tool.uv.sources]

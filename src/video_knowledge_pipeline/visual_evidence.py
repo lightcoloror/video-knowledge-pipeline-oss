@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import math
 import re
 from typing import Any, Iterable
 
@@ -32,6 +33,63 @@ TEMPORAL_CONTENT_FIELDS = (
     "operation_steps",
     "causal_links",
 )
+
+
+def multimodal_document_ocr_state(item: dict[str, Any]) -> dict[str, Any]:
+    """State whether local OCR and a valid VLM result jointly cover a slide.
+
+    This is deliberately narrower than ``has_visual_evidence``.  A plain
+    machine caption is not enough to retire a document-visual review item: the
+    frame also needs independently extracted screen text, a high-confidence
+    visual result, and an explicit layout/relationship description.
+
+    ASR/OCR conflicts are evaluated by the escalation gate, which has the
+    transcript and frame-change context.  Callers must therefore keep a row in
+    review when that gate reports a conflict.
+    """
+    visual_text = (
+        str(item.get("human_corrected_visual_text") or "").strip()
+        or str(item.get("visual_text") or "").strip()
+        or str(item.get("ocr_text") or "").strip()
+    )
+    state = visual_evidence_state(item)
+    understanding = state.get("understanding") if isinstance(state.get("understanding"), dict) else {}
+    raw_confidence = understanding.get("confidence")
+    confidence = 0.0
+    confidence_valid = False
+    if not isinstance(raw_confidence, bool):
+        try:
+            parsed = float(raw_confidence)
+        except (TypeError, ValueError):
+            parsed = None
+        if parsed is not None and math.isfinite(parsed):
+            if 0 <= parsed <= 1:
+                confidence = parsed
+                confidence_valid = True
+            elif 1 < parsed <= 100:
+                confidence = parsed / 100
+                confidence_valid = 0 <= confidence <= 1
+    has_layout = bool(str(understanding.get("interface_state") or "").strip()) and bool(
+        understanding.get("objects")
+        or understanding.get("spatial_relations")
+        or understanding.get("non_text_information")
+    )
+    sufficient = bool(
+        visual_text
+        and state.get("model_complete")
+        and state.get("source") == "model"
+        and confidence_valid
+        and confidence >= 0.85
+        and has_layout
+    )
+    return {
+        "sufficient": sufficient,
+        "ocr_available": bool(visual_text),
+        "visual_model_complete": bool(state.get("model_complete")),
+        "visual_model_source": str(state.get("source") or "missing"),
+        "confidence": confidence,
+        "has_layout": has_layout,
+    }
 
 
 def visual_evidence_state(item: dict[str, Any]) -> dict[str, Any]:

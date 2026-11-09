@@ -23,6 +23,7 @@ from .lecture_study_index import generate_lecture_study_cards, generate_lecture_
 from .models import now_iso
 from .media_applicability import project_timeline_for_media, resolve_media_applicability
 from .repair_status import build_repair_status
+from .review_export_context import CONTEXT_FILENAME, configured_identity, normalize_project_identity, resolve_review_export_context
 from .source_artifacts import build_source_artifact_index, render_source_artifact_index_markdown
 from .storage import ensure_project_dirs, read_json, write_json
 from .task_console import export_task_console
@@ -81,11 +82,24 @@ def export_webui_bundle(root: str | Path, output_dir: str | Path | None = None, 
 
     bundle_dir = Path(output_dir) if output_dir else paths["lecture_packages"] / "webui-bundle"
     bundle_dir.mkdir(parents=True, exist_ok=True)
+    output_identity = configured_identity(bundle_dir)
+    export_context = resolve_review_export_context(
+        package,
+        output_identity if output_identity is not None else resolve_review_export_context(package, root=paths["root"]),
+        root=bundle_dir,
+    )
+    if export_context is not None:
+        package = {**package, "project_identity": normalize_project_identity(export_context, allow_incomplete=True)}
+        # Carry the resolved context into the bundle so the unmodified public
+        # task-console naming call (one-argument review_export_script(console))
+        # can resolve the same project identity without guessing a title.
+        write_json(bundle_dir / CONTEXT_FILENAME, export_context)
     assets_dir = bundle_dir / "assets"
     assets_dir.mkdir(parents=True, exist_ok=True)
 
     copied_assets = _copy_frame_assets(package, assets_dir)
     bundled_package = _package_with_webui_assets(package, copied_assets)
+    bundled_package["bundle_dir"] = str(bundle_dir.resolve())
     timeline = _webui_timeline(package, copied_assets)
     frame_recapture = _frame_recapture_plan(package, bundle_dir)
     time_gap_recapture = _time_gap_recapture_plan(package, bundle_dir)
@@ -215,6 +229,7 @@ def export_webui_bundle(root: str | Path, output_dir: str | Path | None = None, 
     }
     manifest = {
         "schema": "lecture_webui_bundle.v1",
+        **({"project_identity": package["project_identity"]} if package.get("project_identity") else {}),
         "target": target,
         "title": package.get("title", "Lecture Package"),
         "created_at": now_iso(),
@@ -601,12 +616,22 @@ def refresh_bundle_review_html(bundle_dir: str | Path, *, write: bool = True) ->
     _bind_canonical_transcript_manifest(root, manifest)
     applicability = resolve_media_applicability(root, manifest, timeline_data, write=write)
     manifest["media_applicability"] = applicability
+    refresh_identity = configured_identity(root)
+    refresh_context = resolve_review_export_context(
+        manifest,
+        refresh_identity if refresh_identity is not None else resolve_review_export_context(manifest, root=root),
+        root=root,
+    )
+    if refresh_context is not None:
+        manifest["project_identity"] = normalize_project_identity(refresh_context, allow_incomplete=True)
     package = {
+        "bundle_dir": str(root),
         "title": manifest.get("title") or root.name,
         "coverage": manifest.get("coverage") if isinstance(manifest.get("coverage"), dict) else {},
         "sources": manifest.get("sources") if isinstance(manifest.get("sources"), list) else [],
         "timeline": project_timeline_for_media([item for item in timeline_data if isinstance(item, dict)], applicability),
         "review_artifacts": _review_artifacts_for_render(root, manifest),
+        **({"project_identity": manifest["project_identity"]} if manifest.get("project_identity") else {}),
     }
     timeline_alignment = _timeline_alignment_for_review(root, write=write)
     if timeline_alignment.get("manifest_updated"):

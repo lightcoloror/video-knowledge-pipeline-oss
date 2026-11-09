@@ -8,6 +8,7 @@ from .models import now_iso
 from .screen_text_recovery import run_screen_text_recovery
 from .storage import read_json, write_json
 from .visual_structure import run_visual_structure_plan
+from .visual_evidence import multimodal_document_ocr_state
 from .vision_review_triage import vision_review_triage
 
 
@@ -206,10 +207,14 @@ def _unresolved_document_indexes(root: Path, indexes: list[int]) -> list[int]:
             continue
         visual_text = str(raw.get("visual_text") or raw.get("ocr_text") or "").strip()
         structured = raw.get("structured_visual")
+        multimodal_document = multimodal_document_ocr_state(raw)
         issue_text = " ".join(_strings(raw.get("quality_issues")) + _strings(raw.get("issues")) + _strings(raw.get("ebook_pipeline_status")))
         confidence = _ocr_confidence(raw)
-        blocked = any(value in issue_text for value in BLOCKERS) or (confidence is not None and confidence < 0.85)
-        if not visual_text or not structured or blocked:
+        blockers = set(BLOCKERS)
+        if multimodal_document["sufficient"]:
+            blockers.discard("structured_visual_without_structure")
+        blocked = any(value in issue_text for value in blockers) or (confidence is not None and confidence < 0.85)
+        if not visual_text or (not structured and not multimodal_document["sufficient"]) or blocked:
             unresolved.append(index)
     return unresolved
 

@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>VKP 逐字稿修订与剪辑预览</title>
+  <link rel="stylesheet" href="transcript-editor/editor.bundle.css">
+  <script src="transcript-editor/data.js"></script>
+  <script defer src="transcript-editor/editor.bundle.js"></script>
+</head>
+<body>
+  <header class="page-header">
+    <div><span class="eyebrow">原片口播 / 文稿复核</span><h1>像改 Word 一样，确认口误与删段</h1></div>
+    <div class="file-actions"><button id="import-review">导入复核</button><button id="export-review" class="primary">导出复核 JSON</button><input id="import-file" type="file" accept=".json,application/json" hidden></div>
+  </header>
+  <div class="intro" id="export-identity-hint" role="note" style="overflow-wrap:anywhere"></div>
+  <div class="intro">拖选任意文字、整句或多段后按 <kbd>Delete</kbd> / <kbd>Backspace</kbd>；删除文字会保留删除线。直接输入替换内容，原文与修正文字会就近并排显示。每处修订后的编号，关联右侧的意图、决策、理由、证据和生效范围。</div>
+  <div class="editor-controls" id="editor-controls"><nav class="toolbar" aria-label="文稿修订工具">
+    <label>素材 <select id="chapter"></select></label>
+    <button id="undo" title="Ctrl+Z">撤销</button><button id="redo" title="Ctrl+Shift+Z">重做</button><span class="divider"></span>
+    <button id="delete-selection" class="delete-action">删除所选文字</button>
+    <label class="replacement-input">修正为 <input id="replacement" placeholder="选中文字后输入正确内容"></label><button id="replace-selection">修正所选</button>
+    <button id="play-selection">回听所选所在短语</button>
+  </nav>
+  <nav class="subtitle-toolbar" aria-label="字幕断句工具">
+    <span>字幕断句</span><button id="subtitle-merge-previous">合并上一条</button><button id="subtitle-merge-next">合并下一条</button><button id="subtitle-split">在光标处分句</button>
+    <span class="subtitle-help">单击文字定位；仅修字幕，保留原声。分句需原生字词时间。</span>
+    <div id="subtitle-selection" aria-live="polite"></div>
+  </nav>
+  </div><div class="status-row"><span id="selection-status"></span><span id="save-status" role="status" aria-live="polite"></span></div>
+  <main class="workspace">
+    <section class="document-pane" aria-label="逐字稿">
+      <div class="document-heading"><div><h2 id="document-title"></h2><p>红色删除线 = 原文待删除；绿色文字 = 就近修正；确认后仍保留痕迹。</p></div><span id="revision-count"></span></div>
+      <div class="paper"><div id="editor"></div></div>
+      <details class="script-panel"><summary>查看本段口播稿 v0.6 对照</summary><div id="script-reference"></div></details>
+      <div class="footnote">剪辑预览只播放保留、修正后的字幕对应区间，字幕外的准备、空白及拍手时间不进入预览。删掉开头或结尾文字后，边界收紧到首个、末个保留字词，不留对应前后空白；句中保留自然语音，修正沿用原声区间。回听原声会临时关闭此预览；局部时间不足时提示并按字幕短语范围保留。</div>
+      <div class="footnote">已整合到 VKP 精确区间审核。旧页复核 JSON 可直接导入。每处仍保留意图、决策、理由、证据和生效范围；编辑引擎复用 Tiptap，保留区间与跳播模型复用 Hyperaudio。</div>
+    </section>
+    <aside class="review-pane" aria-label="原声与修订说明">
+      <section class="source-player whole-program" aria-label="整条净剪连续回听">
+        <h2>整条净剪连续回听</h2><p id="whole-preview-summary" class="range-hint"></p>
+        <div class="preview-controls"><button id="whole-preview-start" class="primary">从头连续回听全片</button><button id="whole-preview-toggle">继续全片</button></div>
+        <label class="edited-scrub">全片剪后时间轴 <input id="whole-edited-timeline" type="range" min="0" max="1" value="0" step="0.001"><span id="whole-edited-playhead"></span></label>
+        <p id="whole-preview-status" class="range-hint" role="status" aria-live="polite">十段自动接续，保留一个全片总进度。</p>
+      </section>
+      <section class="source-player"><div id="clip-file"></div><div class="preview-video"><video id="player" controls preload="metadata" playsinline></video><div id="subtitle-overlay" class="preview-subtitle" aria-live="off"></div></div><div class="media-caption"><span id="playhead">00:00.00</span><span id="media-status">仅播放保留／修正字幕对应区间</span></div><div class="preview-controls"><label><input id="preview-enabled" type="checkbox" checked>仅播放保留字幕区间</label><button id="preview-start">从头预览剪后效果</button></div><div id="preview-summary" class="range-hint"></div><label class="edited-scrub">剪后时间轴 <input id="edited-timeline" type="range" min="0" max="1" value="0" step="0.001"><span id="edited-playhead"></span></label></section>
+      <section id="pacing-review-panel" hidden><h2>气口复核</h2><label class="pacing-check"><input id="pacing-enabled" type="checkbox">试听气口压缩候选（待回听）</label><p id="pacing-summary" class="footnote"></p><div id="pacing-cards"></div></section>
+      <div class="review-heading"><h2>逐处确认</h2><p>将识别错误与需要剪掉的原声分别注明。</p></div>
+      <div id="review-cards"></div>
+    </aside>
+  </main>
+</body>
+</html>

@@ -1,0 +1,142 @@
+{
+  "schema": "vkp.targeted-review-source-provenance.v1",
+  "status": "SOURCE_ONLY_METADATA_RECONCILED; not validated; not an approval",
+  "origin": {
+    "candidate_basis": "Accepted complete targeted-review source, executable content retained; added notices and nonsemantic public text curation recorded separately",
+    "public_baseline_ref": "8c88253134718aacd9e7648b1bbea27aa0880406",
+    "selected_path_count": 75,
+    "overlay_scope": "Public metadata and documentation only. Production Python, TypeScript, JavaScript, JSON Schema and test source are not edited or retyped by this overlay.",
+    "prior_review": "Accepted source review exists as separate evidence; this metadata stage does not repeat a whole-code audit."
+  },
+  "authorship_and_licensing": {
+    "vkp_license": "AGPL-3.0-only (root LICENSE and NOTICE retained)",
+    "authorship_claim": "none added; the overlay does not assign ownership or reassign copyright",
+    "upstream_license_refs": [
+      "src/video_knowledge_pipeline/static/targeted-transcript-editor/vendor/hyperaudio/LICENSE (AGPL-3.0 text)",
+      "src/video_knowledge_pipeline/static/targeted-transcript-editor/vendor/hyperaudio/LICENSE-MIT (MIT text; non-commercial-only note in vendor/hyperaudio/LICENSES)",
+      "src/video_knowledge_pipeline/static/targeted-transcript-editor/vendor/hyperaudio/LICENSES (AGPL default; MIT limited to non-commercial entities)",
+      "src/video_knowledge_pipeline/static/targeted-transcript-editor/vendor/mawe/LICENSE (AGPL-3.0 text)",
+      "src/video_knowledge_pipeline/static/targeted-transcript-editor/vendor/tiptap-track-changes/LICENSE (MIT; Copyright (c) 2025 sungkhum)"
+    ],
+    "external_correspondence": "not supplied; unknown; no license clearance is claimed"
+  },
+  "adapted_vendor_sources": [
+    {
+      "component": "hyperaudio",
+      "repository": "hyperaudio/hyperaudio-lite-editor",
+      "upstream_base_commit": "b8bd4728f6d6914a37350d119cf52d4c29eb9968",
+      "adapted_note": "Only bounded kept-section/playback skipping logic is adapted from editor-audio-cut.js; upstream AGPL-3.0 default retained, MIT text retained but limited to non-commercial entities by the adjacent upstream LICENSES note.",
+      "public_source_curation": "Prepend-only dated source-curation comment applied; original adaptation body and license texts retained byte-for-byte"
+    },
+    {
+      "component": "mawe",
+      "repository": "Moyf/moys-asr-workflow",
+      "upstream_base_commit": "949bc84058cdae1d9c021c50203e6d2742f9392c",
+      "adapted_note": "Small join/merge/split primitives only; punctuation preserved and the upstream proportional-time fallback omitted; upstream AGPL-3.0 retained.",
+      "public_source_curation": "Prepend-only dated source-curation comment applied; original adaptation body and license texts retained byte-for-byte"
+    },
+    {
+      "component": "tiptap-track-changes",
+      "repository": "sungkhum/tiptap-track-changes",
+      "upstream_base_commit": "25ca36690db5b4977e6d5db5911f9d1eebf6485f",
+      "package_version": "0.2.1",
+      "modified_files": [
+        "src/commands.ts",
+        "src/suggest-mode-plugin.ts",
+        "src/types.ts"
+      ],
+      "local_changes": "Mode-change dispatch through non-history transactions, plugin view-mode editability, storage typing/callback and unused-name adjustments.",
+      "truthfulness_boundary": "Modified local source derived from the 0.2.1 base; not the unchanged official release, and not a claim of byte-identical or fully cleared npm/compiled/binary rights.",
+      "public_source_curation": "Prepend-only dated source-curation comment applied; original adaptation body and license texts retained byte-for-byte"
+    }
+  ],
+  "generated_files": [
+    {
+      "path": "src/video_knowledge_pipeline/static/targeted-transcript-editor/export-naming-browser.js",
+      "origin": "first-party generated from export-naming-browser.ts by build-export-naming.mjs",
+      "rebuild": "NOT RUN for this overlay",
+      "note": "minified first-party output; not a third-party bundle"
+    },
+    {
+      "path": "src/video_knowledge_pipeline/static/targeted-transcript-editor/export-naming-cli.mjs",
+      "origin": "first-party generated from export-naming-cli.ts by build-export-naming.mjs",
+      "rebuild": "NOT RUN for this overlay"
+    },
+    {
+      "path": "src/video_knowledge_pipeline/static/targeted-transcript-editor/punctuation-cleanup-cli.mjs",
+      "origin": "first-party generated from punctuation-cleanup-cli.ts by build-punctuation-cleanup.mjs",
+      "rebuild": "NOT RUN for this overlay",
+      "note": "external npm imports remain required at runtime; not standalone"
+    }
+  ],
+  "source_build_mapping": "Existing generated naming/punctuation helpers keep their source/build mapping and the scripts that produce them; rebuild reproducibility is unverified because no install or build was run.",
+  "compiled_assets_not_supplied": [
+    "src/video_knowledge_pipeline/static/targeted-transcript-editor/editor.bundle.js",
+    "src/video_knowledge_pipeline/static/targeted-transcript-editor/editor.bundle.css",
+    "src/video_knowledge_pipeline/static/targeted-transcript-editor/editor.bundle.js.map",
+    "src/video_knowledge_pipeline/static/targeted-transcript-editor/editor.bundle.css.map",
+    "src/video_knowledge_pipeline/static/targeted-transcript-editor/editor.bundle.js.LEGAL.txt"
+  ],
+  "build_provenance": {
+    "npm_install": "not run",
+    "build_mjs": "not run",
+    "build_export_naming_mjs": "not run",
+    "build_punctuation_cleanup_mjs": "not run",
+    "vitest": "not run",
+    "full_pytest_suite": "not run",
+    "wheel": "not built or installed",
+    "reproducibility_claim": "none"
+  },
+  "measurement_provenance": {
+    "hashes_and_sizes": "Owner-supplied measurement in the task packet; not recomputed or invented by this metadata stage",
+    "ast_and_native_checks": "Owner-measured previously; not recomputed here",
+    "independent_verification": "none"
+  },
+  "metadata_reconciliation": {
+    "pyproject": "Current public project metadata preserved in full; only the accepted static/targeted-transcript-editor package-data patterns are unioned. No dependency, optional-group, version, entrypoint or other project semantic change.",
+    "notice": "Full current public NOTICE content retained as prefix; targeted transcript editor notice appended.",
+    "third_party_notices": "Full current public THIRD_PARTY_NOTICES.md content retained as prefix; targeted review additions appended.",
+    "docs": "Feature guide rewritten from the accepted guide with stale absent-support statements about webui_bridge.py and visual_evidence.py corrected.",
+    "curation_date": "2026-11-10 Asia/Shanghai; public-source curation date only, not an inferred original modification date."
+  },
+  "privacy_boundary": {
+    "real_review_packs": "not supplied and not read",
+    "real_media_or_transcripts": "not supplied and not read",
+    "real_fonts": "not supplied and not distributed",
+    "customer_or_health_data": "not supplied and not read",
+    "credentials_or_model_configuration": "not supplied and not read",
+    "runtime_state_or_private_configuration": "not supplied and not read",
+    "private_history": "not supplied and not distributed",
+    "test_data": "synthetic only"
+  },
+  "stage_limits": {
+    "source_module_import": "not performed",
+    "test_execution": "not performed; all suites NOTRUN",
+    "build_install_network": "not performed",
+    "runtime_probe": "not performed",
+    "production_source_edits": "none",
+    "scope": "Metadata-writing phase only; later limited verification recorded separately below"
+  },
+  "bounded_verification": {
+    "python": "3.13.5",
+    "commands": 1,
+    "original_in_memory_tests": {
+      "pass": 8,
+      "fail": 0,
+      "skip": 0
+    },
+    "additional_Python_emitter_checks": 6,
+    "selected_Python_AST_files": 20,
+    "full_suite_run": false,
+    "JavaScript_browser_IME_build_media_server_provider": "not run",
+    "earlier_pacing_file_suite": "0 pass / 1 permission error / 3 not run; not retried",
+    "publication_approval": "separate; no permission supplied by this source record"
+  },
+  "public_text_curation": {
+    "vendor_comments": "5prepend-only source-curation notices; upstream credits and code bodies retained",
+    "line_endings": "CRLF-to-LF only where required by the unchanged Git whitespace check; original raw tested snapshot retained privately",
+    "Python_test_AST_and_JSON_values": "unchanged",
+    "runtime_tests_after_line_ending_change": "not rerun; no behavior change claimed",
+    "license_formatting": "Three trailing spaces removed in retained Hyperaudio LICENSE-MIT/LICENSES; all license words preserved; original upstream snapshots retained separately"
+  }
+}
