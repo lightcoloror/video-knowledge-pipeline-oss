@@ -208,3 +208,7 @@ The optional stdlib-only Python client in `examples/openclaw/openclaw_video_know
 ### Creator Report Player Offline Harness
 
 The offline Node.js test harness in `tests/creator_report_player_harness.cjs` exercises the existing in-memory event and DOM assertions for interactive report media player scripts under AGPL-3.0-only. Requiring Node standard built-ins only, it simulates player events without a browser or real media decoding. See [docs/report-player-offline-harness.md](docs/report-player-offline-harness.md).
+
+### Media Equivalence Audit Entry Wrapper
+
+The optional source-only PowerShell wrapper `scripts/audit-media-equivalence.ps1` forwards arguments to `video_knowledge_pipeline.media_equivalence_audit` under AGPL-3.0-only. The backend evaluates its existing criteria and emits JSON reports without deleting input media or granting cleanup approval. See [docs/media-equivalence-entry-wrapper.md](docs/media-equivalence-entry-wrapper.md).
