@@ -217,3 +217,8 @@ The optional source-only PowerShell wrapper `scripts/audit-media-equivalence.ps1
 ### Offline Vision Test Driver
 
 The offline test driver in `scripts/run-codex-vision-offline-tests.py` provides a source entry for vision executor and session regressions under AGPL-3.0-only. Requiring an uncreated output directory argument, it declares in-process hooks for selected subprocess/socket events and five model import names. Runtime enforcement and suite results remain unverified; extra pytest arguments are trusted operator input. See [docs/offline-vision-test-driver.md](docs/offline-vision-test-driver.md).
+
+
+### Local Operator UI Entry Wrappers
+
+Optional Windows PowerShell entry wrappers in `scripts/` (`start-review-webui.ps1` and `start-model-api-settings.ps1`) launch loopback-only HTTP review and settings interfaces under AGPL-3.0-only. They use literal root resolution, UTF-8 settings and explicit native exit forwarding. Running them starts local HTTP services; publication does not run them or authorize provider operations. Only parser and controlled argument/exit checks were exercised here. See [docs/operator-ui-entry-wrappers.md](docs/operator-ui-entry-wrappers.md).
