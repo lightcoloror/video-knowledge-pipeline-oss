@@ -240,3 +240,7 @@ Reference documentation for the PowerShell parity runner is available at [coding
 ### Vision batch entry source
 
 [PowerShell wrapper and verification boundaries](docs/vision-batch-entry-source.md) documents explicit environment/config/preflight/execution/refresh behavior. Existing source receives one LiteralPath compatibility correction; no new dependencies or real assets. Source-only batch: PS5.1 syntax checked; synthetic acceptance was blocked at PowerShell startup (UnauthorizedAccess), so all six cases and actual vision/provider execution remain unverified.
+
+## Optional trusted-capability tunnel entry sources
+
+See [client/profile/storage path configuration and unverified runtime boundaries](docs/tunnel-entry-source.md). Existing credential/ACL functions are retained; two source syntax checks pass in PowerShell 7.5.2, no actual credential/client/tunnel execution was performed.
