@@ -176,3 +176,9 @@ Synthetic checks are not end-to-end, browser, media, consumer-bridge, editor or
 human-review evidence. The root AGPL-3.0-only license governs distribution.
 
 See [the standalone review-export identity guide](docs/review-export-identity.md) for commands, conditional bindings and verification limits.
+
+### Tested-Entry PowerShell Wrapper
+
+The repository includes `scripts/run-tested-vkp.ps1`, an entrypoint guard and forwarder for `src/video_knowledge_pipeline/tested_entry.py`. Under its legacy "tested" name, the wrapper validates software identity and drift (Git HEAD, interpreter SHA256, and managed source snapshots) against an operator-local binding file before dispatching native commands.
+
+The wrapper provides software integrity verification rather than empirical test execution or sandbox isolation. Binding files are operator-local and not distributed. See [docs/tested-entry-wrapper.md](docs/tested-entry-wrapper.md) and [tests/test_tested_entry.py](tests/test_tested_entry.py) for option models, binding lifecycle details, and verification boundaries under AGPL-3.0-only.
