@@ -230,3 +230,8 @@ Optional source-checkout PowerShell launchers provide stdio and loopback HTTP en
 
 ### Coding Provider Parity CLI Entry
 Reference documentation for the PowerShell parity runner is available at [coding-provider-parity-entry-source.md](docs/coding-provider-parity-entry-source.md). The wrapper script (`scripts/run-coding-provider-parity.ps1`) is distributed as source-only under AGPL-3.0-only. All provider runtimes, model availability, network isolation, credential stores, and execution results remain unverified.
+
+
+### Synthetic incremental OCR validation source
+
+[English synthetic-image acceptance guide](docs/incremental-ocr-synthetic-validation-source.md) documents the existing script, its four generated frames and six declared cache/change/resume checks. Source-only: no model policy, ONNX weights, fonts or real courseware are distributed in this batch. Preflight itself can read local runtime configuration and launch probes; OCR, external ebook/LM Studio integration and image output remain unverified.
