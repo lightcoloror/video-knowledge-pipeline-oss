@@ -227,3 +227,6 @@ Optional Windows PowerShell entry wrappers in `scripts/` (`start-review-webui.ps
 ### Trusted model connector entry wrappers
 
 Optional source-checkout PowerShell launchers provide stdio and loopback HTTP entrypoints for the existing trusted model connector backends. They load operator-trusted environment files, use literal repository roots and forward native exit codes. Synthetic wrapper checks do not establish operational service, consent or provider behavior; real use can contact remote providers. See [the entrypoint guide](docs/trusted-connector-entry-wrappers.md).
+
+### Coding Provider Parity CLI Entry
+Reference documentation for the PowerShell parity runner is available at [coding-provider-parity-entry-source.md](docs/coding-provider-parity-entry-source.md). The wrapper script (`scripts/run-coding-provider-parity.ps1`) is distributed as source-only under AGPL-3.0-only. All provider runtimes, model availability, network isolation, credential stores, and execution results remain unverified.
