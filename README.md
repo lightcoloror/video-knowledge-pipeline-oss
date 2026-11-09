@@ -212,3 +212,8 @@ The offline Node.js test harness in `tests/creator_report_player_harness.cjs` ex
 ### Media Equivalence Audit Entry Wrapper
 
 The optional source-only PowerShell wrapper `scripts/audit-media-equivalence.ps1` forwards arguments to `video_knowledge_pipeline.media_equivalence_audit` under AGPL-3.0-only. The backend evaluates its existing criteria and emits JSON reports without deleting input media or granting cleanup approval. See [docs/media-equivalence-entry-wrapper.md](docs/media-equivalence-entry-wrapper.md).
+
+
+### Offline Vision Test Driver
+
+The offline test driver in `scripts/run-codex-vision-offline-tests.py` provides a source entry for vision executor and session regressions under AGPL-3.0-only. Requiring an uncreated output directory argument, it declares in-process hooks for selected subprocess/socket events and five model import names. Runtime enforcement and suite results remain unverified; extra pytest arguments are trusted operator input. See [docs/offline-vision-test-driver.md](docs/offline-vision-test-driver.md).
