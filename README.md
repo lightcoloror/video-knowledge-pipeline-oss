@@ -188,3 +188,7 @@ The wrapper provides software integrity verification rather than empirical test 
 The repository provides three PowerShell helper scripts for opening local review pages: `scripts/open-review.ps1` (review bundles and sample reviews), `scripts/open-task-console.ps1` (task console export with mutual review refresh), and `scripts/open-targeted-review.ps1` (targeted review server). All three use `-LiteralPath` for their own root; the bundle and task-console launchers additionally accept `-AdditionalBundleRoots`.
 
 These entrypoints delegate to backend CLI workflows under AGPL-3.0-only; they do not certify media, models, or browser display. See [docs/review-launchers.md](docs/review-launchers.md) for parameter details, unconditional refresh quirks, and unverified runtime boundaries.
+
+### Video Evidence Entry Wrappers
+
+The repository provides optional source-checkout PowerShell wrappers in `scripts/` (`ocr-route.ps1`, `speaker-diarization-evidence.ps1`, and `video-knowledge-local-media-contract.ps1`) for existing Python backend modules in `video_knowledge_pipeline`. The wrappers set local `PYTHONPATH` and UTF-8 encoding using the operator's PATH-selected Python without environment bypasses. Backend operations may write local plans and receipts. Full CLI options, contracts, and limitations are documented in [docs/video-evidence-entry-wrappers.md](docs/video-evidence-entry-wrappers.md).
