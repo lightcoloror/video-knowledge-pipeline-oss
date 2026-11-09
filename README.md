@@ -192,3 +192,7 @@ These entrypoints delegate to backend CLI workflows under AGPL-3.0-only; they do
 ### Video Evidence Entry Wrappers
 
 The repository provides optional source-checkout PowerShell wrappers in `scripts/` (`ocr-route.ps1`, `speaker-diarization-evidence.ps1`, and `video-knowledge-local-media-contract.ps1`) for existing Python backend modules in `video_knowledge_pipeline`. The wrappers set local `PYTHONPATH` and UTF-8 encoding using the operator's PATH-selected Python without environment bypasses. Backend operations may write local plans and receipts. Full CLI options, contracts, and limitations are documented in [docs/video-evidence-entry-wrappers.md](docs/video-evidence-entry-wrappers.md).
+
+### Consent CLI Entry Wrappers
+
+Optional source-only PowerShell entry wrappers in `scripts/` (`media-connector-consent.ps1` and `model-connector-consent.ps1`) forward arguments to existing Python consent modules with literal-path resolution and non-zero exit guards. They add no execution authority; underlying actions retain their existing policy requirements. See [docs/consent-cli-wrappers.md](docs/consent-cli-wrappers.md).
