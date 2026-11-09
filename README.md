@@ -182,3 +182,9 @@ See [the standalone review-export identity guide](docs/review-export-identity.md
 The repository includes `scripts/run-tested-vkp.ps1`, an entrypoint guard and forwarder for `src/video_knowledge_pipeline/tested_entry.py`. Under its legacy "tested" name, the wrapper validates software identity and drift (Git HEAD, interpreter SHA256, and managed source snapshots) against an operator-local binding file before dispatching native commands.
 
 The wrapper provides software integrity verification rather than empirical test execution or sandbox isolation. Binding files are operator-local and not distributed. See [docs/tested-entry-wrapper.md](docs/tested-entry-wrapper.md) and [tests/test_tested_entry.py](tests/test_tested_entry.py) for option models, binding lifecycle details, and verification boundaries under AGPL-3.0-only.
+
+### Review Launchers
+
+The repository provides three PowerShell helper scripts for opening local review pages: `scripts/open-review.ps1` (review bundles and sample reviews), `scripts/open-task-console.ps1` (task console export with mutual review refresh), and `scripts/open-targeted-review.ps1` (targeted review server). All three use `-LiteralPath` for their own root; the bundle and task-console launchers additionally accept `-AdditionalBundleRoots`.
+
+These entrypoints delegate to backend CLI workflows under AGPL-3.0-only; they do not certify media, models, or browser display. See [docs/review-launchers.md](docs/review-launchers.md) for parameter details, unconditional refresh quirks, and unverified runtime boundaries.
