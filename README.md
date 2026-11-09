@@ -222,3 +222,8 @@ The offline test driver in `scripts/run-codex-vision-offline-tests.py` provides 
 ### Local Operator UI Entry Wrappers
 
 Optional Windows PowerShell entry wrappers in `scripts/` (`start-review-webui.ps1` and `start-model-api-settings.ps1`) launch loopback-only HTTP review and settings interfaces under AGPL-3.0-only. They use literal root resolution, UTF-8 settings and explicit native exit forwarding. Running them starts local HTTP services; publication does not run them or authorize provider operations. Only parser and controlled argument/exit checks were exercised here. See [docs/operator-ui-entry-wrappers.md](docs/operator-ui-entry-wrappers.md).
+
+
+### Trusted model connector entry wrappers
+
+Optional source-checkout PowerShell launchers provide stdio and loopback HTTP entrypoints for the existing trusted model connector backends. They load operator-trusted environment files, use literal repository roots and forward native exit codes. Synthetic wrapper checks do not establish operational service, consent or provider behavior; real use can contact remote providers. See [the entrypoint guide](docs/trusted-connector-entry-wrappers.md).
