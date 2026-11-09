@@ -159,3 +159,20 @@ OCR or model-quality evidence, not a human review or knowledge note, and not the
 full 11-repository workflow. The public tree adds no sample media, fonts,
 binaries or model weights. Thread, timeout and file-protocol settings are argv
 requests, not measured OS resource peaks or proven network blocking.
+
+## Review-export identity (standalone)
+
+The existing first-party `video_knowledge_pipeline.review_export_context` module is
+available as a standalone source module. It records an explicit topic/video identity
+(`vkp.review-export-context.v1`) through
+`python -m video_knowledge_pipeline.review_export_context configure/status` and
+through the direct Python API. Identity fields are caller-supplied metadata; they do not prove media ownership
+or authenticity.
+
+Focused synthetic checks live in `tests/test_review_export_identity_standalone.py`.
+Verification for this delta is source-only: the authoring run stopped at a
+temporary-directory permission error, so no passing-suite claim is made.
+Synthetic checks are not end-to-end, browser, media, consumer-bridge, editor or
+human-review evidence. The root AGPL-3.0-only license governs distribution.
+
+See [the standalone review-export identity guide](docs/review-export-identity.md) for commands, conditional bindings and verification limits.
