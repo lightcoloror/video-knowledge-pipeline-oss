@@ -200,3 +200,7 @@ Optional source-only PowerShell entry wrappers in `scripts/` (`media-connector-c
 ### Model Gateway Entry Wrappers
 
 Optional source-only PowerShell entry wrappers in `scripts/` (`video-knowledge-model-gateway.ps1` and `video-knowledge-model-smoke-readiness.ps1`) forward CLI arguments to existing Python gateway modules under AGPL-3.0-only. They set local `PYTHONPATH` and telemetry flags but add no execution authority; underlying commands may start services. See [docs/model-gateway-entry-wrappers.md](docs/model-gateway-entry-wrappers.md).
+
+### OpenClaw Call Client
+
+The optional stdlib-only Python client in `examples/openclaw/openclaw_video_knowledge_call.py` formats payloads for the Video Knowledge Pipeline `/call` endpoint across 11 commands. It supports dry-run JSON inspection via `--print-payload` without requiring network access or server execution. See [docs/openclaw-call-client.md](docs/openclaw-call-client.md).
