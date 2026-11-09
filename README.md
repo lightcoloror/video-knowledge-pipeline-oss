@@ -196,3 +196,7 @@ The repository provides optional source-checkout PowerShell wrappers in `scripts
 ### Consent CLI Entry Wrappers
 
 Optional source-only PowerShell entry wrappers in `scripts/` (`media-connector-consent.ps1` and `model-connector-consent.ps1`) forward arguments to existing Python consent modules with literal-path resolution and non-zero exit guards. They add no execution authority; underlying actions retain their existing policy requirements. See [docs/consent-cli-wrappers.md](docs/consent-cli-wrappers.md).
+
+### Model Gateway Entry Wrappers
+
+Optional source-only PowerShell entry wrappers in `scripts/` (`video-knowledge-model-gateway.ps1` and `video-knowledge-model-smoke-readiness.ps1`) forward CLI arguments to existing Python gateway modules under AGPL-3.0-only. They set local `PYTHONPATH` and telemetry flags but add no execution authority; underlying commands may start services. See [docs/model-gateway-entry-wrappers.md](docs/model-gateway-entry-wrappers.md).
