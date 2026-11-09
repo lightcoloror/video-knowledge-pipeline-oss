@@ -240,3 +240,8 @@ Reference documentation for the PowerShell parity runner is available at [coding
 ### Vision batch entry source
 
 [PowerShell wrapper and verification boundaries](docs/vision-batch-entry-source.md) documents explicit environment/config/preflight/execution/refresh behavior. Existing source receives one LiteralPath compatibility correction; no new dependencies or real assets. Source-only batch: PS5.1 syntax checked; synthetic acceptance was blocked at PowerShell startup (UnauthorizedAccess), so all six cases and actual vision/provider execution remain unverified.
+
+
+## Trusted connector smoke source
+
+[Optional stdio capability smoke](docs/trusted-connector-smoke-source.md) retains the existing capability inventory checks under ordinary PowerShell policy. Only source syntax/AST were checked; no connector, SDK, service or provider execution is claimed.
