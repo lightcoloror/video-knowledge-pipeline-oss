@@ -204,3 +204,7 @@ Optional source-only PowerShell entry wrappers in `scripts/` (`video-knowledge-m
 ### OpenClaw Call Client
 
 The optional stdlib-only Python client in `examples/openclaw/openclaw_video_knowledge_call.py` formats payloads for the Video Knowledge Pipeline `/call` endpoint across 11 commands. It supports dry-run JSON inspection via `--print-payload` without requiring network access or server execution. See [docs/openclaw-call-client.md](docs/openclaw-call-client.md).
+
+### Creator Report Player Offline Harness
+
+The offline Node.js test harness in `tests/creator_report_player_harness.cjs` exercises the existing in-memory event and DOM assertions for interactive report media player scripts under AGPL-3.0-only. Requiring Node standard built-ins only, it simulates player events without a browser or real media decoding. See [docs/report-player-offline-harness.md](docs/report-player-offline-harness.md).
