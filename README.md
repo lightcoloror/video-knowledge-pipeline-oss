@@ -235,3 +235,8 @@ Reference documentation for the PowerShell parity runner is available at [coding
 ### Synthetic incremental OCR validation source
 
 [English synthetic-image acceptance guide](docs/incremental-ocr-synthetic-validation-source.md) documents the existing script, its four generated frames and six declared cache/change/resume checks. Source-only: no model policy, ONNX weights, fonts or real courseware are distributed in this batch. Preflight itself can read local runtime configuration and launch probes; OCR, external ebook/LM Studio integration and image output remain unverified.
+
+
+### Vision batch entry source
+
+[PowerShell wrapper and verification boundaries](docs/vision-batch-entry-source.md) documents explicit environment/config/preflight/execution/refresh behavior. Existing source receives one LiteralPath compatibility correction; no new dependencies or real assets. Source-only batch: PS5.1 syntax checked; synthetic acceptance was blocked at PowerShell startup (UnauthorizedAccess), so all six cases and actual vision/provider execution remain unverified.
