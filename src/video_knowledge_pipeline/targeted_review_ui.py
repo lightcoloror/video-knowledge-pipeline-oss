@@ -158,7 +158,7 @@ HTML_TEMPLATE = r"""<!doctype html>
         <div id="decisionButtons" class="decision-row"></div>
         <textarea id="note" placeholder="可选：若有新内容，请写大概时间和内容；若不确定，也可说明原因。"></textarea>
         <div class="save-row">
-          <input id="reviewer" value="黄炳灿" aria-label="审核人">
+          <input id="reviewer" value="" aria-label="审核人">
           <button class="primary" onclick="saveToVkp()">保存审核结果</button>
           <button onclick="downloadResults()">下载 JSON</button>
         </div>
