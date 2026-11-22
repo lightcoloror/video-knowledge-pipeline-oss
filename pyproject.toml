@@ -81,6 +81,7 @@ panorama-import = "video_knowledge_pipeline.panorama_cli:import_main"
 panorama-status = "video_knowledge_pipeline.panorama_cli:status_main"
 panorama-restore = "video_knowledge_pipeline.panorama_cli:restore_main"
 video-knowledge-panorama-mcp = "video_knowledge_pipeline.panorama_mcp:main"
+video-knowledge-subtitle-guard = "video_knowledge_pipeline.subtitle_boundary_guard:main"
 
 [tool.setuptools.package-data]
 video_knowledge_pipeline = [
