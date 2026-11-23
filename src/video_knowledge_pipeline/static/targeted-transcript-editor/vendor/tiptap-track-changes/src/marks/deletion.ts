@@ -22,10 +22,13 @@ export const DeletionMark = Mark.create({
   addAttributes() {
     return {
       changeId: { default: null },
+      change_id: { default: null },
       authorId: { default: null },
       authorName: { default: null },
+      author: { default: null },
       authorColor: { default: null },
       timestamp: { default: null },
+      date: { default: null },
     };
   },
 
