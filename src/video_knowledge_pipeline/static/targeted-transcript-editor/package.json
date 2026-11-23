@@ -1,0 +1,25 @@
+{
+  "name": "vkp-targeted-transcript-review",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "test": "vitest run --maxWorkers=2"
+  },
+  "dependencies": {
+    "@tiptap/core": "3.20.1",
+    "@tiptap/pm": "3.20.1",
+    "@tiptap/extension-document": "3.20.1",
+    "@tiptap/extension-paragraph": "3.20.1",
+    "@tiptap/extension-text": "3.20.1",
+    "@tiptap/extension-history": "3.20.1",
+    "@tiptap/extensions": "3.20.1"
+  },
+  "devDependencies": {
+    "esbuild": "0.27.3",
+    "vitest": "3.2.4",
+    "jsdom": "26.1.0",
+    "typescript": "5.9.3"
+  }
+}

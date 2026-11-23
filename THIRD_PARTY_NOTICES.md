@@ -78,3 +78,33 @@ purpose fixture pattern from first-party mvp-video-pipeline-oss v0.8.1
 The license copy is LICENSES/MVP-test-fixture-Apache-2.0.txt. Source snapshots,
 public adaptations and test changes are identified in CONTEXT-ADAPTER-PROVENANCE.json.
 No external source history, actual media or private workflow receipt is included.
+
+## Targeted review / transcript editor additions
+
+These components are part of the optional targeted-review feature and are
+distributed as source with their retained license texts under
+`src/video_knowledge_pipeline/static/targeted-transcript-editor/vendor/`.
+
+| Component | Source identity | License | Distribution boundary |
+|---|---|---|---|
+| Hyperaudio kept-section / audio-cut algorithm | Adapted from the Hyperaudio Project `editor-audio-cut.js`, upstream base commit `b8bd4728f6d6914a37350d119cf52d4c29eb9968` as recorded in the source comment | AGPL-3.0 default (`vendor/hyperaudio/LICENSE`); an MIT text is also retained (`LICENSE-MIT`) but `vendor/hyperaudio/LICENSES` limits that offer to non-commercial entities | Only the bounded kept-section/playback skipping logic is adapted; original license texts and the modification note are retained. The MIT text is not promoted to a general MIT permission. |
+| Mawe / Moys subtitle operations | Adapted from `Moyf/moys-asr-workflow`, upstream base commit `949bc84058cdae1d9c021c50203e6d2742f9392c` as recorded in the source comment | AGPL-3.0 (`vendor/mawe/LICENSE`) | Small join/merge/split primitives only; punctuation is preserved and the upstream proportional-time fallback is omitted. |
+| tiptap-track-changes | `sungkhum/tiptap-track-changes` 0.2.1 base commit `25ca36690db5b4977e6d5db5911f9d1eebf6485f`, MIT (`vendor/tiptap-track-changes/LICENSE`, `package.json`) | MIT, Copyright (c) 2025 sungkhum | A modified local source: the vendored tree retains the upstream structure but three source files (`src/commands.ts`, `src/suggest-mode-plugin.ts`, `src/types.ts`) differ from that base, so it is not a byte-identical official release. VKP's adaptations add non-history mode-change transactions, view-mode editability, storage typing/callback and unused-name adjustments. Original copyright and MIT text are retained. |
+
+Frontend npm packages (`@tiptap/*` 3.20.1, `esbuild` 0.27.3, `vitest` 3.2.4,
+`jsdom` 26.1.0, `typescript` 5.9.3 and their transitive tree) are declared and
+locked but are not vendored into this repository. The declarations are newly
+exposed source metadata; no dependency install was performed for this overlay.
+The lockfile is metadata, not an installed-license or reproducible-build proof.
+The compiled editor bundle and maps are not asserted to be present, and
+legal-comment output from a build was not produced or validated in this source
+review.
+
+The targeted-review UI references a locally installed font family (`YouYuan` /
+`幼圆`) by CSS `local(...)`; no font binary is distributed. No model weights,
+media, real review packs, transcripts, private configuration, runtime STATE,
+history or customer data are added by this feature.
+
+This section was appended as a public-source curation on 2026-11-10. That date
+is the curation date only; it is not a claimed original modification date and it
+asserts no new authorship.

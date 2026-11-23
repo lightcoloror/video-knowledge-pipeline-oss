@@ -18,3 +18,32 @@ Resize source: Copyright (c) 2020 PaddlePaddle Authors.
 This adapted portion retains Apache-2.0 terms; see
 LICENSES/RapidOCR-Apache-2.0.txt and the modification notice in
 src/video_knowledge_pipeline/courseware_detector_budget.py.
+
+The optional targeted transcript editor vendors and adapts the following
+components; their license texts are retained beside the code and are not
+relicensed by VKP:
+
+- Hyperaudio kept-section/playback algorithm, adapted from the Hyperaudio
+  Project (editor-audio-cut.js, upstream base commit
+  b8bd4728f6d6914a37350d119cf52d4c29eb9968). The default upstream license is
+  AGPL-3.0. A copy of the MIT text is also retained, but the adjacent upstream
+  LICENSES note limits that MIT offer to non-commercial entities; it is not a
+  general MIT permission for this distribution.
+- Mawe/Moys subtitle join/merge/split operations, adapted from
+  Moyf/moys-asr-workflow (upstream base commit
+  949bc84058cdae1d9c021c50203e6d2742f9392c). The retained upstream license is
+  AGPL-3.0.
+- tiptap-track-changes (sungkhum/tiptap-track-changes): a modified local source
+  derived from the 0.2.1 upstream base commit
+  25ca36690db5b4977e6d5db5911f9d1eebf6485f, not the unchanged official
+  release. MIT License. Copyright (c) 2025 sungkhum. Original copyright and
+  license text are retained.
+
+See the vendor license files and THIRD_PARTY_NOTICES.md for the exact texts and
+the VKP adaptation notes. The compiled editor bundle and its maps are not part
+of this source-only notice claim; they require a separately authorized local
+build and are not asserted to be present or reproducible here.
+
+This targeted-editor notice was appended as a public-source curation on
+2026-11-10. That date is the curation date only; it is not a claimed original
+modification date and it asserts no new authorship.
