@@ -253,3 +253,26 @@ The complete source increment, upstream adaptations, missing editor bundles and
 verification limits are described in [the targeted-review source guide](docs/targeted-review-public-source.md)
 and [its provenance record](TARGETED_REVIEW_PROVENANCE.json). No compiled editor
 bundle or real media is included.
+
+## HTTP capability probe source
+
+See [connection steps, passed-field limits and unverified endpoint/SDK behavior](docs/http-capability-probe-source.md). Source syntax is checked; no actual MCP, endpoint or capability execution was performed.
+
+## Local ASR environment source
+
+See [provisioning switches, diagnostic effects and unverified runtime limits](docs/local-asr-environment-source.md). The complete script is provided as source only; no installer, syntax parser or model execution was run in this increment.
+
+## Managed pytest entry source
+
+See [explicit runtime/root inputs, preflight side effects and limited source evidence](docs/managed-test-entry-source.md). The initial check and bounded execution review failed; final source edits are independently bound. Actual PowerShell/shared-runtime/pytest execution remains unverified.
+
+## Fixed model candidate benchmark operator source
+
+See [explicit input paths, execution effects and unverified runtime limits](docs/fixed-model-suite-source.md). Only two legacy defaults are adapted; source-diff checks pass, PowerShell syntax and actual suites/gateways/models remain unverified.
+
+### Targeted Pacing Review
+Documentation for the read-only pacing candidate validation module is located at [pacing-review-source.md](docs/pacing-review-source.md). The module enforces structural hashes and review guardrails under AGPL-3.0-only; external runtime media generation, EDL application, and human approval remain unverified.
+
+## Optional trusted-capability tunnel entry sources
+
+See [client/profile/storage path configuration and unverified runtime boundaries](docs/tunnel-entry-source.md). Existing credential/ACL functions are retained; two source syntax checks pass in PowerShell 7.5.2, no actual credential/client/tunnel execution was performed.
