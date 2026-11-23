@@ -3,7 +3,11 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from video_knowledge_pipeline.targeted_visual_evidence import run_targeted_visual_evidence
+from video_knowledge_pipeline.targeted_visual_evidence import (
+    _unresolved_document_indexes,
+    run_targeted_visual_evidence,
+)
+from video_knowledge_pipeline.visual_evidence import multimodal_document_ocr_state
 
 
 def _bundle(root: Path) -> Path:
@@ -47,6 +51,20 @@ def _triage(*args, **kwargs):
         "visual_structure_first_indexes": [1],
         "semantic_indexes": [2],
         "temporal_indexes": [3],
+    }
+
+
+def _multimodal_item(confidence) -> dict:
+    return {
+        "visual_text": "合成三步流程：整理、补充、排序。",
+        "visual_understanding": {
+            "objects": [{"type": "flowchart"}],
+            "interface_state": "三个步骤由箭头从左到右连接",
+            "spatial_relations": ["第二步位于第一步和第三步之间"],
+            "confidence": confidence,
+            "validation_status": "ok",
+            "evidence_frame_paths": ["frame-1.jpg"],
+        },
     }
 
 
@@ -130,3 +148,122 @@ def test_targeted_visual_rejects_execute_with_no_write(tmp_path: Path, monkeypat
         assert "--no-write" in str(exc)
     else:
         raise AssertionError("execute with no-write must be rejected")
+
+
+def test_targeted_visual_accepts_cross_validated_ocr_and_multimodal_document(tmp_path: Path) -> None:
+    bundle = _bundle(tmp_path / "bundle")
+    timeline_path = bundle / "timeline.json"
+    rows = json.loads(timeline_path.read_text(encoding="utf-8"))
+    rows[0].update(
+        {
+            "visual_text": "三步流程：整理、补充、排序。",
+            "structured_visual": [],
+            "quality_issues": ["structured_visual_without_structure"],
+            "visual_understanding": {
+                "objects": [{"type": "flowchart"}],
+                "interface_state": "三个步骤由箭头从左到右连接",
+                "spatial_relations": ["第二步位于第一步和第三步之间"],
+                "confidence": 0.95,
+                "validation_status": "ok",
+                "evidence_frame_paths": ["frame-1.jpg"],
+            },
+        }
+    )
+    timeline_path.write_text(json.dumps(rows, ensure_ascii=False), encoding="utf-8")
+
+    assert _unresolved_document_indexes(bundle, [1]) == []
+
+
+def test_multimodal_document_ocr_confidence_rejects_bool_nonfinite_and_out_of_range() -> None:
+    for invalid in (True, False, float("inf"), float("-inf"), float("nan"), -0.1, 101, 150, "nan", None):
+        state = multimodal_document_ocr_state(_multimodal_item(invalid))
+        assert state["sufficient"] is False, repr(invalid)
+        assert state["confidence"] == 0.0, repr(invalid)
+
+
+def test_multimodal_document_ocr_confidence_accepts_fraction_percent_and_keeps_threshold() -> None:
+    assert multimodal_document_ocr_state(_multimodal_item(0.95))["sufficient"] is True
+    assert multimodal_document_ocr_state(_multimodal_item(0.85))["sufficient"] is True
+    assert multimodal_document_ocr_state(_multimodal_item(90))["sufficient"] is True
+    assert multimodal_document_ocr_state(_multimodal_item(100))["sufficient"] is True
+    assert multimodal_document_ocr_state(_multimodal_item(0.84))["sufficient"] is False
+    assert multimodal_document_ocr_state(_multimodal_item(1.5))["sufficient"] is False
+
+
+def test_multimodal_ocr_state_whitespace_visual_text_falls_back_to_ocr() -> None:
+    item = {
+        "frame_path": "synthetic_frames/slide_001.png",
+        "visual_text": "   \t\n  ",
+        "ocr_text": "Sample OCR Content: Chapter 1 Overview",
+        "visual_understanding": {
+            "evidence_level": "confirmed",
+            "confidence": 0.95,
+            "interface_state": "slide_presentation",
+            "objects": [{"name": "diagram", "type": "chart"}],
+            "evidence_frame_paths": ["synthetic_frames/slide_001.png"],
+        },
+    }
+    result = multimodal_document_ocr_state(item)
+    assert result["ocr_available"] is True
+    assert result["sufficient"] is True
+    assert result["confidence"] == 0.95
+    assert result["has_layout"] is True
+    assert result["visual_model_complete"] is True
+    assert result["visual_model_source"] == "model"
+
+
+def test_multimodal_ocr_state_whitespace_human_text_falls_back_to_lower_precedence() -> None:
+    item_visual = {
+        "frame_path": "synthetic_frames/slide_002.png",
+        "human_corrected_visual_text": "   \r\n   ",
+        "visual_text": "Extracted Visual Text from Slide",
+        "ocr_text": "Secondary OCR Content",
+        "visual_understanding": {
+            "evidence_level": "confirmed",
+            "confidence": 0.95,
+            "interface_state": "slide_presentation",
+            "objects": [{"name": "table", "type": "grid"}],
+            "evidence_frame_paths": ["synthetic_frames/slide_002.png"],
+        },
+    }
+    result_visual = multimodal_document_ocr_state(item_visual)
+    assert result_visual["ocr_available"] is True
+    assert result_visual["sufficient"] is True
+    assert result_visual["confidence"] == 0.95
+
+    item_ocr = {
+        "frame_path": "synthetic_frames/slide_003.png",
+        "human_corrected_visual_text": " \t ",
+        "visual_text": "  \n ",
+        "ocr_text": "OCR-only synthetic content",
+        "visual_understanding": {
+            "evidence_level": "confirmed",
+            "confidence": 0.9,
+            "interface_state": "slide_presentation",
+            "objects": [{"name": "flowchart", "type": "diagram"}],
+            "evidence_frame_paths": ["synthetic_frames/slide_003.png"],
+        },
+    }
+    result_ocr = multimodal_document_ocr_state(item_ocr)
+    assert result_ocr["ocr_available"] is True
+    assert result_ocr["sufficient"] is True
+    assert result_ocr["confidence"] == 0.9
+
+
+def test_multimodal_ocr_state_all_whitespace_text_is_insufficient() -> None:
+    item = {
+        "frame_path": "synthetic_frames/slide_004.png",
+        "human_corrected_visual_text": "   ",
+        "visual_text": " \t\n ",
+        "ocr_text": "  \r\n ",
+        "visual_understanding": {
+            "evidence_level": "confirmed",
+            "confidence": 0.95,
+            "interface_state": "slide_presentation",
+            "objects": [{"name": "diagram", "type": "chart"}],
+            "evidence_frame_paths": ["synthetic_frames/slide_004.png"],
+        },
+    }
+    result = multimodal_document_ocr_state(item)
+    assert result["ocr_available"] is False
+    assert result["sufficient"] is False

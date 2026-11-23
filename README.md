@@ -245,3 +245,11 @@ Reference documentation for the PowerShell parity runner is available at [coding
 ## Trusted connector smoke source
 
 [Optional stdio capability smoke](docs/trusted-connector-smoke-source.md) retains the existing capability inventory checks under ordinary PowerShell policy. Only source syntax/AST were checked; no connector, SDK, service or provider execution is claimed.
+
+
+## Targeted review and transcript-editor source
+
+The complete source increment, upstream adaptations, missing editor bundles and
+verification limits are described in [the targeted-review source guide](docs/targeted-review-public-source.md)
+and [its provenance record](TARGETED_REVIEW_PROVENANCE.json). No compiled editor
+bundle or real media is included.
