@@ -49,7 +49,8 @@ export function getTrackedChanges(editor: Editor): TrackedChangeInfo[] {
         continue;
       }
 
-      const changeId = mark.attrs.changeId;
+      const changeId = mark.attrs.changeId || mark.attrs.change_id;
+      if (!changeId) continue;
       const key = `${changeId}-${mark.type.name}-${pos}`;
       if (seen.has(key)) continue;
       seen.add(key);
@@ -57,10 +58,10 @@ export function getTrackedChanges(editor: Editor): TrackedChangeInfo[] {
       changes.push({
         changeId,
         type: mark.type.name as 'insertion' | 'deletion' | 'formatChange',
-        authorId: mark.attrs.authorId,
-        authorName: mark.attrs.authorName,
+        authorId: mark.attrs.authorId || mark.attrs.author,
+        authorName: mark.attrs.authorName || mark.attrs.author,
         authorColor: mark.attrs.authorColor,
-        timestamp: mark.attrs.timestamp,
+        timestamp: mark.attrs.timestamp || mark.attrs.date,
         from: pos,
         to: pos + node.nodeSize,
         text: node.text ?? '',

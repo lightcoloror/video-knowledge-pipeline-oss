@@ -8,7 +8,7 @@ export function buildWholeTimeline(chapters: { chapter: string; preview: Preview
   let cursor=0;
   const clips:WholeClip[]=[];
   for(const row of chapters){
-    if(!row.preview.sections.length||row.preview.editedDuration<=0)continue;
+    if(!row?.preview?.sections?.length || row.preview.editedDuration <= 0) continue;
     const end=Number((cursor+row.preview.editedDuration).toFixed(6));
     clips.push({chapter:row.chapter,start:cursor,end,plan:row.preview});cursor=end;
   }

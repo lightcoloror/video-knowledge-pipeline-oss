@@ -8,9 +8,10 @@ import { mergeSubtitleCues, splitSubtitleText } from './vendor/mawe/subtitle-ope
 export type LayoutEdit = { id: string; action: 'merge_previous' | 'merge_next' | 'split'; at: number; scope_start: number; scope_end: number; before: string; after: string };
 export type SubtitleUnit = { text: string; pos: number; to: number; at: number; inserted: boolean };
 export type SubtitleCue = { id: string; start: number; end: number; text: string; at: number; end_at: number; from: number; to: number; units: SubtitleUnit[] };
-export const layoutEdits = (editor: Editor): LayoutEdit[] => editor.state.doc.attrs.subtitleEdits || [];
+export const layoutEdits = (editor: Editor): LayoutEdit[] => editor?.state?.doc?.attrs?.subtitleEdits || [];
 export function validateSubtitleLayout(editor: Editor, ch: Chapter) {
-  const edits = layoutEdits(editor), total = ch.segments.reduce((n, s) => n + s.text.length, 0), ids = new Set<string>();
+  const segs = ch?.segments || [];
+  const edits = layoutEdits(editor), total = segs.reduce((n, s) => n + s.text.length, 0), ids = new Set<string>();
   if (!Array.isArray(edits) || edits.length > 5000) throw Error('字幕断句记录格式无效。');
   for (const op of edits) {
     if (!op || typeof op.id !== 'string' || !op.id.startsWith('subtitle:') || ids.has(op.id) || !['split', 'merge_previous', 'merge_next'].includes(op.action)
@@ -21,13 +22,14 @@ export function validateSubtitleLayout(editor: Editor, ch: Chapter) {
 }
 export function sourceOffsets(ch: Chapter) {
   let offset = 0;
-  return ch.segments.map(segment => { const start = offset; offset += segment.text.length; return { segment, start, end: offset }; });
+  const segs = ch?.segments || [];
+  return segs.map(segment => { const start = offset; offset += segment.text.length; return { segment, start, end: offset }; });
 }
 export function subtitleUnits(editor: Editor, ch: Chapter): SubtitleUnit[] {
   const sources = sourceOffsets(ch), offsets = new Map<string, number>();
   const original: { pos: number; to: number; at: number; deleted: boolean; change?: string; text: string }[] = [];
   const inserted: { pos: number; text: string; change: string }[] = [];
-  editor.state.doc.descendants((node, pos) => {
+  editor?.state?.doc?.descendants((node, pos) => {
     if (!node.isText) return;
     const insertion = node.marks.find(m => m.type.name === 'insertion');
     if (insertion) { inserted.push({ pos, text: node.text!, change: insertion.attrs.changeId }); return; }
@@ -49,6 +51,7 @@ export function subtitleUnits(editor: Editor, ch: Chapter): SubtitleUnit[] {
   return units.sort((a, b) => a.pos - b.pos);
 }
 export function boundaryTime(ch: Chapter, at: number, edge: 'start' | 'end'): number | null {
+  if (!ch) return null;
   const sources = sourceOffsets(ch), total = sources.at(-1)?.end || 0;
   if (at === total) return sources.at(-1)?.segment.end ?? null;
   const source = sources.find(s => s.start <= at && at < s.end); if (!source) return null;
@@ -59,6 +62,7 @@ export function boundaryTime(ch: Chapter, at: number, edge: 'start' | 'end'): nu
   return next && previous && next.start >= previous.end ? next.start : null;
 }
 export function subtitleCues(editor: Editor, ch: Chapter): SubtitleCue[] {
+  if (!editor || !ch) return [];
   const sources = sourceOffsets(ch), total = sources.at(-1)?.end || 0;
   const boundaries = new Set(sources.map(s => s.start)); boundaries.add(total);
   for (const op of layoutEdits(editor)) {
